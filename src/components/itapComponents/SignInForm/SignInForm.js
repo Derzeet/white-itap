@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-
+import Button from '@mui/material/Button';
 import './SignInForm.css'
 
 import authService from "../../../services/auth.service";
@@ -65,7 +65,8 @@ const SignInForm = () => {
                     <div className="">
                         <div>
                             <label >Логин</label>
-                            <input 
+                            <input
+                                style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}} 
                                 type="text" 
                                 {...register("username", loginOptions.username)} 
                                 id="username" placeholder="Введите логин" 
@@ -76,7 +77,7 @@ const SignInForm = () => {
                     <div className="secondLine">
                         <div>
                             <label>Пароль</label>
-                            <input type="password" {...register("password", loginOptions.password)} id="password" placeholder="Введите пароль"/>
+                            <input style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}} type="password" {...register("password", loginOptions.password)} id="password" placeholder="Введите пароль"/>
                         </div>
                     </div>
 
@@ -84,8 +85,9 @@ const SignInForm = () => {
 
                 <div className="actions">
                     {/* <Link to='/registration'><a>Нет аккаунта</a></Link> */}
-                    <input id="clear" type="button" value="Очистить"/>
-                    <input id="register" type="submit" value="Войти"/>
+                    {/* <input id="clear" type="button" value="Очистить"/> */}
+                    <Button type="button" value="Очистить">Очистить</Button>
+                    <Button type="submit" onClick={handleSubmit(handleLogin, handleErrors)}value="Войти">Войти</Button>
                 </div>
 
                 {

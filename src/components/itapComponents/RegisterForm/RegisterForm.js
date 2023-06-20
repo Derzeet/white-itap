@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Route, Routes, useNavigate } from 'react-router-dom';
-
+import { Button } from "@mui/material";
 import './RegisterForm.css'
 
 import authService from "../../../services/auth.service";
@@ -107,6 +107,7 @@ const RegisterForm = () => {
                         <div>
                             <label >ФИО</label>
                             <input
+                                style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}}
                                 type="text"
                                 {...register("username", registerOptions.username)}
                                 id="username" placeholder="Введите ФИО"
@@ -116,7 +117,7 @@ const RegisterForm = () => {
                         <div>
                             <label >Уровень доступа</label>
                             <div className="level">
-                                <select {...register("level", registerOptions.level)} id='level'>
+                                <select style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}} {...register("level", registerOptions.level)} id='level'>
                                     <option value="" disabled selected>Выбрать уровень доступа</option>
                                     <option value="admin">Admin</option>
                                     <option value="vip">Vip</option>
@@ -135,6 +136,7 @@ const RegisterForm = () => {
                         <div>
                             <label >Почта</label>
                             <input
+                                style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}}
                                 type="text"
                                 {...register("email", registerOptions.email)}
                                 id="email" placeholder="Введите почту"
@@ -145,14 +147,14 @@ const RegisterForm = () => {
                     <div className="secondLine">
                         <div>
                             <label>Пароль</label>
-                            <input type="password" {...register("password", registerOptions.password)} id="password" placeholder="Введите пароль"/>
+                            <input style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}} type="password" {...register("password", registerOptions.password)} id="password" placeholder="Введите пароль"/>
                         </div>
                     </div>
 
                     <div className="thirdLine">
                         <div>
                             <label >Подтверждение пароля</label>
-                            <input type="password" {...register("password_conf", registerOptions.password_conf)} id="password-conf" placeholder="Подтвердите пароль" />
+                            <input style={{backgroundColor: "rgba(153, 153, 153, 0.7)", color: 'black'}} type="password" {...register("password_conf", registerOptions.password_conf)} id="password-conf" placeholder="Подтвердите пароль" />
                         </div>
                     </div>
 
@@ -160,8 +162,8 @@ const RegisterForm = () => {
 
                 <div className="actions">
                     {/* <Link to='/login'><a>Войти в аккаунт</a></Link> */}
-                    <input id="clear" type="button" value="Очистить" />
-                    <input id="register" type="submit" value="Зарегистрировать" />
+                    <Button type="button" value="Очистить" >Очистить</Button>
+                    <Button variant="outlined" type="submit" value="Зарегистрировать" >Зарегистрировать</Button>
                 </div>
 
                 {

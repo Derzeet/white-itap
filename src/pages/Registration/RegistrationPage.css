@@ -8,8 +8,8 @@ section {
     flex-direction: column;
     gap: 50px;
 
-    max-width: 1000px;
-    min-width: 600px;
+    /* max-width: 1000px; */
+    /* min-width: 600px; */
     margin: 0 auto;
 }
 
@@ -83,7 +83,7 @@ section form .inputs > div > div {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 100%;
+    width: 99%;
 }
 
 section form .inputs > div > div input {

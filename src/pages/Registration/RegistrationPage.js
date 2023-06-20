@@ -11,9 +11,9 @@ import SideBar from "../../components/side-bar";
 export default class RegistrationPage extends Component {
     render() {
         return (
-            <section>
+            <section style={{width:"1200px"}}>
                 <div className="title">
-                    <div>Регистрация</div>
+                    <div><a style={{color:"black"}}>Регистрация</a></div>
                 </div>
 
                 <RegisterForm></RegisterForm>

@@ -21,7 +21,7 @@ const SignInPage = () => {
             <div className="signInPageSection">
                 
                 <div className="title">
-                    <div>iTap</div>
+                    <div><a style={{color: "black"}}>iTap</a></div>
                 </div>
 
                 <SignInForm></SignInForm>

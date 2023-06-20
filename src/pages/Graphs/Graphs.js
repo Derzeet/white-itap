@@ -184,7 +184,7 @@ const GraphNetnew = (props) => {
     const nodesOptions = {
         font: {
             size: 14,
-            color: "white"
+            color: "black"
         },
         size: 20
     }

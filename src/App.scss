@@ -5,11 +5,12 @@
   
   display: flex;
   flex-direction: column;
-  
+  background-color: #ffffff;
 }
 
 body {
   overflow-x: hidden !important;
+  
   // background-image: url(./images/bg-image.png);
 }
 
@@ -48,8 +49,9 @@ body {
 }
 
 html {
-  background: #0D0F11;
+  background: #F2F0EE;
   color: white;
+  background-color: #FFFFFF;
 }
 
 a {

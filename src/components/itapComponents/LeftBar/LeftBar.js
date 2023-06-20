@@ -541,7 +541,7 @@ const LeftBar = (props) => {
 
                 <div className="formBlock" id="formIIN1" style={{display: "none"}}>
                     <label>Введите ИИН</label>
-                    <TextField type="text" 
+                    <TextField  
                         value={iin1}
                         onChange={event => { 
                             setNewReq(true)
@@ -827,7 +827,7 @@ const HistoryBlock = (props) => {
     };
 
     return (
-        <Paper sx={{ width: '100%', margin: '0 auto', overflow: 'hidden', backgroundColor: '#F2F0EE' }}>
+        <Paper sx={{ width: '100%', margin: '0 auto', overflow: 'hidden', backgroundColor: '#F2F0EE', boxShadow: 'none' }}>
         <TableContainer sx={{ maxHeight: 800 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>

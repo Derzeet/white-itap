@@ -113,9 +113,9 @@ class UserDetails extends Component {
                     <div className="userInfo">
                         <div>
                             <span>
-                                {this.state.user.username} 
+                                {this.state.user.username}:
                             </span>
-                            :
+                            
                             <span>
                                 {this.state.role}
                             </span>
@@ -154,17 +154,17 @@ class UserDetails extends Component {
                     <div className="countStatsUser">
                         <div className="lastQuery">
                             <div>Последний запрос</div>
-                            {this.setNumbers()}
+                            <a style={{color:"black"}}>{this.setNumbers()}</a>
                         </div>
 
                         <div>
                             <div>Количество запросов</div>
-                            <div>{this.state.allRequsetNum}</div>
+                            <div><a style={{color:"black"}}>{this.state.allRequsetNum}</a></div>
                         </div>
 
                         <div>
                             <div>Количество запросов сегодня</div>
-                            <div>{this.state.todayRequsetNum}</div>
+                            <div><a style={{color:"black"}}>{this.state.todayRequsetNum}</a></div>
                         </div>
                     </div>
                     <div>
@@ -239,7 +239,7 @@ function Row(props) {
               size="small"
               onClick={() => setOpen(!open)}
             >
-              {open ? <KeyboardArrowUpIcon style={{ fill: '#ffffff' }}/> : <KeyboardArrowDownIcon style={{ fill: '#ffffff' }}/>}
+              {open ? <KeyboardArrowUpIcon style={{ fill: '#000000' }}/> : <KeyboardArrowDownIcon style={{ fill: '#000000' }}/>}
             </IconButton>
           </TableCell>
         </TableRow>

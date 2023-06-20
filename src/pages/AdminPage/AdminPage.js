@@ -33,22 +33,21 @@ const AdminPage = (props) => {
 
     return (
         <div className={'adminPage'} style={{display: 'flex', flexDirection: 'row'}}>
-            <SideBar/>
             <section>
                 <div className="countStats">
                     <div className="lastQuery">
                         <div>Количество пользователей</div>
-                        <div>{users}</div>
+                        <div><a style={{color:"black"}}>{users}</a></div>
                     </div>
 
                     <div>
                         <div>Количество запросов</div>
-                        <div>{logs}</div>
+                        <div><a style={{color:"black"}}>{logs}</a></div>
                     </div>
 
                     <div>
                         <div>Количество запросов за сегодня</div>
-                        <div>{todayLogs}</div>
+                        <div><a style={{color:"black"}}>{todayLogs}</a></div>
                     </div>
                 </div>
                 <div>
