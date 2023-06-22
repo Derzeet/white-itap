@@ -15,7 +15,7 @@ body {
     gap: 20px; */
   
     width: 100%;
-    height: calc(100vh - 90px); /* Set the min-height of the main section */
+    height: calc(100% - 20px); /* Set the min-height of the main section */
 
   }
 

@@ -8,7 +8,7 @@ import chroma from 'chroma-js';
 import {relationsLevel1, relationsLevel2} from '../../../data/relationsData.js'
 
 const colourStyles = {
-    control: (styles) => ({ ...styles, backgroundColor: 'rgba(255, 255, 255, 0.11)', border: 'none' }),
+    control: (styles) => ({ ...styles, color: "#ffffff", backgroundColor: 'rgba(255, 255, 255, 0.11)', border: 'none' }),
     option: (styles, { isDisabled, isFocused, isSelected }) => {
       return {
         ...styles,
@@ -16,17 +16,18 @@ const colourStyles = {
         backgroundColor: isDisabled
           ? undefined
           : isSelected
-          ? "#2D4231"
+          ? "#c8e0f7"
           : isFocused
-          ? "#3a553f"
+          ? "#ffffff"
           : undefined,
         color: isDisabled
-          ? '#ffffff'
-          : 'isSelected'
-          ? "#ffffff80"
-            ? 'isFocused'
-            : '#ffffff90'
-          : "#2D4231",
+          ? '#000000'
+          : isSelected
+          ? "#000000"
+            ? isFocused
+            : '#000000'
+          : "#000000",
+        opacity: '1',
         cursor: isDisabled ? 'not-allowed' : 'cursor',
   
         ':active': {
@@ -34,7 +35,7 @@ const colourStyles = {
           backgroundColor: !isDisabled
             ? isSelected
               ? "#ffffff"
-              : "#223124"
+              : "#ffffff"
             : undefined,
         },
       };
@@ -43,20 +44,20 @@ const colourStyles = {
       const color = chroma("#2D4231");
       return {
         ...styles,
-        backgroundColor: "#2D4231",
+        backgroundColor: "#1976d2",
       };
     },
     multiValueLabel: (styles, { data }) => ({
       ...styles,
-      color: "#ffffff80",
+      color: "#ffffff",
     }),
     multiValueRemove: (styles, { data }) => ({
       ...styles,
-      color: "#223124",
+      color: "#ffffff",
       cursor: 'pointer',
       ':hover': {
-        backgroundColor: "#223124",
-        color: 'white',
+        backgroundColor: "#1976d2",
+        color: '#878787',
       },
     }),
   };

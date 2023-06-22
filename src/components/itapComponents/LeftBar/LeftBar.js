@@ -340,7 +340,7 @@ const LeftBar = (props) => {
 
     return (
         <div className={`kendrick ${props.openLeft?'leftBar20':'leftBar0'}`}>
-            <ButtonGroup variant="outlined" aria-label="outlined button group">
+            <ButtonGroup variant="outlined" aria-label="outlined button group" style={{paddingBottom: '20px'}}>
                 <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search")}}>Поиск</Button>
                 <Button endIcon={<HistoryIcon/>} onClick={e => {setTab("history")}}>История</Button>
             </ButtonGroup>
@@ -756,7 +756,7 @@ const LeftBar = (props) => {
                         </Button>
                     </div>
 
-                    
+{/*                     
                     <div className="exportImportBtnBlock">
                         <div id="importBlock" >
                             <input type="file" id="file-upload"
@@ -771,14 +771,14 @@ const LeftBar = (props) => {
                             onClick={event => downloadScheme()}
                             >Скачать схему</Button>  
 
-                    </div>
+                    </div> */}
 
                     
             </div>
             {modal ?
             <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow> : ("")}
             </div> : 
-            <div className="leftBar" style={{paddingTop: '20px'}}>
+            <div className="leftBar" style={{paddingTop: '20px', height: 'calc(100vh - 198px)'}}>
                 <HistoryBlock/>
             </div>
             }
