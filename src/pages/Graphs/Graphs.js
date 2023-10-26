@@ -35,9 +35,11 @@ import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
 import ntrIcon from '../../icons/ntrIcon.jpg'
+import glkPersonIcon from '../../icons/GLK.jpeg'
 
 
 const baseURL = "http://192.168.30.24:9091/api/finpol/main"
+const baseURL1 = "http://192.168.30.24:9092/api/finpol/main"
 
 var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false}
 var Network;
@@ -53,6 +55,8 @@ const GraphNetnew = (props) => {
 
     const [nodes, setNodes] = useState([])
     const [edges, setEdges] = useState([])
+
+    const [showModal, setShowModal] = useState(false);
 
     const [searchedNodes, setSearchedNodes] = useState([])
 
@@ -73,6 +77,8 @@ const GraphNetnew = (props) => {
     const [openLimit, setOpenLimit] = useState(0)
     const [openLeft, setOpenLeft] = useState(true)
     const [openRight, setOpenRight] = useState(true)
+
+    const [leftTabs, setLeftTabs] = useState("search")
 
     useEffect(() => {
         console.log(openLimit, showRels)
@@ -135,6 +141,10 @@ const GraphNetnew = (props) => {
     }
 
     const groupsOptions = {
+        GLK: {
+            shape: "circularImage",
+            image: glkPersonIcon
+        },
         keyPerson: {
             shape: "circularImage",
             image: keyPersonIcon,
@@ -183,8 +193,9 @@ const GraphNetnew = (props) => {
 
     const nodesOptions = {
         font: {
-            size: 14,
-            color: "black"
+            size: 17,
+            color: "black",
+            vadjust: -20
         },
         size: 20
     }
@@ -349,7 +360,7 @@ const GraphNetnew = (props) => {
         } 
     }
 
-    const Submit = async (options) => {
+    const Submit = async (options, tabName) => {
         // LocalGet(options.iin)
         setPhysicsEnable(true)
         setIsLoading(true)
@@ -453,7 +464,7 @@ const GraphNetnew = (props) => {
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
         console.log(params)
-        axios.get(baseURL + url, {params: params}).then(res => {
+        axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(res => {
             let _nodes = []
             const _edges = res.data.edges;
             
@@ -538,7 +549,9 @@ const GraphNetnew = (props) => {
 
     const shortOpen = (id) => {
 
-        axios.get(`${baseURL}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
+        let _url = leftTabs == 'search1' ? baseURL1 : baseURL
+
+        axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
             let _nodes = []
             let _edges = []
 
@@ -660,26 +673,11 @@ const GraphNetnew = (props) => {
 
     const setEdgeSettings = (edge) => {
         edge.label = edge.properties.Vid_svyaziey
-        Object.assign(edge, {"color": "white"})
-        Object.assign(edge, {font: {color: "white"}})
+        console.log(edge)
+
+        Object.assign(edge, {"color": "black"})
+        Object.assign(edge, {font: {color: "black"}})
         Object.assign(edge, {id: edge.properties.id})
-
-        if (edge.type === 'UCHILSYA' || edge.type === 'SLUZHIL') {
-            edge.color = "lime"
-        
-        } else if (edge.type == 'REG_ADDRESS_CUR' || edge.type == 'REG_ADDRESS_HIST' || edge.type == 'REG_ADDRESS') {
-            edge.color = "aqua"
-        
-        } else if (edge.type == 'ZAGS' || edge.type == 'ZAGS_FIO' || edge.type == 'ZAGS_IIN' || edge.type == 'SIBLING') {
-            edge.color = "pink"
-
-        } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
-            edge.color = "#9999f2"
-
-        } else if (edge.type == 'SUDIM') {
-            edge.color = "red"
-
-        }
     }
 
     const cropLabel = (label) => {
@@ -696,16 +694,21 @@ const GraphNetnew = (props) => {
     const setNodeSettings = (node, iin1, iin2) => {
         let key = false
 
+        console.log(node)
+        node.label = node.relCount + '\t\t\t\t\t\t\t\t\t';
+
         Object.assign(node, {"opened": false})
 
         if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
             // settings for ul
-            node.label = node.properties.Name;
+            // node.label += '\n\n' + node.properties.Name;
 
-            if (node.label.length > 60) { 
-                node.label = cropLabel(node.label)
+            if (node.properties.Name.length > 60) {
+                node.label += '\n\n' + cropLabel(node.properties.Name)
+            } else {
+                node.label += '\n\n' + node.properties.Name
             }
-            
+
 
             const p = node.properties;
             if (p.nomer_sdelki) {
@@ -724,26 +727,31 @@ const GraphNetnew = (props) => {
                 node.group = "company"
             }
 
-        } else if (node.properties.Ulica != null) {
+        } else if (node.properties.Ulica != null || node.properties.PKA != null) {
             // settings for propiska
             node.group = "PROPISKA"
+            if ( node.properties.Adress_propiski == null) {
+                node.label += '\n\n' + cropLabel(node.properties.Adress) ;
 
-            node.label = node.properties.Adress_propiski;
+            } else {
+                node.label += '\n\n' + node.properties.Adress_propiski ;
+
+            }
 
         } else {
             // settings for fl
             const p = node.properties;
 
-            node.label = p.FIO
+            node.label += "\n\n" + p.FIO
 
             key = false;
-            if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true; 
+            if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true;
 
             if (p.Death_Status != null) {
                 node.group = "ripPerson"
 
             } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null  || p.Status_doljnika != null ||  p.Doljnik_po_alimentam != null || p.Status_neplatejasposobnosti != null ||  p.Razmer_Shtrafa != null
-            || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null || p.V_Roziske != null
+                || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null || p.V_Roziske != null
                 || p.Sud_ispolnitel != null || p.Med_org != null ) {
 
                 if (key) node.group = "keyJudgePerson"
@@ -755,16 +763,20 @@ const GraphNetnew = (props) => {
                 else if (key) node.group = "keyPerson"
                 else node.group = "person"
 
-            }   
+            }
         }
 
         if (key) {
-            setKeyNodeId(node.id); 
+            setKeyNodeId(node.id);
             setNodeStack([node.id, ...nodeStack])
         }
 
         if (!nodeStack.includes(node.id))
             setNodeStack(() => [...nodeStack, node.id])
+
+        if (node.properties.GLK != null) {
+            node.group = "GLK"
+        }
 
     }
 
@@ -831,7 +843,10 @@ const GraphNetnew = (props) => {
                 assignInfoBlock({"Адвокат": sp.Advocat}, '#nodeAddInfoInner')
                 assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
                 assignInfoBlock({"Частный судебный исполнитель": sp.Sud_ispolnitel}, '#nodeAddInfoInner')
-                
+                assignInfoBlock({"Гражданство": sp.Citizenship}, '#nodeAddInfoInner')
+                assignInfoBlock({"Нация": sp.Nation}, '#nodeAddInfoInner')
+
+
             } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
             
                 assignInfoBlock({
@@ -877,6 +892,13 @@ const GraphNetnew = (props) => {
                 assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
             }
 
+            assignInfoBlock({"Доп. инфо": sp.dop_info,}, '#nodeAddInfoInner')
+            assignInfoBlock({"Код": sp.kod,}, '#nodeAddInfoInner')
+
+            assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeAddInfoInner')
+            assignInfoBlock({"ГЛК": sp.GLK,}, '#nodeAddInfoInner')
+
+
             if (sg == 'judgePerson' || sg == 'keyJudgePerson' || sg == 'judgeCompany' || sp == 'Status_doljnika' || sp == 'Status_neplatejasposobnosti' ) {
                 setShowSudInfo(true)
 
@@ -900,6 +922,12 @@ const GraphNetnew = (props) => {
                 assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
                 assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
 
+                assignInfoBlock({"Взыскатель": sp.Vziskatel}, '#nodeSudInfoInner')
+                assignInfoBlock({"Дата": sp.dataa}, '#nodeSudInfoInner')
+                assignInfoBlock({"Должник": sp.dolzhnik}, '#nodeSudInfoInner')
+                assignInfoBlock({"Категория": sp.kategoria}, '#nodeSudInfoInner')
+                assignInfoBlock({"Орган": sp.organ}, '#nodeSudInfoInner')
+                assignInfoBlock({"Сумма": sp.summa}, '#nodeSudInfoInner')
             }
 
       }, 
@@ -1014,6 +1042,16 @@ const GraphNetnew = (props) => {
             "Описание": sp.opisanie
           }, '#nodeInfoInner')
 
+            assignInfoBlock({"Взыскатель": sp.Vziskatel}, '#nodeInfoInner')
+            assignInfoBlock({"Дата": sp.dataa}, '#nodeInfoInner')
+            assignInfoBlock({"Должник": sp.dolzhnik}, '#nodeInfoInner')
+            assignInfoBlock({"Категория": sp.kategoria}, '#nodeInfoInner')
+            assignInfoBlock({"Орган": sp.organ}, '#nodeInfoInner')
+            assignInfoBlock({"Сумма": sp.summa}, '#nodeInfoInner')
+
+            // beneficiar
+            assignInfoBlock({"Доп. инфо": sp.dop_info,}, '#nodeInfoInner')
+            assignInfoBlock({"Код": sp.kod,}, '#nodeInfoInner')
         }
       },
 
@@ -1249,12 +1287,12 @@ const GraphNetnew = (props) => {
     if (counter === 0 && !isLoading) {
         return (
             <div className='mainSection'>
-                <div className="leftBarOpen" style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
+                <div className="leftBarOpen" setLeftTabs={setLeftTabs} style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
                   <IconButton aria-label="expand row" size="small" onClick={() => handleLeftOpen(true)}>
                       <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                   </IconButton>
                 </div>
-                <LeftBar openLeft={openLeft} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
                 <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                     <div className="waiterBox">
                         <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
@@ -1271,7 +1309,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
               <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                 <div className="waiterBox">
                     <a>Нет результатов</a>
@@ -1288,7 +1326,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              <LeftBar openLeft={openLeft} showModal={showModal} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
               <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                 <div className="loader">
                   <div className="inner one"></div>
@@ -1307,7 +1345,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} handleLeftOpen={handleLeftOpen} handleLayout={handleLayout} params={graJSON} update={update} downloadScheme={download} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} handleLayout={handleLayout} params={graJSON} update={update} downloadScheme={download} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
               <div className={`centralBar ${openLeft && openRight ?'centralBar60' : openLeft || openRight ? 'centralBar80' : 'centralBar100'} `}>
                   <div className="nodeSearch">
                       <div>
@@ -1350,7 +1388,7 @@ const GraphNetnew = (props) => {
                         <KeyboardArrowLeftIcon style={{ fill: '#000000' }}/>
                     </IconButton>
                 </div>
-                <RightBar handleRightOpen={handleRightOpen} openRight={openRight} setShowRels={setShowRels} setOpenLimit={setOpenLimit} Network={Network} showAction={showActionBtn} shortOpen={shortOpen} shortHide={shortHide} isOnSelectNode={showNodeInfo} isOnSelectEdge={showEdgeInfo} showImage={showNodeImage} showSudInfo={showSudInfo}></RightBar>
+                <RightBar leftTabs={leftTabs} handleRightOpen={handleRightOpen} openRight={openRight} setShowRels={setShowRels} setOpenLimit={setOpenLimit} Network={Network} showAction={showActionBtn} shortOpen={shortOpen} shortHide={shortHide} isOnSelectNode={showNodeInfo} isOnSelectEdge={showEdgeInfo} showImage={showNodeImage} showSudInfo={showSudInfo}></RightBar>
             </div>
 
         )

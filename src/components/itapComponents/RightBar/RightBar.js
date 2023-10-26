@@ -2,6 +2,7 @@ import React, {Component, useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 
 import RelationBlock from "../Relation/RelationBlock";
+import RelationBlockZags from "../Relation/RelationBlockZags";
 import './RightBar.css'
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -97,11 +98,11 @@ const RightBar = (props) => {
 
       <div className={"openHideBlock"} style={{display: props.isOnSelectNode ? "flex" : "none"}}>
         <div className="actionBlock" style={{display: props.isOnSelectNode ? "block" : "none"}}>
-            <Button sx={{marginRight: '10px'}}variant="outlined" visible="false" value="Расскрыть" onClick={() => {
+            <Button sx={{marginRight: '10px', color: '#1b376f', borderColor: '#1b376f'}} variant="outlined" visible="false" value="Расскрыть" onClick={() => {
               let id = Object.keys(props.Network.selectionHandler.selectionObj.nodes)[0]
               shortOpen(id)
-            }}>Расскрыть</Button>
-            <Button type="button" visible="false" value="Скрыть" onClick={shortHide}>Скрыть</Button>
+            }}>Раскрыть</Button>
+            <Button sx={{color: '#1b376f'}} type="button" visible="false" value="Скрыть" onClick={shortHide}>Скрыть</Button>
         </div>
 
         <div>
@@ -114,8 +115,11 @@ const RightBar = (props) => {
         </div>
 
         <div className="showRelsBlockRight" >
-          <div>            
-            <RelationBlock setRels={setShowRels}></RelationBlock>
+          <div>
+              {props.leftTabs == 'search1'
+                  ? <RelationBlockZags setRels={setShowRels}></RelationBlockZags>
+                  : <RelationBlock setRels={setShowRels}></RelationBlock>
+              }
           </div>
         </div>
       </div>

@@ -29,8 +29,8 @@
     cursor: pointer;
     padding: 5px 10px;
     margin-bottom: 10px;
-    background: var(--secondary-color);
-    color: #fff;
+    background: #1b376f;
+    color: white;
     border-radius: 4px;
     width: fit-content;
 }

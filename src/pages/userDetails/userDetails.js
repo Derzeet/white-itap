@@ -41,7 +41,12 @@ class UserDetails extends Component {
     componentDidMount = () => {
         axios.get(`${baseURL}/getuserdetails`, {params: {username: this.props.username.username}})
             .then(res => {
+
+
                 const result = res.data
+
+                const nev = result.logs.filter(el => el.obwii === 'НЕВОЗМОЖЕН')
+
                 console.log(res.data)
                 let user = res.data.user
                 let role = res.data.role

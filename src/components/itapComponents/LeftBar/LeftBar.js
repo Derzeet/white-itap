@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import HistoryIcon from '@mui/icons-material/History';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import RelationBlock from "../Relation/RelationBlock";
+import RelationBlockZags from "../Relation/RelationBlockZags";
 import ApprovementModalWindow from "../ApprovementModal/ApprovementModalWindow";
 import LayoutController from "../LayoutController/LayoutController";
 import Paper from '@mui/material/Paper';
@@ -28,8 +29,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
-
+import axios from 'axios'
 const LeftBar = (props) => {
     const navigate = useNavigate()
     const reader = new FileReader()
@@ -61,8 +61,11 @@ const LeftBar = (props) => {
     const [mode, setMode] = useState("con1")
     const [relString, setRelString] = useState("")
     const [tab, setTab] = useState("search")
+
     useEffect(() => {
-        if (tab == "search") {
+        props.setLeftTabs(tab)
+
+        if (tab == "search" || tab == "search1") {
 
                 let formSearchOptions = document.querySelector("#formSearchOptions");
                 
@@ -149,7 +152,8 @@ const LeftBar = (props) => {
     const [secondFamilia, setSecondFamilia] =  useState('starts')
     const [secondName, setSecondName] =  useState('starts')
     const [secondFatherName, setSecondFatherName] = useState('starts')
-    const filter = (approvementObject) => { 
+
+    const filter = (approvementObject) => {
         console.log("approvement", approvementObject)
         // const firstFamilia = document.getElementById('firstFamilia').value
         // const firstName = document.getElementById('firstName').value
@@ -231,7 +235,7 @@ const LeftBar = (props) => {
 
         setModal(false)
         setNewReq(false)        
-        props.handleSubmit(options)
+        props.handleSubmit(options, tab)
     }
 
     const clearOptions = () => {
@@ -246,7 +250,7 @@ const LeftBar = (props) => {
         // document.getElementById("input_date").value = "";
         // document.getElementById("input_date2").value = "";
 
-        document.querySelector("#file-upload").value = "";
+        // document.querySelector("#file-upload").value = "";
     }
 
     const exportBt = () => {
@@ -340,9 +344,15 @@ const LeftBar = (props) => {
 
     return (
         <div className={`kendrick ${props.openLeft?'leftBar20':'leftBar0'}`}>
-            <ButtonGroup variant="outlined" aria-label="outlined button group" style={{paddingBottom: '20px'}}>
-                <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search")}}>Поиск</Button>
-                <Button endIcon={<HistoryIcon/>} onClick={e => {setTab("history")}}>История</Button>
+            {modal ?
+                <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow>
+                : ("")}
+            <ButtonGroup variant="outlined" aria-label="outlined button group" style={{paddingBottom: '20px', width: '70%', display: 'flex', flexDirection: 'column', }}>
+                <ButtonGroup variant="outlined" aria-label="outlined button group" style={{}}>
+                    <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '50%'}}>Общий</Button>
+                    <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search1")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '50%'}}>Загс</Button>
+                </ButtonGroup>
+                <Button endIcon={<HistoryIcon/>} onClick={e => {setTab("history")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '100%'}}>История</Button>
             </ButtonGroup>
 
             <div className="leftBarClose">
@@ -352,471 +362,892 @@ const LeftBar = (props) => {
             </div>
             {tab == "search" ? 
             <div className="leftBar">
-            <form >
-                <div className="formBlock">
-                    <label htmlFor="connections">Найти связи между</label>
-                    <div className="select">
-                        <Select  value={mode} sx={{width: '100%'}} name="connections" id='connections'
-                            onChange={event => { 
-                                let value = document.getElementById("connections").value;
-                                
-                                let formSearchOptions = document.querySelector("#formSearchOptions");
-                                
+                <form >
+                    <div className="formBlock">
+                        <label htmlFor="connections">Найти связи между</label>
+                        <div className="select" style={{width: '100%'}}>
+                            <Select  value={mode} sx={{width: '100%', color: '#1b376f'}} name="connections" id='connections'
+                                onChange={event => {
+                                    let value = document.getElementById("connections").value;
+
+                                    let formSearchOptions = document.querySelector("#formSearchOptions");
+
+                                    let iin1 = document.querySelector("#formIIN1");
+                                    let iin2 = document.querySelector("#formIIN2");
+
+                                    let formFio1 = document.querySelector("#formFio1")
+                                    let formFio2 = document.querySelector("#formFio2")
+
+                                    let formLimit = document.querySelector("#formLimit")
+                                    let formDepth = document.querySelector("#formDepth")
+                                    let formRels  = document.querySelector("#formRels")
+
+                                    setMode(event.target.value)
+
+                                    if (event.target.value === "con1") {
+                                        iin1.childNodes[0].innerHTML = "Введите ИИН"
+
+                                        formSearchOptions.style.display = 'flex';
+
+                                        if (searchOption == "iinOption") {
+                                            iin1.style.display = 'flex';
+                                            iin2.style.display = 'none';
+
+                                            formFio1.style.display = 'none';
+                                            formFio2.style.display = 'none';
+
+                                        } else if (searchOption == "fioOption") {
+                                            iin1.style.display = 'none';
+                                            iin2.style.display = 'none';
+
+                                            formFio1.style.display = 'flex';
+                                            formFio2.style.display = 'none';
+                                        }
+
+
+                                        formLimit.style.display = 'flex';
+                                        formDepth.style.display = 'flex';
+                                        formRels.style.display = 'flex';
+                                        props.update()
+                                    }
+                                    else if (event.target.value ==="con2") {
+                                        iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                        iin2.childNodes[0].innerHTML = "Введите второй ИИН"
+
+                                        formSearchOptions.style.display = 'flex';
+
+                                        if (searchOption == "iinOption") {
+                                            iin1.style.display = 'flex';
+                                            iin2.style.display = 'flex';
+
+                                            formFio1.style.display = 'none';
+                                            formFio2.style.display = 'none';
+
+                                        } else if (searchOption == "fioOption") {
+                                            iin1.style.display = 'none';
+                                            iin2.style.display = 'none';
+
+                                            formFio1.style.display = 'flex';
+                                            formFio2.style.display = 'flex';
+                                        }
+
+                                        formLimit.style.display = 'none';
+                                        formDepth.style.display = 'none';
+
+                                        formRels.style.display = 'flex';
+                                        props.update()
+                                    }
+                                    else if (event.target.value ==="con3") {
+                                        iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                        iin2.childNodes[0].innerHTML = "Введите БИН"
+
+                                        formSearchOptions.style.display = 'flex';
+
+                                        if (searchOption == "iinOption") {
+                                            iin1.style.display = 'flex';
+                                            iin2.style.display = 'flex';
+
+                                            formFio1.style.display = 'none';
+                                            formFio2.style.display = 'none';
+
+                                        } else if (searchOption == "fioOption") {
+                                            iin1.style.display = 'none';
+                                            iin2.style.display = 'flex';
+
+                                            formFio1.style.display = 'flex';
+                                            formFio2.style.display = 'none';
+                                        }
+
+                                        formLimit.style.display = 'none';
+                                        formDepth.style.display = 'none';
+
+                                        formRels.style.display = 'flex';
+                                        props.update()
+                                    }
+                                    else if (event.target.value === "con4") {
+                                        iin1.childNodes[0].innerHTML = "Введите БИН"
+
+                                        formSearchOptions.style.display = 'none';
+
+                                        iin1.style.display = 'flex';
+                                        iin2.style.display = 'none';
+
+                                        formFio1.style.display = 'none';
+                                        formFio2.style.display = 'none';
+
+                                        formLimit.style.display = 'flex';
+                                        formDepth.style.display = 'flex';
+
+                                        formRels.style.display = 'flex';
+                                        props.update()
+                                    }
+                                    else if (event.target.value === "con5") {
+                                        iin1.childNodes[0].innerHTML = "Введите БИН"
+                                        iin2.childNodes[0].innerHTML = "Введите второй БИН"
+
+                                        formSearchOptions.style.display = 'none';
+
+                                        iin1.style.display = 'flex';
+                                        iin2.style.display = 'flex';
+
+                                        formFio1.style.display = 'none';
+                                        formFio2.style.display = 'none';
+
+                                        formLimit.style.display = 'none';
+                                        formDepth.style.display = 'none';
+
+                                        formRels.style.display = 'flex';
+                                        props.update()
+                                    }
+                                }}>
+                                <MenuItem value="con1">Фл</MenuItem>
+                                <MenuItem value="con4">Юл</MenuItem>
+                                <MenuItem value="con2">Фл - Фл</MenuItem>
+                                <MenuItem value="con3">Фл - Юл</MenuItem>
+                                <MenuItem value="con5">Юл - Юл</MenuItem>
+                            </Select>
+                        </div>
+                    </div>
+
+                    <div className="formBlock" id="formSearchOptions" style={{display: "none"}}>
+                        <label htmlFor="searchOptions">Поиск по</label>
+                        <div className="select">
+                            <Select sx={{width: '340px', color: '#1b376f'}} name="searchOptions" id='searchOptions' value={searchOption}
+                            onChange={event => {
+                                setNewReq(true)
+                                let optionValue = document.getElementById("searchOptions").value;
                                 let iin1 = document.querySelector("#formIIN1");
                                 let iin2 = document.querySelector("#formIIN2");
-                                
+
                                 let formFio1 = document.querySelector("#formFio1")
                                 let formFio2 = document.querySelector("#formFio2")
-                                
-                                let formLimit = document.querySelector("#formLimit")
-                                let formDepth = document.querySelector("#formDepth")
-                                let formRels  = document.querySelector("#formRels")
-                                
-                                setMode(event.target.value)
-                                
-                                if (event.target.value === "con1") {
-                                    iin1.childNodes[0].innerHTML = "Введите ИИН"
-                                    
-                                    formSearchOptions.style.display = 'flex';
-                                    
-                                    if (searchOption == "iinOption") {
-                                        iin1.style.display = 'flex';
-                                        iin2.style.display = 'none';
-                                        
-                                        formFio1.style.display = 'none';
-                                        formFio2.style.display = 'none';
-                                        
-                                    } else if (searchOption == "fioOption") {
-                                        iin1.style.display = 'none';
-                                        iin2.style.display = 'none';
-        
-                                        formFio1.style.display = 'flex';
-                                        formFio2.style.display = 'none';
-                                    }
-                                    
-                                    
-                                    formLimit.style.display = 'flex';
-                                    formDepth.style.display = 'flex';
-                                    formRels.style.display = 'flex';
-                                    props.update()
-                                } 
-                                else if (event.target.value ==="con2") {
-                                    iin1.childNodes[0].innerHTML = "Введите ИИН"
-                                    iin2.childNodes[0].innerHTML = "Введите второй ИИН"
-                                    
-                                    formSearchOptions.style.display = 'flex';
-                                    
-                                    if (searchOption == "iinOption") {
-                                        iin1.style.display = 'flex';
-                                        iin2.style.display = 'flex';
-                                        
-                                        formFio1.style.display = 'none';
-                                        formFio2.style.display = 'none';
-                                        
-                                    } else if (searchOption == "fioOption") {
-                                        iin1.style.display = 'none';
-                                        iin2.style.display = 'none';
-                                        
-                                        formFio1.style.display = 'flex';
-                                        formFio2.style.display = 'flex';
-                                    }
-                                    
-                                    formLimit.style.display = 'none';
-                                    formDepth.style.display = 'none';
-                                    
-                                    formRels.style.display = 'flex';
-                                    props.update()
-                                }
-                                else if (event.target.value ==="con3") {
-                                    iin1.childNodes[0].innerHTML = "Введите ИИН"
-                                    iin2.childNodes[0].innerHTML = "Введите БИН"
-                                    
-                                    formSearchOptions.style.display = 'flex';
-                                    
-                                    if (searchOption == "iinOption") {
-                                        iin1.style.display = 'flex';
-                                        iin2.style.display = 'flex';
-                                        
-                                        formFio1.style.display = 'none';
-                                        formFio2.style.display = 'none';
-                                        
-                                    } else if (searchOption == "fioOption") {
-                                        iin1.style.display = 'none';
-                                        iin2.style.display = 'flex';
 
-                                        formFio1.style.display = 'flex';
-                                        formFio2.style.display = 'none';
+                                setSearchOption(event.target.value)
+
+                                if (event.target.value == "fioOption") {
+                                    iin1.style.display = "none";
+                                    formFio1.style.display = "flex";
+
+                                    if (mode == "con5" || mode == "con2") {
+                                        iin2.style.display = "none";
+                                        formFio2.style.display = "flex";
                                     }
-                                    
-                                    formLimit.style.display = 'none';
-                                    formDepth.style.display = 'none';
-                                    
-                                    formRels.style.display = 'flex';
-                                    props.update()
-                                }
-                                else if (event.target.value === "con4") {
-                                    iin1.childNodes[0].innerHTML = "Введите БИН"
-                                    
-                                    formSearchOptions.style.display = 'none';
-                                    
-                                    iin1.style.display = 'flex';
-                                    iin2.style.display = 'none';
-                                    
-                                    formFio1.style.display = 'none';
-                                    formFio2.style.display = 'none';
-                                    
-                                    formLimit.style.display = 'flex';
-                                    formDepth.style.display = 'flex';
-                                    
-                                    formRels.style.display = 'flex';
-                                    props.update()
-                                }
-                                else if (event.target.value === "con5") {
-                                    iin1.childNodes[0].innerHTML = "Введите БИН"
-                                    iin2.childNodes[0].innerHTML = "Введите второй БИН"
-                                    
-                                    formSearchOptions.style.display = 'none';
-                                    
-                                    iin1.style.display = 'flex';
-                                    iin2.style.display = 'flex';
-                                    
-                                    formFio1.style.display = 'none';
-                                    formFio2.style.display = 'none';
-                                    
-                                    formLimit.style.display = 'none';
-                                    formDepth.style.display = 'none';
-                                    
-                                    formRels.style.display = 'flex';
-                                    props.update()
+
+                                } else if (event.target.value == "iinOption") {
+                                    iin1.style.display = "flex";
+                                    formFio1.style.display = "none";
+
+                                    if (mode == "con5" || mode == "con3" || mode == "con2") {
+                                        iin2.style.display = "flex";
+                                        formFio2.style.display = "none";
+                                    }
                                 }
                             }}>
-                            <MenuItem value="con1">Фл</MenuItem>
-                            <MenuItem value="con4">Юл</MenuItem>
-                            <MenuItem value="con2">Фл - Фл</MenuItem>
-                            <MenuItem value="con3">Фл - Юл</MenuItem>
-                            <MenuItem value="con5">Юл - Юл</MenuItem>
-                        </Select>
+                                <MenuItem value="iinOption">ИИН</MenuItem>
+                                <MenuItem value="fioOption">ФИО</MenuItem>
+                            </Select>
+                        </div>
                     </div>
-                </div>
 
-                <div className="formBlock" id="formSearchOptions" style={{display: "none"}}>
-                    <label htmlFor="searchOptions">Поиск по</label>
-                    <div className="select">
-                        <Select sx={{width: '100%'}} name="searchOptions" id='searchOptions' value={searchOption}
-                        onChange={event => {
-                            setNewReq(true)
-                            let optionValue = document.getElementById("searchOptions").value;
-                            let iin1 = document.querySelector("#formIIN1");
-                            let iin2 = document.querySelector("#formIIN2");
-                            
-                            let formFio1 = document.querySelector("#formFio1")
-                            let formFio2 = document.querySelector("#formFio2") 
-                            
-                            setSearchOption(event.target.value)
-                            
-                            if (event.target.value == "fioOption") {
-                                iin1.style.display = "none";
-                                formFio1.style.display = "flex";
-                                
-                                if (mode == "con5" || mode == "con2") {
-                                    iin2.style.display = "none";
-                                    formFio2.style.display = "flex";
-                                }
-                                
-                            } else if (event.target.value == "iinOption") {
-                                iin1.style.display = "flex";
-                                formFio1.style.display = "none";
-                                
-                                if (mode == "con5" || mode == "con3" || mode == "con2") {
-                                    iin2.style.display = "flex";
-                                    formFio2.style.display = "none";
-                                }
+                    <div className="formBlock" id="formIIN1" style={{display: "none"}}>
+                        <label>Введите ИИН</label>
+                        <TextField
+                            value={iin1}
+                            onChange={event => {
+                                setNewReq(true)
+                                setIIN1(event.target.value) }}
+                                id="input_IIN"
+                                // className="input_IIN"
+                                name="iin1"
+                                placeholder="ИИН/БИН"
+                                sx={{color: '#1b376f !important'}}
+                                />
+                    </div>
+
+                    <div id="formFio1" style={{display: "none"}}>
+                        <div>
+                            <input id="accurateCheckbox1" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
+                                setChecks1(event.target.checked)
+                            }}/>
+                            <label htmlFor="accurateCheckbox1">Точный поиск</label>
+                        </div>
+                        <div className="formBlock">
+                            <label>Введите Фамилию первого объекта </label>
+                            {!checks1 ?
+                            <Select sx={{ width: '100%'}} value={firstFamilia} onChange={e => {setFirstFamilia(e.target.value)}}>
+                                <MenuItem value="starts">Начинается с</MenuItem>
+                                <MenuItem value="include">Включает</MenuItem>
+                                <MenuItem value="ends">Заканчивается</MenuItem>
+                                <MenuItem value="exact">Точное</MenuItem>
+                            </Select> : ""
                             }
-                        }}>
-                            <MenuItem value="iinOption">ИИН</MenuItem>
-                            <MenuItem value="fioOption">ФИО</MenuItem>
-                        </Select>
-                    </div>
-                </div>
+                            <TextField type="text"
+                                value={lname1}
+                                       sx={{color: '#1b376f'}}
+                                onChange={event => {
+                                    setNewReq(true)
+                                    setLName1(event.target.value) }}
+                                    id="input_FIO1_1"
+                                    // className="input_IIN"
+                                    name="Fam1"
+                                    placeholder=""
+                                    />
+                        </div>
 
-                <div className="formBlock" id="formIIN1" style={{display: "none"}}>
-                    <label>Введите ИИН</label>
-                    <TextField  
-                        value={iin1}
-                        onChange={event => { 
-                            setNewReq(true)
-                            setIIN1(event.target.value) }} 
-                            id="input_IIN" 
-                            // className="input_IIN" 
-                            name="iin1" 
+                        <div className="formBlock">
+                            <label>Введите Имя первого объекта </label>
+                            {!checks1 ?
+                            <Select sx={{ width: '100%'}} value={firstName} onChange={e => {setFirstName(e.target.value)}}>
+                                <MenuItem value="starts">Начинается с</MenuItem>
+                                <MenuItem value="include">Включает</MenuItem>
+                                <MenuItem value="ends">Заканчивается</MenuItem>
+                                <MenuItem value="exact">Точное</MenuItem>
+                            </Select> : ""
+                            }
+                            <TextField type="text"
+                                value={name1}
+                                       sx={{color: '#1b376f'}}
+                                onChange={event => {
+                                    setNewReq(true)
+                                    setName1(event.target.value) }}
+                                    id="input_FIO1_2"
+                                    // className="input_IIN"
+                                    name="name1"
+                                    placeholder=""
+                                    />
+                        </div>
+
+                        <div className="formBlock">
+                            <label>Введите Отчество первого объекта </label>
+                            {!checks1 ?
+                            <Select sx={{width: "100%"}} value= {firstFatherName} onChange={e => {setFirstFatherName(e.target.value)}}>
+                                <MenuItem value="starts">Начинается с</MenuItem>
+                                <MenuItem value="include">Включает</MenuItem>
+                                <MenuItem value="ends">Заканчивается</MenuItem>
+                                <MenuItem value="exact">Точное</MenuItem>
+                            </Select> : ""
+                            }
+                            <TextField type="text"
+                                value={fname1}
+                                       sx={{color: '#1b376f'}}
+                                onChange={event => {
+                                    setNewReq(true)
+                                    setFName1(event.target.value) }}
+                                    id="input_FIO1_3"
+                                    // className="input_IIN"
+                                    name="lname1"
+                                    placeholder=""
+                                    />
+                        </div>
+                    </div>
+
+                    <div className="formBlock" id="formIIN2" style={{display: "none"}}>
+                        <label>Второй второй ИИН</label>
+                        <TextField type="text"
+                            value={iin2}
+                            sx={{color: '#1b376f'}}
+                            onChange={event => { setIIN2(event.target.value) }}
+                            id="input_IIN2"
+                            // className="input_IIN"
+                            name="iin2"
                             placeholder="ИИН/БИН"
                             />
-                </div>
-
-                <div id="formFio1" style={{display: "none"}}>
-                    <div>
-                        <input id="accurateCheckbox1" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
-                            setChecks1(event.target.checked)
-                        }}/>
-                        <label htmlFor="accurateCheckbox1">Точный поиск</label>
                     </div>
-                    <div className="formBlock">
-                        <label>Введите Фамилию первого объекта </label>
-                        {!checks1 ? 
-                        <Select sx={{ width: '100%'}} value={firstFamilia} onChange={e => {setFirstFamilia(e.target.value)}}>
-                            <MenuItem value="starts">Начинается с</MenuItem>
-                            <MenuItem value="include">Включает</MenuItem>
-                            <MenuItem value="ends">Заканчивается</MenuItem>
-                            <MenuItem value="exact">Точное</MenuItem>
-                        </Select> : ""
-                        }
-                        <TextField type="text" 
-                            value={lname1}
-                            onChange={event => { 
-                                setNewReq(true)
-                                setLName1(event.target.value) }} 
-                                id="input_FIO1_1" 
-                                // className="input_IIN" 
-                                name="Fam1" 
+
+                    <div id="formFio2" style={{display: "none"}}>
+                        <div>
+                            <input id="accurateCheckbox2" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
+                                setChecks2(event.target.checked)
+                            }}/>
+                            <label htmlFor="accurateCheckbox1">Точный поиск</label>
+                        </div>
+                        <div className="formBlock">
+                            <label>Введите Фамилию второго объекта </label>
+                            {!checks2 ?
+                            <Select sx={{width: "100%"}} value= {secondFamilia} onChange={e => {setSecondFamilia(e.target.value)}}>
+                                <MenuItem value="starts">Начинается с</MenuItem>
+                                <MenuItem value="include">Включает</MenuItem>
+                                <MenuItem value="ends">Заканчивается</MenuItem>
+                                <MenuItem value="exact">Точное</MenuItem>
+                            </Select> : ""
+                            }
+                            <TextField type="text"
+                                value={lname2}
+                                sx={{color: '#1b376f'}}
+                                onChange={event => { setLName2(event.target.value) }}
+                                id="input_FIO2_1"
+                                // className="input_IIN"
+                                name="Fam2"
                                 placeholder=""
-                                />
-                    </div>
-
-                    <div className="formBlock">
-                        <label>Введите Имя первого объекта </label>
-                        {!checks1 ? 
-                        <Select sx={{ width: '100%'}} value={firstName} onChange={e => {setFirstName(e.target.value)}}>
-                            <MenuItem value="starts">Начинается с</MenuItem>
-                            <MenuItem value="include">Включает</MenuItem>
-                            <MenuItem value="ends">Заканчивается</MenuItem>
-                            <MenuItem value="exact">Точное</MenuItem>
-                        </Select> : ""
-                        }
-                        <TextField type="text" 
-                            value={name1}
-                            onChange={event => { 
-                                setNewReq(true)
-                                setName1(event.target.value) }} 
-                                id="input_FIO1_2" 
-                                // className="input_IIN" 
-                                name="name1" 
-                                placeholder=""
-                                />
-                    </div>
-
-                    <div className="formBlock">
-                        <label>Введите Отчество первого объекта </label>
-                        {!checks1 ? 
-                        <Select sx={{width: "100%"}} value= {firstFatherName} onChange={e => {setFirstFatherName(e.target.value)}}>
-                            <MenuItem value="starts">Начинается с</MenuItem>
-                            <MenuItem value="include">Включает</MenuItem>
-                            <MenuItem value="ends">Заканчивается</MenuItem>
-                            <MenuItem value="exact">Точное</MenuItem>
-                        </Select> : ""
-                        }
-                        <TextField type="text" 
-                            value={fname1}
-                            onChange={event => { 
-                                setNewReq(true)
-                                setFName1(event.target.value) }} 
-                                id="input_FIO1_3" 
-                                // className="input_IIN" 
-                                name="lname1" 
-                                placeholder=""
-                                />
-                    </div>
-                </div>
-
-                <div className="formBlock" id="formIIN2" style={{display: "none"}}>
-                    <label>Второй второй ИИН</label>
-                    <TextField type="text" 
-                        value={iin2}
-                        onChange={event => { setIIN2(event.target.value) }} 
-                        id="input_IIN2"
-                        // className="input_IIN" 
-                        name="iin2" 
-                        placeholder="ИИН/БИН"
-                        />
-                </div>
-
-                <div id="formFio2" style={{display: "none"}}>
-                    <div>
-                        <input id="accurateCheckbox2" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
-                            setChecks2(event.target.checked)
-                        }}/>
-                        <label htmlFor="accurateCheckbox1">Точный поиск</label>
-                    </div>
-                    <div className="formBlock">
-                        <label>Введите Фамилию второго объекта </label>
-                        {!checks2 ? 
-                        <Select sx={{width: "100%"}} value= {secondFamilia} onChange={e => {setSecondFamilia(e.target.value)}}>
-                            <MenuItem value="starts">Начинается с</MenuItem>
-                            <MenuItem value="include">Включает</MenuItem>
-                            <MenuItem value="ends">Заканчивается</MenuItem>
-                            <MenuItem value="exact">Точное</MenuItem>
-                        </Select> : ""
-                        }
-                        <TextField type="text" 
-                            value={lname2}
-                            onChange={event => { setLName2(event.target.value) }} 
-                            id="input_FIO2_1" 
-                            // className="input_IIN" 
-                            name="Fam2" 
-                            placeholder=""
-                            />
-                    </div>
-
-                    <div className="formBlock">
-                        <label>Введите Имя второго объекта </label>
-                        {!checks2 ? 
-                        <Select sx={{width: "100%"}} value= {secondName} onChange={e => {setSecondName(e.target.value)}}>
-                            <MenuItem value="starts">Начинается с</MenuItem>
-                            <MenuItem value="include">Включает</MenuItem>
-                            <MenuItem value="ends">Заканчивается</MenuItem>
-                            <MenuItem value="exact">Точное</MenuItem>
-                        </Select> : ""
-                        }
-                        <TextField type="text" 
-                            value={name2}
-                            onChange={event => { setName2(event.target.value) }} 
-                            id="input_FIO2_2" 
-                            // className="input_IIN" 
-                            name="fname2" 
-                            placeholder=""
-                            />
-                    </div>
-
-                    <div className="formBlock">
-                        <label>Введите Отчество второго объекта </label>
-                        {!checks2 ? 
-                        <Select sx={{width: "100%"}} value= {secondFatherName} onChange={e => {setSecondFatherName(e.target.value)}}>
-                            <MenuItem value="starts">Начинается с</MenuItem>
-                            <MenuItem value="include">Включает</MenuItem>
-                            <MenuItem value="ends">Заканчивается</MenuItem>
-                            <MenuItem value="exact">Точное</MenuItem>
-                        </Select> : ""
-                        }
-                        <TextField type="text" 
-                            value={fname2}
-                            onChange={event => { setFName2(event.target.value) }} 
-                            id="input_FIO2_3" 
-                            // className="input_IIN" 
-                            name="lname2" 
-                            placeholder=""
-                            />
-                    </div>  
-                </div>      
-
-                <div className="formBlock" id="formLimit" style={{display: "none"}}>
-                    <label>Введите лимит</label>
-                    <TextField type="number" 
-                        value={limit}
-                        onChange={event => { setLimit(event.target.value) }} 
-                        // id="input_IIN2"
-                        // className="input_IIN" 
-                        name="limit" 
-                        placeholder="Введите лимит объектов"
-                        
-                        />
-                </div>
-
-                <div className="formBlock" id="formDepth" style={{display: "none"}}>
-                    <label>Введите уровень</label>
-                    <TextField type="number" 
-                        value={depth}
-                        onChange={event => {setDepth(event.target.value)}} 
-                        name="depth" 
-                        placeholder="Введите глубину поиска"
-                        />
-                </div>
-
-                <div className="formBlock" id="formRels" style={{display: "none"}}>
-                    <label>По каким связям хотите?</label>
-                    <RelationBlock setRels={setRelString}></RelationBlock>
-                </div>
-
-
-                <div className="formBlock layoutControl">
-                    <LayoutController handleLayout={handleLayout}></LayoutController>
-                </div>
-            </form>
-            <div className="btn-block formBlock">
-                    <div className="formActionBtnBlock" style={{ display: "flex", justifyContent: "space-between", width: '92%' }}>
-                        <Button variant="outlined" onClick={event => clearOptions()} style={{ flex: 1, marginRight: "5px" }}>
-                            Очистить
-                        </Button>
-
-                        <Button variant="contained" onClick={event => {
-                            if (!checkAdmin() && !checkVip() && newReq)
-                                setModal(true)
-                            else 
-                            filter()
-                        }} style={{ flex: 1, marginLeft: "5px" }}>
-                            Запустить
-                        </Button>
-                    </div>
-
-{/*                     
-                    <div className="exportImportBtnBlock">
-                        <div id="importBlock" >
-                            <input type="file" id="file-upload"
-                                onChange={event => importBt()} 
                                 />
                         </div>
-                        
-                        <Button variant="outlined" disabled={props.downloadScheme ? false: true} value="Экспортировать данные" 
-                            onClick={event => exportBt()}
-                            >Экспортировать данные</Button>
-                        <Button variant="outlined" disabled={props.downloadScheme ? false: true} value="Скачать схему" 
-                            onClick={event => downloadScheme()}
-                            >Скачать схему</Button>  
 
-                    </div> */}
+                        <div className="formBlock">
+                            <label>Введите Имя второго объекта </label>
+                            {!checks2 ?
+                            <Select sx={{width: "100%"}} value= {secondName} onChange={e => {setSecondName(e.target.value)}}>
+                                <MenuItem value="starts">Начинается с</MenuItem>
+                                <MenuItem value="include">Включает</MenuItem>
+                                <MenuItem value="ends">Заканчивается</MenuItem>
+                                <MenuItem value="exact">Точное</MenuItem>
+                            </Select> : ""
+                            }
+                            <TextField type="text"
+                                value={name2}
+                                sx={{color: '#1b376f'}}
+                                onChange={event => { setName2(event.target.value) }}
+                                id="input_FIO2_2"
+                                // className="input_IIN"
+                                name="fname2"
+                                placeholder=""
+                                />
+                        </div>
 
-                    
-            </div>
-            {modal ?
-            <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow> : ("")}
-            </div> : 
-            <div className="leftBar" style={{paddingTop: '20px', height: 'calc(100vh - 198px)'}}>
-                <HistoryBlock/>
-            </div>
+                        <div className="formBlock">
+                            <label>Введите Отчество второго объекта </label>
+                            {!checks2 ?
+                            <Select sx={{width: "100%"}} value= {secondFatherName} onChange={e => {setSecondFatherName(e.target.value)}}>
+                                <MenuItem value="starts">Начинается с</MenuItem>
+                                <MenuItem value="include">Включает</MenuItem>
+                                <MenuItem value="ends">Заканчивается</MenuItem>
+                                <MenuItem value="exact">Точное</MenuItem>
+                            </Select> : ""
+                            }
+                            <TextField type="text"
+                                value={fname2}
+                                sx={{color: '#1b376f'}}
+                                onChange={event => { setFName2(event.target.value) }}
+                                id="input_FIO2_3"
+                                // className="input_IIN"
+                                name="lname2"
+                                placeholder=""
+                                />
+                        </div>
+                    </div>
+
+                    <div className="formBlock" id="formLimit" style={{display: "none"}}>
+                        <label>Введите лимит</label>
+                        <TextField type="number"
+                            value={limit}
+                            sx={{color: '#1b376f'}}
+                            onChange={event => { setLimit(event.target.value) }}
+                            // id="input_IIN2"
+                            // className="input_IIN"
+                            name="limit"
+                            placeholder="Введите лимит объектов"
+
+                            />
+                    </div>
+
+                    <div className="formBlock" id="formDepth" style={{display: "none"}}>
+                        <label>Введите уровень</label>
+                        <TextField type="number"
+                            value={depth}
+                            sx={{color: '#1b376f'}}
+                            onChange={event => {setDepth(event.target.value)}}
+                            name="depth"
+                            placeholder="Введите глубину поиска"
+                            />
+                    </div>
+
+                    <div className="formBlock" id="formRels" style={{display: "none"}}>
+                        <label>По каким связям хотите?</label>
+                        <RelationBlock setRels={setRelString}></RelationBlock>
+                    </div>
+
+
+                    <div className="formBlock layoutControl">
+                        <LayoutController handleLayout={handleLayout}></LayoutController>
+                    </div>
+                </form>
+                <div className="btn-block formBlock">
+                        <div className="formActionBtnBlock" style={{ display: "flex", justifyContent: "space-between", width: '92%' }}>
+                            <Button variant="outlined" onClick={event => clearOptions()} style={{ flex: 1, marginRight: "5px" }} sx={{color: '#1b376f', borderColor: '#1b376f'}} >
+                                Очистить
+                            </Button>
+
+                            <Button variant="contained" onClick={event => {
+                                if (!checkAdmin() && !checkVip() && newReq)
+                                    setModal(true)
+                                else
+                                    filter()
+                            }} style={{ flex: 1, marginLeft: "5px" }} sx={{color: '#fff', backgroundColor: '#1b376f'}} >
+                                Запустить
+                            </Button>
+                        </div>
+
+    {/*
+                        <div className="exportImportBtnBlock">
+                            <div id="importBlock" >
+                                <input type="file" id="file-upload"
+                                    onChange={event => importBt()}
+                                    />
+                            </div>
+
+                            <Button variant="outlined" disabled={props.downloadScheme ? false: true} value="Экспортировать данные"
+                                onClick={event => exportBt()}
+                                >Экспортировать данные</Button>
+                            <Button variant="outlined" disabled={props.downloadScheme ? false: true} value="Скачать схему"
+                                onClick={event => downloadScheme()}
+                                >Скачать схему</Button>
+
+                        </div> */}
+
+
+                </div>
+
+            </div> :
+
+            tab == "search1" ?
+                <div className="leftBar">
+                    <form >
+                        <div className="formBlock">
+                            <label htmlFor="connections">Найти связи между</label>
+                            <div className="select">
+                                <Select  value={mode} sx={{width: '100%'}} name="connections" id='connections'
+                                         onChange={event => {
+                                             let value = document.getElementById("connections").value;
+
+                                             let formSearchOptions = document.querySelector("#formSearchOptions");
+
+                                             let iin1 = document.querySelector("#formIIN1");
+                                             let iin2 = document.querySelector("#formIIN2");
+
+                                             let formFio1 = document.querySelector("#formFio1")
+                                             let formFio2 = document.querySelector("#formFio2")
+
+                                             let formLimit = document.querySelector("#formLimit")
+                                             let formDepth = document.querySelector("#formDepth")
+                                             let formRels  = document.querySelector("#formRels")
+
+                                             setMode(event.target.value)
+
+                                             if (event.target.value === "con1") {
+                                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
+
+                                                 formSearchOptions.style.display = 'flex';
+
+                                                 if (searchOption == "iinOption") {
+                                                     iin1.style.display = 'flex';
+                                                     iin2.style.display = 'none';
+
+                                                     formFio1.style.display = 'none';
+                                                     formFio2.style.display = 'none';
+
+                                                 } else if (searchOption == "fioOption") {
+                                                     iin1.style.display = 'none';
+                                                     iin2.style.display = 'none';
+
+                                                     formFio1.style.display = 'flex';
+                                                     formFio2.style.display = 'none';
+                                                 }
+
+
+                                                 formLimit.style.display = 'flex';
+                                                 formDepth.style.display = 'flex';
+                                                 formRels.style.display = 'flex';
+                                                 props.update()
+                                             }
+                                             else if (event.target.value ==="con2") {
+                                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                                 iin2.childNodes[0].innerHTML = "Введите второй ИИН"
+
+                                                 formSearchOptions.style.display = 'flex';
+
+                                                 if (searchOption == "iinOption") {
+                                                     iin1.style.display = 'flex';
+                                                     iin2.style.display = 'flex';
+
+                                                     formFio1.style.display = 'none';
+                                                     formFio2.style.display = 'none';
+
+                                                 } else if (searchOption == "fioOption") {
+                                                     iin1.style.display = 'none';
+                                                     iin2.style.display = 'none';
+
+                                                     formFio1.style.display = 'flex';
+                                                     formFio2.style.display = 'flex';
+                                                 }
+
+                                                 formLimit.style.display = 'none';
+                                                 formDepth.style.display = 'none';
+
+                                                 formRels.style.display = 'flex';
+                                                 props.update()
+                                             }
+                                             else if (event.target.value ==="con3") {
+                                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                                 iin2.childNodes[0].innerHTML = "Введите БИН"
+
+                                                 formSearchOptions.style.display = 'flex';
+
+                                                 if (searchOption == "iinOption") {
+                                                     iin1.style.display = 'flex';
+                                                     iin2.style.display = 'flex';
+
+                                                     formFio1.style.display = 'none';
+                                                     formFio2.style.display = 'none';
+
+                                                 } else if (searchOption == "fioOption") {
+                                                     iin1.style.display = 'none';
+                                                     iin2.style.display = 'flex';
+
+                                                     formFio1.style.display = 'flex';
+                                                     formFio2.style.display = 'none';
+                                                 }
+
+                                                 formLimit.style.display = 'none';
+                                                 formDepth.style.display = 'none';
+
+                                                 formRels.style.display = 'flex';
+                                                 props.update()
+                                             }
+                                             else if (event.target.value === "con4") {
+                                                 iin1.childNodes[0].innerHTML = "Введите БИН"
+
+                                                 formSearchOptions.style.display = 'none';
+
+                                                 iin1.style.display = 'flex';
+                                                 iin2.style.display = 'none';
+
+                                                 formFio1.style.display = 'none';
+                                                 formFio2.style.display = 'none';
+
+                                                 formLimit.style.display = 'flex';
+                                                 formDepth.style.display = 'flex';
+
+                                                 formRels.style.display = 'flex';
+                                                 props.update()
+                                             }
+                                             else if (event.target.value === "con5") {
+                                                 iin1.childNodes[0].innerHTML = "Введите БИН"
+                                                 iin2.childNodes[0].innerHTML = "Введите второй БИН"
+
+                                                 formSearchOptions.style.display = 'none';
+
+                                                 iin1.style.display = 'flex';
+                                                 iin2.style.display = 'flex';
+
+                                                 formFio1.style.display = 'none';
+                                                 formFio2.style.display = 'none';
+
+                                                 formLimit.style.display = 'none';
+                                                 formDepth.style.display = 'none';
+
+                                                 formRels.style.display = 'flex';
+                                                 props.update()
+                                             }
+                                         }}>
+                                    <MenuItem value="con1">Фл</MenuItem>
+                                    <MenuItem value="con2">Фл - Фл</MenuItem>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <div className="formBlock" id="formSearchOptions" style={{display: "none"}}>
+                            <label htmlFor="searchOptions">Поиск по</label>
+                            <div className="select">
+                                <Select sx={{width: '100%'}} name="searchOptions" id='searchOptions' value={searchOption}
+                                        onChange={event => {
+                                            setNewReq(true)
+                                            let optionValue = document.getElementById("searchOptions").value;
+                                            let iin1 = document.querySelector("#formIIN1");
+                                            let iin2 = document.querySelector("#formIIN2");
+
+                                            let formFio1 = document.querySelector("#formFio1")
+                                            let formFio2 = document.querySelector("#formFio2")
+
+                                            setSearchOption(event.target.value)
+
+                                            if (event.target.value == "fioOption") {
+                                                iin1.style.display = "none";
+                                                formFio1.style.display = "flex";
+
+                                                if (mode == "con5" || mode == "con2") {
+                                                    iin2.style.display = "none";
+                                                    formFio2.style.display = "flex";
+                                                }
+
+                                            } else if (event.target.value == "iinOption") {
+                                                iin1.style.display = "flex";
+                                                formFio1.style.display = "none";
+
+                                                if (mode == "con5" || mode == "con3" || mode == "con2") {
+                                                    iin2.style.display = "flex";
+                                                    formFio2.style.display = "none";
+                                                }
+                                            }
+                                        }}>
+                                    <MenuItem value="iinOption">ИИН</MenuItem>
+                                    <MenuItem value="fioOption">ФИО</MenuItem>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <div className="formBlock" id="formIIN1" style={{display: "none"}}>
+                            <label>Введите ИИН</label>
+                            <TextField
+                                value={iin1}
+                                sx={{color: '#1b376f'}}
+                                onChange={event => {
+                                    setNewReq(true)
+                                    setIIN1(event.target.value) }}
+                                id="input_IIN"
+                                // className="input_IIN"
+                                name="iin1"
+                                placeholder="ИИН/БИН"
+                            />
+                        </div>
+
+                        <div id="formFio1" style={{display: "none"}}>
+                            <div>
+                                <input id="accurateCheckbox1" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
+                                    setChecks1(event.target.checked)
+                                }}/>
+                                <label htmlFor="accurateCheckbox1">Точный поиск</label>
+                            </div>
+                            <div className="formBlock">
+                                <label>Введите Фамилию первого объекта </label>
+                                {!checks1 ?
+                                    <Select sx={{ width: '100%'}} value={firstFamilia} onChange={e => {setFirstFamilia(e.target.value)}}>
+                                        <MenuItem value="starts">Начинается с</MenuItem>
+                                        <MenuItem value="include">Включает</MenuItem>
+                                        <MenuItem value="ends">Заканчивается</MenuItem>
+                                        <MenuItem value="exact">Точное</MenuItem>
+                                    </Select> : ""
+                                }
+                                <TextField type="text"
+                                           value={lname1}
+                                           sx={{color: '#1b376f'}}
+                                           onChange={event => {
+                                               setNewReq(true)
+                                               setLName1(event.target.value) }}
+                                           id="input_FIO1_1"
+                                    // className="input_IIN"
+                                           name="Fam1"
+                                           placeholder=""
+                                />
+                            </div>
+
+                            <div className="formBlock">
+                                <label>Введите Имя первого объекта </label>
+                                {!checks1 ?
+                                    <Select sx={{ width: '100%'}} value={firstName} onChange={e => {setFirstName(e.target.value)}}>
+                                        <MenuItem value="starts">Начинается с</MenuItem>
+                                        <MenuItem value="include">Включает</MenuItem>
+                                        <MenuItem value="ends">Заканчивается</MenuItem>
+                                        <MenuItem value="exact">Точное</MenuItem>
+                                    </Select> : ""
+                                }
+                                <TextField type="text"
+                                           value={name1}
+                                           sx={{color: '#1b376f'}}
+                                           onChange={event => {
+                                               setNewReq(true)
+                                               setName1(event.target.value) }}
+                                           id="input_FIO1_2"
+                                    // className="input_IIN"
+                                           name="name1"
+                                           placeholder=""
+                                />
+                            </div>
+
+                            <div className="formBlock">
+                                <label>Введите Отчество первого объекта </label>
+                                {!checks1 ?
+                                    <Select sx={{width: "100%"}} value= {firstFatherName} onChange={e => {setFirstFatherName(e.target.value)}}>
+                                        <MenuItem value="starts">Начинается с</MenuItem>
+                                        <MenuItem value="include">Включает</MenuItem>
+                                        <MenuItem value="ends">Заканчивается</MenuItem>
+                                        <MenuItem value="exact">Точное</MenuItem>
+                                    </Select> : ""
+                                }
+                                <TextField type="text"
+                                           value={fname1}
+                                           sx={{color: '#1b376f'}}
+                                           onChange={event => {
+                                               setNewReq(true)
+                                               setFName1(event.target.value) }}
+                                           id="input_FIO1_3"
+                                    // className="input_IIN"
+                                           name="lname1"
+                                           placeholder=""
+                                />
+                            </div>
+                        </div>
+
+                        <div className="formBlock" id="formIIN2" style={{display: "none"}}>
+                            <label>Второй второй ИИН</label>
+                            <TextField type="text"
+                                       value={iin2}
+                                       onChange={event => { setIIN2(event.target.value) }}
+                                       id="input_IIN2"
+                                       sx={{color: '#1b376f'}}
+                                // className="input_IIN"
+                                       name="iin2"
+                                       placeholder="ИИН/БИН"
+                            />
+                        </div>
+
+                        <div id="formFio2" style={{display: "none"}}>
+                            <div>
+                                <input id="accurateCheckbox2" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
+                                    setChecks2(event.target.checked)
+                                }}/>
+                                <label htmlFor="accurateCheckbox1">Точный поиск</label>
+                            </div>
+                            <div className="formBlock">
+                                <label>Введите Фамилию второго объекта </label>
+                                {!checks2 ?
+                                    <Select sx={{width: "100%"}} value= {secondFamilia} onChange={e => {setSecondFamilia(e.target.value)}}>
+                                        <MenuItem value="starts">Начинается с</MenuItem>
+                                        <MenuItem value="include">Включает</MenuItem>
+                                        <MenuItem value="ends">Заканчивается</MenuItem>
+                                        <MenuItem value="exact">Точное</MenuItem>
+                                    </Select> : ""
+                                }
+                                <TextField type="text"
+                                           value={lname2}
+                                           onChange={event => { setLName2(event.target.value) }}
+                                           id="input_FIO2_1"
+                                           sx={{color: '#1b376f'}}
+                                    // className="input_IIN"
+                                           name="Fam2"
+                                           placeholder=""
+                                />
+                            </div>
+
+                            <div className="formBlock">
+                                <label>Введите Имя второго объекта </label>
+                                {!checks2 ?
+                                    <Select sx={{width: "100%"}} value= {secondName} onChange={e => {setSecondName(e.target.value)}}>
+                                        <MenuItem value="starts">Начинается с</MenuItem>
+                                        <MenuItem value="include">Включает</MenuItem>
+                                        <MenuItem value="ends">Заканчивается</MenuItem>
+                                        <MenuItem value="exact">Точное</MenuItem>
+                                    </Select> : ""
+                                }
+                                <TextField type="text"
+                                           value={name2}
+                                           onChange={event => { setName2(event.target.value) }}
+                                           id="input_FIO2_2"
+                                           sx={{color: '#1b376f'}}
+                                    // className="input_IIN"
+                                           name="fname2"
+                                           placeholder=""
+                                />
+                            </div>
+
+                            <div className="formBlock">
+                                <label>Введите Отчество второго объекта </label>
+                                {!checks2 ?
+                                    <Select sx={{width: "100%"}} value= {secondFatherName} onChange={e => {setSecondFatherName(e.target.value)}}>
+                                        <MenuItem value="starts">Начинается с</MenuItem>
+                                        <MenuItem value="include">Включает</MenuItem>
+                                        <MenuItem value="ends">Заканчивается</MenuItem>
+                                        <MenuItem value="exact">Точное</MenuItem>
+                                    </Select> : ""
+                                }
+                                <TextField type="text"
+                                           value={fname2}
+                                           onChange={event => { setFName2(event.target.value) }}
+                                           id="input_FIO2_3"
+                                           sx={{color: '#1b376f'}}
+                                    // className="input_IIN"
+                                           name="lname2"
+                                           placeholder=""
+                                />
+                            </div>
+                        </div>
+
+                        <div className="formBlock" id="formLimit" style={{display: "none"}}>
+                            <label>Введите лимит</label>
+                            <TextField type="number"
+                                       value={limit}
+                                       onChange={event => { setLimit(event.target.value) }}
+                                // id="input_IIN2"
+                                // className="input_IIN"
+                                       sx={{color: '#1b376f'}}
+                                       name="limit"
+                                       placeholder="Введите лимит объектов"
+
+                            />
+                        </div>
+
+                        <div className="formBlock" id="formDepth" style={{display: "none"}}>
+                            <label>Введите уровень</label>
+                            <TextField type="number"
+                                       value={depth}
+                                       onChange={event => {setDepth(event.target.value)}}
+                                       name="depth"
+                                       sx={{color: '#1b376f'}}
+                                       placeholder="Введите глубину поиска"
+                            />
+                        </div>
+
+                        <div className="formBlock" id="formRels" style={{display: "none"}}>
+                            <label>По каким связям хотите?</label>
+                            <RelationBlockZags setRels={setRelString}></RelationBlockZags>
+                        </div>
+
+
+                        <div className="formBlock layoutControl">
+                            <LayoutController handleLayout={handleLayout}></LayoutController>
+                        </div>
+                    </form>
+                    <div className="btn-block formBlock">
+                        <div className="formActionBtnBlock" style={{ display: "flex", justifyContent: "space-between", width: '92%' }}>
+                            <Button variant="outlined" onClick={event => clearOptions()} style={{ flex: 1, marginRight: "5px" }} sx={{color: '#1b376f', borderColor: '#1b376f'}} >
+                                Очистить
+                            </Button>
+
+                            <Button variant="contained" onClick={event => {
+                                if (!checkAdmin() && !checkVip() && newReq)
+                                    setModal(true)
+                                else
+                                    filter()
+                            }} style={{ flex: 1, marginLeft: "5px" }} sx={{color: '#fff', backgroundColor: '#1b376f'}} >
+                                Запустить
+                            </Button>
+                        </div>
+
+                    </div>
+                    {modal ?
+                        <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow> : ("")}
+                </div>
+
+                : <div className="leftBar" style={{paddingTop: '20px', height: 'calc(100vh - 198px)'}}>
+                    <HistoryBlock/>
+                </div>
             }
         </div>
     )
 }
 
 const columns = [
-    { id: 'name', label: 'Объект', minWidth: 170 },
-    { id: 'code', label: 'Вид связи', minWidth: 100 },
+    { id: 'requestData', label: 'Объект', maxWidth: 40 },
+    { id: 'date', label: 'Дата', minWidth: 40 },
   ];
-  
-function createData(name, code, population, size) {
-    const density = population / size;
-    return { name, code, population, size, density };
-  }
-  
-  const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
-    createData('China', 'CN', 1403500365, 9596961),
-    createData('Italy', 'IT', 60483973, 301340),
-    createData('United States', 'US', 327167434, 9833520),
-    createData('Canada', 'CA', 37602103, 9984670),
-    createData('Australia', 'AU', 25475400, 7692024),
-    createData('Germany', 'DE', 83019200, 357578),
-    createData('Ireland', 'IE', 4857000, 70273),
-    createData('Mexico', 'MX', 126577691, 1972550),
-    createData('Japan', 'JP', 126317000, 377973),
-    createData('France', 'FR', 67022000, 640679),
-    createData('United Kingdom', 'GB', 67545757, 242495),
-    createData('Russia', 'RU', 146793744, 17098246),
-    createData('Nigeria', 'NG', 200962417, 923768),
-    createData('Brazil', 'BR', 210147125, 8515767),
-  ];
+
+
 const HistoryBlock = (props) => {
     const [page, setPage] = React.useState(0);
+    const [rows, setRows] = React.useState([])
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+    const userSession = JSON.parse(localStorage.getItem("user"))
+    useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
+        axios.get("http://192.168.30.24:9091/api/finpol/main/getCurrUserDetails").then(res=> {
+            console.log(res.data.logs)
+            const array = res.data.logs.map(x => {
+                return {
+                    requestData: x.request_body.join(","),
+                    date: x.date.slice(0, 10)
+                }
+            })
+            setRows(array)
+        })
+    }, [])
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -836,7 +1267,6 @@ const HistoryBlock = (props) => {
                   <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}
                     sx={{backgroundColor: '#F2F0EE'}}
                   >
                     {column.label}
@@ -850,16 +1280,12 @@ const HistoryBlock = (props) => {
                 .map((row) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
+                        <TableCell>
+                            {row.requestData}
+                        </TableCell>
+                        <TableCell>
+                            {row.date}
+                        </TableCell>
                     </TableRow>
                   );
                 })}

@@ -244,11 +244,11 @@ const ApprovementModalWindow = (props) => {
         <div className="modalBlock">
             <div className="modalWindow">
 
-                <div className="title">Основание проверки</div>
+                <div className="title" style={{color: 'black'}}>Основание проверки</div>
 
                 <div className="modalItems">
                     <div className="modalItem">
-                        <label>Выберите основание</label>
+                        <label style={{color: "#000000"}}>Выберите основание</label>
                         <select name="approvement_type" className="sendItem" id='approvements' 
                             onChange={event => {
                                 setApprovement(event.target.value);

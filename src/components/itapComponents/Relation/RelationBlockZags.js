@@ -5,7 +5,12 @@ import { components } from "react-select"
 import { default as ReactSelect, StylesConfig } from "react-select";
 import chroma from 'chroma-js';
 
-import {relationsLevel1, relationsLevel2} from '../../../data/relationsData.js'
+// import {relationsLevel1, relationsLevel2} from '../../../data/relationsData.js'
+
+const relationsLevel1 = [
+    {value: "ZAGS", label: "ЗАГС"},
+    {value: "REG_ADDRESS", label: "АДРЕС-РЕГИСТР"},
+]
 
 const colourStyles = {
     control: (styles) => ({ ...styles, color: "#ffffff", backgroundColor: 'rgba(0, 0, 0, 0.1)', border: 'none' }),
@@ -79,7 +84,7 @@ const Option = (props) => {
 };
 
 const RelationBlock = (props) => {
-    const [selectedOptions, setSelectedOptions] = useState([...relationsLevel1, ...relationsLevel2])
+    const [selectedOptions, setSelectedOptions] = useState([...relationsLevel1])
 
     const checkAdmin = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
@@ -108,11 +113,11 @@ const RelationBlock = (props) => {
     }
 
     const handleAllRels = () => {
-        setSelectedOptions([...relationsLevel1, ...relationsLevel2])
+        setSelectedOptions([...relationsLevel1])
     }
 
     const handleOptions = () => {
-        return [...relationsLevel1, ...relationsLevel2]
+        return [...relationsLevel1]
     }
 
     return (

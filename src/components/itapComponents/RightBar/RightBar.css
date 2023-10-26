@@ -17,6 +17,8 @@
   padding-bottom: 40px;
   /*padding-right: 20px;*/
   width: 20%;
+  height: 84vh !important;
+  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;

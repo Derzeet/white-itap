@@ -129,7 +129,7 @@
     font-size: 14px;
     font-weight: 400;
 
-    color: #808080;
+    color: #1b376f;
 
     margin-left: 7px;
 }
@@ -155,7 +155,8 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: #ffffff;
+    color: #808080;
+
 
     cursor: pointer;
 }

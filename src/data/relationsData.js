@@ -34,6 +34,9 @@ export const relationsLevel1 = [
     {value: "BLIZKIE_RODS", label: "Близкие родственники"},
     {value: "COUSIN", label: "Кузены"},
     {value: "SIBLING", label: "Братья/Сестры"},
+    {value: "dolzhnik_po_sudispol", label: "Должник по судисполнению"},
+    {value: "predpol_beneficiar", label: "Предположительный Бенефициар"},
+    {value: "register_beneficiar", label: "Зарегистрованный Бенефициар"},
 ]
 
 export const relationsLevel2 = [
