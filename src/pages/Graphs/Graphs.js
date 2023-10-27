@@ -758,6 +758,8 @@ const GraphNetnew = (props) => {
             // settings for fl
             const p = node.properties;
 
+            console.log("propal", p.Propal)
+
             node.label += "\n\n" + p.FIO
 
             key = false;
@@ -769,9 +771,17 @@ const GraphNetnew = (props) => {
             } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null || p.Doljnik != null
                 || p.Doljnik_po_alimentam != null || p.Status_neplatejasposobnosti != null || p.Razmer_Shtrafa != null
                 || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null || p.V_Roziske != null
-                || p.Sud_ispolnitel != null || p.Med_org != null || p.StoppedBySud !== null
-                || p.PDL !== null || p.SroppedByOrgan !== null || p.ERDR !== null || p.Propal !== null
-                || p.Rozisk !== null || p.StatusPFR !== null) {
+                || p.Sud_ispolnitel != null || p.Med_org != null
+                || p.StoppedBySud != null
+                || p.PDL != null
+                || p.SroppedByOrgan != null
+                || p.ERDR != null
+                || p.Propal != null
+                || p.Rozisk != null
+                || p.StatusPFR != null
+            ) {
+
+                console.log(p)
 
                 if (key) node.group = "keyJudgePerson"
                 else node.group = "judgePerson"
@@ -853,6 +863,7 @@ const GraphNetnew = (props) => {
                     "Статус": sp.Status,
                     "Бухгалтер": sp.Buhgalter,
                     "ЧСИ": sp.CHSI,
+                    "Статус смерти": sp.Death_Status
                 }, '#nodeAddInfoInner')
 
                 assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')

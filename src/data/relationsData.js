@@ -17,7 +17,7 @@ export const relationsLevel1 = [
     // {value: "ESF_5and10", label: "ЭСФ500-1М"},
     // {value: "FPG", label: "ФПГ"},
     {value: "GOSZAKUP", label: "ГОСЗАКУП"},
-    {value: "IP_KX", label: "ИП-КХ"},
+    {value: "IP-KX", label: "ИП-КХ"},
     // {value: "NTR_FL", label: "Нотариус Фл"},
     // {value: "NTR_UL_FL", label: "Нотариус ЮЛ-Фл"},
     {value: "OPG", label: "ОПГ"},
