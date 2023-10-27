@@ -35,9 +35,9 @@ import GraphNetnew from './pages/Graphs/Graphs';
 function App() {
   const userSession = JSON.parse(localStorage.getItem("user"))
 
-  useEffect(() => {
-    alert("Ведутся техническте работы")
-  }, [])
+  // useEffect(() => {
+  //   alert("Ведутся техническте работы")
+  // }, [])
 
   // const GraphNet = import('./pages/Graphs/Graphs');
   const RegistrationPage = lazy(() => import('./pages/Registration/RegistrationPage'));
