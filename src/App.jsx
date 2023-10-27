@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import React, { lazy, Suspense } from "react";
 
 // import { ruRU as dataGridDeDE } from '@mui/x-data-grid';
@@ -34,6 +34,10 @@ import GraphNetnew from './pages/Graphs/Graphs';
 
 function App() {
   const userSession = JSON.parse(localStorage.getItem("user"))
+
+  useEffect(() => {
+    alert("Ведутся техническте работы")
+  }, [])
 
   // const GraphNet = import('./pages/Graphs/Graphs');
   const RegistrationPage = lazy(() => import('./pages/Registration/RegistrationPage'));

@@ -80,6 +80,8 @@ const GraphNetnew = (props) => {
 
     const [leftTabs, setLeftTabs] = useState("search")
 
+
+
     useEffect(() => {
         console.log(openLimit, showRels)
     }, [openLimit, showRels])
@@ -225,7 +227,6 @@ const GraphNetnew = (props) => {
     }
     //for local usage
     const LocalGet = (params) => {
-        console.log("sdfsd")
         setNodes([])
         setEdges([])
 
@@ -235,7 +236,6 @@ const GraphNetnew = (props) => {
     
         if (params == '890724350918') {
             const res = iin890724350918
-            console.log("works")
             let _nodes = []
             let _edges = [];
 
@@ -463,10 +463,27 @@ const GraphNetnew = (props) => {
         params["sphereName"] = options.approvementObject ? options.approvementObject.sphereName : ''
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
-        console.log(params)
-        axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(res => {
+        axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(async (res) => {
             let _nodes = []
-            const _edges = res.data.edges;
+            let _edges = res.data.edges;
+
+            console.log(res.data)
+
+            function removeDuplicatesById(arr) {
+                const uniqueIds = new Set();
+                const resArr = [];
+
+                for (const item of arr) {
+                    if (!uniqueIds.has(item.properties.id)) {
+                        uniqueIds.add(item.properties.id)
+                        resArr.push(item)
+                    }
+                }
+
+                return resArr;
+            }
+
+            _edges = await removeDuplicatesById(_edges);
             
             _edges.map(item => {
                 setEdgeSettings(item);
@@ -476,7 +493,7 @@ const GraphNetnew = (props) => {
                 setNodeSettings(item, options.iin1, options.iin2)
                 _nodes.push(item);
             })
-            
+
             setNodes(_nodes)
             setEdges(_edges)
 
@@ -654,7 +671,6 @@ const GraphNetnew = (props) => {
             if (item.from == id) relatedNodes.push(Network.body.nodes[item.to])
         })
 
-        console.log(relatedNodes)
 
     }
 
@@ -673,7 +689,6 @@ const GraphNetnew = (props) => {
 
     const setEdgeSettings = (edge) => {
         edge.label = edge.properties.Vid_svyaziey
-        console.log(edge)
 
         Object.assign(edge, {"color": "black"})
         Object.assign(edge, {font: {color: "black"}})
@@ -694,12 +709,11 @@ const GraphNetnew = (props) => {
     const setNodeSettings = (node, iin1, iin2) => {
         let key = false
 
-        console.log(node)
         node.label = node.relCount + '\t\t\t\t\t\t\t\t\t';
 
         Object.assign(node, {"opened": false})
 
-        if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
+        if (node.properties.IINBIN) {
             // settings for ul
             // node.label += '\n\n' + node.properties.Name;
 
@@ -786,7 +800,6 @@ const GraphNetnew = (props) => {
     const events = {
         doubleClick: () => {
             let id = Object.keys(Network.selectionHandler.selectionObj.nodes)[0]
-            console.log(id)
             shortOpen(id)
         },
         selectNode: (event) => {
@@ -845,13 +858,14 @@ const GraphNetnew = (props) => {
                 assignInfoBlock({"Частный судебный исполнитель": sp.Sud_ispolnitel}, '#nodeAddInfoInner')
                 assignInfoBlock({"Гражданство": sp.Citizenship}, '#nodeAddInfoInner')
                 assignInfoBlock({"Нация": sp.Nation}, '#nodeAddInfoInner')
+                assignInfoBlock({"Место рождения": sp.Place_of_Birth}, '#nodeAddInfoInner')
 
 
             } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
             
                 assignInfoBlock({
                     "Наименование": sp.Name,
-                    "ИИН/БИН": sp.IINBIN,
+                    "БИН": sp.IINBIN,
                     "Тип": sp.Type,
                 }, '#nodeInfoInner')
 
@@ -877,6 +891,8 @@ const GraphNetnew = (props) => {
                     "Улица": sp.Ulica,
                     "Корпус": sp.Korpus,
                     "Адрес прописки": sp.Adress_propiski,
+                    "Точный адрес": sp.Adress,
+
                 }, '#nodeInfoInner')
 
                 assignInfoBlock({
@@ -960,7 +976,6 @@ const GraphNetnew = (props) => {
 
         SelectedEdge = edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
-        console.log(SelectedEdge)
 
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
@@ -1009,8 +1024,8 @@ const GraphNetnew = (props) => {
 
         } else if (SelectedEdge.type == 'UCHILSYA') {
           assignInfoBlock({
-            "Дата начала обучения": sp.data_nachalo, 
-            "Дата конца обучения": sp.data_konca
+            "Год поступления": sp.data_nachalo,
+            "Год окончания": sp.data_konca
           }, '#nodeInfoInner')
 
         } else {
@@ -1160,7 +1175,6 @@ const GraphNetnew = (props) => {
         graJSON.edges = edges
         graJSON.nodes = nodes
 
-        console.log(Network)
         // Network.redraw()
     }, [nodes, edges])
 
