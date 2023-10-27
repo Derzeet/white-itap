@@ -728,7 +728,9 @@ const GraphNetnew = (props) => {
             if (p.nomer_sdelki) {
                 node.group = "notarius"
 
-            } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null ||  p.Status_neplatejasposobnosti != null) {
+            } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null
+                    ||  p.Status_neplatejasposobnosti != null ||  p.Bankrot != null
+                    ||  p.BEZDEYSTVIA_UL != null ||  p.ERDR != null ||  p.FPG != null) {
                 node.group = "judgeCompany"
 
             } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
@@ -764,9 +766,12 @@ const GraphNetnew = (props) => {
             if (p.Death_Status != null) {
                 node.group = "ripPerson"
 
-            } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null  || p.Status_doljnika != null ||  p.Doljnik_po_alimentam != null || p.Status_neplatejasposobnosti != null ||  p.Razmer_Shtrafa != null
+            } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null || p.Doljnik != null
+                || p.Doljnik_po_alimentam != null || p.Status_neplatejasposobnosti != null || p.Razmer_Shtrafa != null
                 || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null || p.V_Roziske != null
-                || p.Sud_ispolnitel != null || p.Med_org != null ) {
+                || p.Sud_ispolnitel != null || p.Med_org != null || p.StoppedBySud !== null
+                || p.PDL !== null || p.SroppedByOrgan !== null || p.ERDR !== null || p.Propal !== null
+                || p.Rozisk !== null || p.StatusPFR !== null) {
 
                 if (key) node.group = "keyJudgePerson"
                 else node.group = "judgePerson"
@@ -844,12 +849,11 @@ const GraphNetnew = (props) => {
                     "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения",
                 }, '#nodeInfoInner')
 
-                // assignInfoBlock({
-                //     "class": "Person",
-                //     "PersonID": sp.PersonID,
-                //     "Label": sp.Label,
-                //     "Source": sp.Source,
-                // }, '#nodeAddInfoInner')
+                assignInfoBlock({
+                    "Статус": sp.Status,
+                    "Бухгалтер": sp.Buhgalter,
+                    "ЧСИ": sp.CHSI,
+                }, '#nodeAddInfoInner')
 
                 assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
                 assignInfoBlock({"Нотариус": sp.Notarius}, '#nodeAddInfoInner')
@@ -862,11 +866,13 @@ const GraphNetnew = (props) => {
 
 
             } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
-            
+
                 assignInfoBlock({
                     "Наименование": sp.Name,
                     "БИН": sp.IINBIN,
                     "Тип": sp.Type,
+                    "Полное наим. ИП": sp.FullNameIP,
+
                 }, '#nodeInfoInner')
 
                 assignInfoBlock({
@@ -874,6 +880,13 @@ const GraphNetnew = (props) => {
                     // "PersonID": sp.PersonID, 
                     // "Label": sp.Label,
                     // "Source": sp.Source,
+                    "Дата начала регистрации": sp.RegisterStartDate,
+                    "Дата окончании регистрации": sp.RegisterEndDate,
+                    "Статус": sp.Status,
+                    "Блокировка ЭСФ": sp.BLOCK_ESF,
+                    "Полное наименование на гос языке": sp.FullNameNatLanguage,
+                    "Лицензия": sp.License,
+
                 }, '#nodeAddInfoInner')
 
                 assignInfoBlock({"Бухгалтер": sp.Buhgalter}, '#nodeAddInfoInner') 
@@ -944,6 +957,19 @@ const GraphNetnew = (props) => {
                 assignInfoBlock({"Категория": sp.kategoria}, '#nodeSudInfoInner')
                 assignInfoBlock({"Орган": sp.organ}, '#nodeSudInfoInner')
                 assignInfoBlock({"Сумма": sp.summa}, '#nodeSudInfoInner')
+
+                assignInfoBlock({
+                    "Просрочка": sp.DeadlinePassed,
+                    "Дата регистрационного действия": sp.DateRegisterAction,
+                    "Статус ПФР": sp.StatusPFR,
+                    "ФПГ": sp.FPG,
+                    "Бездействующие ЮЛ": sp.BEZDEYSTVIA_UL,
+                    "ЕРДР": sp.ERDR,
+                    "Банкрот": sp.Bankrot,
+                    "ПДЛ": sp.PDL,
+                    "Прекращено органом": sp.SroppedByOrgan,
+
+                }, '#nodeSudInfoInner')
             }
 
       }, 
