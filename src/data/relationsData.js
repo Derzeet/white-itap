@@ -6,8 +6,8 @@ export const relationsLevel1 = [
     {value: "DFO_AFF_FIZ", label: "ДФО-Фл"},
     {value: "DFO_AFF_UL", label: "ДФО-Юл"},
 
-    // {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
-    // {value: "DIRECTOR_HIST", label: "Бывший Директор"},
+    {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
+    {value: "DIRECTOR_HIST", label: "Бывший Директор"},
     {value: "FOUNDER_CUR", label: "Нынешний Учредитель"},
     {value: "FOUNDER_HIST", label: "Бывший Учредитель"},
     // {value: "ESF_100", label: "ЭСФ100М+"},
@@ -40,6 +40,7 @@ export const relationsLevel1 = [
     {value: "dolzhniki_po_sudispol", label: "Должники по судисполнению"},
     {value: "PREDPOL_BENEFICIAR", label: "Предположительный Бенефициар"},
     {value: "REGISTER_BENIFICIAR", label: "Зарегистрованный Бенефициар"},
+    {value: "INS_POLICY", label: "Страховой полис машина"}
 ]
 
 export const relationsLevel2 = [

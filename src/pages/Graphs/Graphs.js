@@ -727,7 +727,6 @@ const GraphNetnew = (props) => {
             const p = node.properties;
             if (p.nomer_sdelki) {
                 node.group = "notarius"
-
             } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null
                     ||  p.Status_neplatejasposobnosti != null ||  p.Bankrot != null
                     ||  p.BEZDEYSTVIA_UL != null ||  p.ERDR != null ||  p.FPG != null) {
@@ -779,6 +778,10 @@ const GraphNetnew = (props) => {
                 || p.Propal != null
                 || p.Rozisk != null
                 || p.StatusPFR != null
+                || p.DeadlinePassed != null
+                || p.Doljnik != null
+                || p.Rozisk != null
+
             ) {
 
                 console.log(p)
@@ -853,7 +856,7 @@ const GraphNetnew = (props) => {
                 assignInfoBlock({
                     "ИИН": sp.IIN || "Нет ИИН-а",
                     "Имя": sp.FIO ? sp.FIO.split(" ")[1] : "Нет имени",
-                    "Фамилия": sp.Familia || "Нет фамилии",
+                    "Фамилия": sp.Family || "Нет фамилии",
                     "ФИО": sp.FIO || "Нет ФИО",
                     "Отчество": sp.Otchestvo || "Нет отчества",
                     "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения",
@@ -891,6 +894,7 @@ const GraphNetnew = (props) => {
                     // "PersonID": sp.PersonID, 
                     // "Label": sp.Label,
                     // "Source": sp.Source,
+                    "Дата регистрационного действия": sp.DateRegisterAction,
                     "Дата начала регистрации": sp.RegisterStartDate,
                     "Дата окончании регистрации": sp.RegisterEndDate,
                     "Статус": sp.Status,
@@ -979,7 +983,11 @@ const GraphNetnew = (props) => {
                     "Банкрот": sp.Bankrot,
                     "ПДЛ": sp.PDL,
                     "Прекращено органом": sp.SroppedByOrgan,
-
+                    "Приставание в общественных местах": sp.Pristavanie,
+                    "Прекращено судом": sp.StoppedBySud,
+                    "Розыск": sp.Rosizk,
+                    "Должник": sp.Doljnik,
+                    "Пропавший": sp.Propal,
                 }, '#nodeSudInfoInner')
             }
 
@@ -1040,14 +1048,16 @@ const GraphNetnew = (props) => {
 
         } else if (SelectedEdge.type == "WORKER_CUR" || SelectedEdge.type == "WORKER_HIST") {
           assignInfoBlock({
-            "БИН/ИИН работадателя": sp.IINBIN_rabotadatelya,
-            "ИИН": sp.IIN,
-            "Дата начала отчисления ОПВ/СО": sp.data_nachalo,
-            "Дата окончания отчисления ОПВ/СО": sp.data_oconchanya,
-            "Количество месяцев пенсионных отчислений": sp.mesyac_pensionnih,
-            "Пенсионные отчисления": sp.pensionnoe_otchislenie,
-            "Социальные отчисления": sp.soc_ochislenya,
-            "Средняя заработная плата": sp.average_zp,
+              "БИН/ИИН работадателя": sp.IINBIN_rabotadatelya,
+              "ИИН": sp.IIN,
+              "Дата начала отчисления ОПВ/СО": sp.data_nachalo,
+              "Дата окончания отчисления ОПВ/СО": sp.data_oconchanya,
+              "Количество месяцев пенсионных отчислений": sp.mesyac_pensionnih,
+              "Пенсионные отчисления": sp.pensionnoe_otchislenie,
+              "Социальные отчисления": sp.soc_ochislenya,
+              "Средняя заработная плата": sp.average_zp,
+              "Дата начало работы": sp.Start_Date,
+              "Дата окончания работы": sp.End_Date,
 
           }, '#nodeInfoInner')
 
