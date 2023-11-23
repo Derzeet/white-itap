@@ -15,6 +15,9 @@ import IconButton from '@mui/material/IconButton';
 
 import './../../Loader.css'
 import './Graphs.css'
+import IISch from "./localnetworks/secondSchema";
+import THIRDSch from "./localnetworks/thirdSchema";
+import ISCH from "./localnetworks/whiteItap";
 
 // import userIconWhite from "./../../user-icon-white.png";
 // import userIconBlack from "./../../user-icon-black.png";
@@ -36,6 +39,7 @@ import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
 import ntrIcon from '../../icons/ntrIcon.jpg'
 import glkPersonIcon from '../../icons/GLK.jpeg'
+import carIcon from '../../icons/car.png'
 
 
 const baseURL = "http://192.168.30.24:9091/api/finpol/main"
@@ -83,7 +87,7 @@ const GraphNetnew = (props) => {
 
 
     useEffect(() => {
-        console.log(openLimit, showRels)
+        // console.log(openLimit, showRels)
     }, [openLimit, showRels])
     
     //For Local usage
@@ -146,6 +150,10 @@ const GraphNetnew = (props) => {
         GLK: {
             shape: "circularImage",
             image: glkPersonIcon
+        },
+        CAR: {
+            shape: "circularImage",
+            image: carIcon
         },
         keyPerson: {
             shape: "circularImage",
@@ -372,6 +380,7 @@ const GraphNetnew = (props) => {
 
         let url = "";
         let params = {};
+        // console.log(options.mode)
 
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
         switch(options.mode) {
@@ -385,9 +394,9 @@ const GraphNetnew = (props) => {
                     url = "/flFIOtree"
                     params = {
                         check1: options.checks1,
-                        firstName1: options.nam1, 
-                        lastName1: options.fam1, 
-                        fatherName1: options.fath1, 
+                        firstName1: options.nam1,
+                        lastName1: options.fam1,
+                        fatherName1: options.fath1,
                         relations: options.relString, depth: options.depth, limit: options.limit
                     }
                     graJSON.params = params
@@ -404,13 +413,13 @@ const GraphNetnew = (props) => {
                     url = "/shortestpathsByFIO";
                     params = {
                         check1: options.checks1,
-                        firstName1: options.nam1, 
-                        lastName1: options.fam1, 
+                        firstName1: options.nam1,
+                        lastName1: options.fam1,
                         fatherName1: options.fath1,
                         check2: options.checks2,
-                        firstName2: options.nam2, 
-                        lastName2: options.fam2, 
-                        fatherName2: options.fath2, 
+                        firstName2: options.nam2,
+                        lastName2: options.fam2,
+                        fatherName2: options.fath2,
                         relations: options.relString
                     }
                     graJSON.params = params
@@ -427,10 +436,10 @@ const GraphNetnew = (props) => {
                     url = "/flulpathByFIO";
                     params = {
                         check1: options.checks1,
-                        firstName1: options.nam1, 
-                        lastName1: options.fam1, 
-                        fatherName1: options.fath1, 
-                        ul: options.iin2, 
+                        firstName1: options.nam1,
+                        lastName1: options.fam1,
+                        fatherName1: options.fath1,
+                        ul: options.iin2,
                         relations: options.relString
                     }
                     graJSON.params = params
@@ -467,7 +476,7 @@ const GraphNetnew = (props) => {
             let _nodes = []
             let _edges = res.data.edges;
 
-            console.log(res.data)
+            // console.log(res.data)
 
             function removeDuplicatesById(arr) {
                 const uniqueIds = new Set();
@@ -484,11 +493,11 @@ const GraphNetnew = (props) => {
             }
 
             _edges = await removeDuplicatesById(_edges);
-            
+
             _edges.map(item => {
                 setEdgeSettings(item);
             })
-        
+
             res.data.nodes.map(item => {
                 setNodeSettings(item, options.iin1, options.iin2)
                 _nodes.push(item);
@@ -499,46 +508,77 @@ const GraphNetnew = (props) => {
 
             graJSON.nodes = _nodes
             graJSON.edges = _edges
-            
+
             setIsLoading(false)
 
             const fileInput = document.getElementById('file-upload')
             fileInput.value = ""
 
             setShowActionBtn(true)
-            if(Network) Network.stabilize()  
+            if(Network) Network.stabilize()
         }).catch(() => {
             let res = []
-            if (params.person == '890724350918') {
-                res = iin890724350918
-            } else if (params.person == '770712302729') {
-                res = iin770712302729
-            } else if (params.person == '811006300996') {
-                res = iin811006300996
+            if (options.iin1.length == 6) {
+                if (options.mode == 'con2') {
+                    if (params.person == '000940' || params.person2 == '041140') {
+                        res = IISch
+                    }
+                } else if (options.mode == 'con3') {
+                    if (params.person == '000940' || params.ul == '041140') {
+                        res = THIRDSch
+                    }
+                } else if (options.mode == 'con5') {
+                    if (params.ul1 == '000940' || params.ul2 == '041140') {
+                        res = ISCH
+                    }
+                }
+            } else {
+                if (params.person == '890724350918') {
+                    res = iin890724350918
+                } else if (params.person == '770712302729') {
+                    res = iin770712302729
+                } else if (params.person == '811006300996') {
+                    res = iin811006300996
+                }
             }
+            // if (params.person == '890724350918') {
+            //     res = iin890724350918
+            // } else if (params.person == '770712302729') {
+            //     res = iin770712302729
+            // } else if (params.person == '811006300996') {
+            //     res = iin811006300996
+            // } else if (params.ul1 == '000940' || params.ul2 == '041140' || options.mode == 'con5') {
+            //     res = ISCH
+            // } else if (options.iin1 == '000940' || options.iin2 == '041140' || options.mode == 'con3') {
+            //     console.log("con3sdsadsfd")
+            //     res = THIRDSch
+            // } else if (params.person == '000940' || params.person2 == '041140' || options.mode == 'con2') {
+            //     console.log(params)
+            //     res = IISch
+            // }
             let _nodes = []
             const _edges = res.edges;
-            
+
             _edges.map(item => {
                 setEdgeSettings(item);
             })
-            
+
             res.nodes.map(item => {
                 setNodeSettings(item, options.iin1, options.iin2)
                 _nodes.push(item);
             })
-            
+
             setNodes(_nodes)
             setEdges(_edges)
-            
+
             graJSON.nodes = _nodes
             graJSON.edges = _edges
-            
+
             setIsLoading(false)
-            
+
             const fileInput = document.getElementById('file-upload')
             fileInput.value = ""
-            
+
             setShowActionBtn(true)
             if(Network) Network.stabilize()
         })
@@ -747,17 +787,16 @@ const GraphNetnew = (props) => {
             node.group = "PROPISKA"
             if ( node.properties.Adress_propiski == null) {
                 node.label += '\n\n' + cropLabel(node.properties.Adress) ;
-
             } else {
                 node.label += '\n\n' + node.properties.Adress_propiski ;
-
             }
-
+        }  else if (node.properties.ISCAR == true) {
+            node.group = "CAR"
+            node.label = '\n\n' + node.properties.Adress
         } else {
             // settings for fl
             const p = node.properties;
 
-            console.log("propal", p.Propal)
 
             node.label += "\n\n" + p.FIO
 
