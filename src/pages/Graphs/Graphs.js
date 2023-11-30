@@ -475,6 +475,7 @@ const GraphNetnew = (props) => {
         axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(async (res) => {
             let _nodes = []
             let _edges = res.data.edges;
+            console.log(res.data)
 
             // console.log(res.data)
 
