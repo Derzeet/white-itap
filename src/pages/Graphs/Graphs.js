@@ -18,6 +18,7 @@ import './Graphs.css'
 import IISch from "./localnetworks/secondSchema";
 import THIRDSch from "./localnetworks/thirdSchema";
 import ISCH from "./localnetworks/whiteItap";
+import searchResultsOfLieSearch from "./localnetworks/primer1";
 
 // import userIconWhite from "./../../user-icon-white.png";
 // import userIconBlack from "./../../user-icon-black.png";
@@ -520,19 +521,24 @@ const GraphNetnew = (props) => {
         }).catch(() => {
             let res = []
             if (options.iin1.length == 6) {
-                if (options.mode == 'con2') {
-                    if (params.person == '000940' || params.person2 == '041140') {
-                        res = IISch
-                    }
-                } else if (options.mode == 'con3') {
-                    if (params.person == '000940' || params.ul == '041140') {
-                        res = THIRDSch
-                    }
-                } else if (options.mode == 'con5') {
-                    if (params.ul1 == '000940' || params.ul2 == '041140') {
-                        res = ISCH
-                    }
-                }
+                // if
+                // (options.mode == 'con2') {
+                //     if (params.person == '000940' || params.person2 == '041140') {
+                //         res = IISch
+                //     }
+                // } else if (options.mode == 'con3') {
+                //     if (params.person == '000940' || params.ul == '041140') {
+                //         res = THIRDSch
+                //     }
+                // } else if (options.mode == 'con5') {
+                //     if (params.ul1 == '000940' || params.ul2 == '041140') {
+                //         res = ISCH
+                //     }
+                // } else
+                // {
+                    console.log("asd", searchResultsOfLieSearch)
+                    res = searchResultsOfLieSearch.find(item => item.option == options.mode && (item.object == options.iin1));
+                // }
             } else {
                 if (params.person == '890724350918') {
                     res = iin890724350918

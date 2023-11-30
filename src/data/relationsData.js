@@ -7,6 +7,8 @@ export const relationsLevel1 = [
     {value: "DFO_AFF_UL", label: "ДФО-Юл"},
 
     {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
+    //LOCAL
+    {value: "AKIM", label: "АКИМ"},
     {value: "DIRECTOR_HIST", label: "Бывший Директор"},
     {value: "FOUNDER_CUR", label: "Нынешний Учредитель"},
     {value: "FOUNDER_HIST", label: "Бывший Учредитель"},
