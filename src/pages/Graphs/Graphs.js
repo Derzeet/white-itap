@@ -85,6 +85,8 @@ const GraphNetnew = (props) => {
 
     const [leftTabs, setLeftTabs] = useState("search")
 
+    const [jsonLocalSearchStatus, setJsonLocalSearchStatus] = useState(false)
+
 
 
     useEffect(() => {
@@ -474,6 +476,7 @@ const GraphNetnew = (props) => {
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
         axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(async (res) => {
+            setJsonLocalSearchStatus(false)
             let _nodes = []
             let _edges = res.data.edges;
             console.log(res.data)
@@ -536,8 +539,9 @@ const GraphNetnew = (props) => {
                 //     }
                 // } else
                 // {
-                    console.log("asd", searchResultsOfLieSearch)
-                    res = searchResultsOfLieSearch.find(item => item.option == options.mode && (item.object == options.iin1));
+                  setJsonLocalSearchStatus(true)
+
+                  res = searchResultsOfLieSearch.find(item => item.option == options.mode && (item.object == options.iin1));
                 // }
             } else {
                 if (params.person == '890724350918') {
@@ -612,17 +616,59 @@ const GraphNetnew = (props) => {
     }
 
     const shortOpen = (id) => {
+      if (jsonLocalSearchStatus) {
+        let tempNodes = nodes
+        let tempEdges = edges
+
+        let reult = searchResultsOfLieSearch.find((x) => x.object == id)
+
+        reult.edges.map(item => {
+            setEdgeSettings(item)
+            let duplFlag = false
+            tempEdges.map(node => {
+                if (node.id === item.id) duplFlag = true
+            })
+            if (!duplFlag) {
+                tempEdges.push(item)
+                Network.body.data.edges.add(item);
+            }
+
+        })
+
+        reult.nodes.map(item => {
+            setNodeSettings(item)
+            let duplFlag = false
+            tempNodes.map(node => {
+                if (node.id === item.id) duplFlag = true
+            })
+            if (!duplFlag) {
+                tempNodes.push(item)
+                Network.body.data.nodes.add(item);
+            }
+        })
+
+        // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
+        // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
 
 
+
+        setNodes(tempNodes)
+        setEdges(tempEdges)
+
+        setPhysicsEnable(true)
+
+        Network.redraw()
+        Network.fit({});
+      } else {
         let _url = leftTabs == 'search1' ? baseURL1 : baseURL
-
+  
         axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
             let _nodes = []
             let _edges = []
-
+  
             let tempNodes = nodes
             let tempEdges = edges
-
+  
             res.data.edges.map(item => {
                 setEdgeSettings(item)
                 let duplFlag = false
@@ -633,9 +679,9 @@ const GraphNetnew = (props) => {
                     tempEdges.push(item)
                     Network.body.data.edges.add(item);
                 }
-
+  
             })
-
+  
             res.data.nodes.map(item => {
                 setNodeSettings(item)
                 let duplFlag = false
@@ -647,68 +693,22 @@ const GraphNetnew = (props) => {
                     Network.body.data.nodes.add(item);
                 }
             })
-
+  
             // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
             // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
-
-
-
+  
             setNodes(tempNodes)
             setEdges(tempEdges)
-
+  
             setPhysicsEnable(true)
-
+  
             Network.redraw()
             Network.fit({});
-        }).catch(() => {
-            if (id.length == 6) {
-                let _nodes = []
-                let _edges = []
-
-                let tempNodes = nodes
-                let tempEdges = edges
-
-                let reult = searchResultsOfLieSearch.find((x) => x.object == id)
-
-                reult.data.edges.map(item => {
-                    setEdgeSettings(item)
-                    let duplFlag = false
-                    tempEdges.map(node => {
-                        if (node.id === item.id) duplFlag = true
-                    })
-                    if (!duplFlag) {
-                        tempEdges.push(item)
-                        Network.body.data.edges.add(item);
-                    }
-
-                })
-
-                reult.data.nodes.map(item => {
-                    setNodeSettings(item)
-                    let duplFlag = false
-                    tempNodes.map(node => {
-                        if (node.id === item.id) duplFlag = true
-                    })
-                    if (!duplFlag) {
-                        tempNodes.push(item)
-                        Network.body.data.nodes.add(item);
-                    }
-                })
-
-                // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
-                // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
-
-
-
-                setNodes(tempNodes)
-                setEdges(tempEdges)
-
-                setPhysicsEnable(true)
-
-                Network.redraw()
-                Network.fit({});
-            }
         })
+      }
+
+
+
     }
 
     const shortHide = () => {
