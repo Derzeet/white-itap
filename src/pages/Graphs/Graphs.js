@@ -85,7 +85,27 @@ const GraphNetnew = (props) => {
 
     const [leftTabs, setLeftTabs] = useState("search")
 
-
+    // useEffect(() => {
+    //   const centralBar = document.querySelector('.centralBar');
+      
+    //   const resizeObserver = new ResizeObserver(entries => {
+    //     for (let entry of entries) {
+    //       if (entry.target === centralBar) {
+    //         console.log("Central bar's size changed");
+    //         setUpdateGraph(prev => !prev)
+    //         if (Network) {
+    //           Network.fit({});
+    //         }
+    //       }
+    //     }
+    //   });
+    
+    //   resizeObserver.observe(centralBar);
+    
+    //   return () => {
+    //     resizeObserver.unobserve(centralBar);
+    //   };
+    // }, []);
 
     useEffect(() => {
         // console.log(openLimit, showRels)
@@ -106,7 +126,7 @@ const GraphNetnew = (props) => {
             sortMethod: 'hubsize',  // hubsize, directed
             shakeTowards: 'leaves'  // roots, leaves
         },
-        randomSeed: 1,
+        randomSeed: 1123,
         improvedLayout: true,
     })
 
@@ -519,6 +539,7 @@ const GraphNetnew = (props) => {
             setShowActionBtn(true)
             if(Network) Network.stabilize()
         }).catch(() => {
+            console.log('first')
             let res = []
             if (options.iin1.length == 6) {
                 // if
