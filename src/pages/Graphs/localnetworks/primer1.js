@@ -4,7 +4,7 @@ const searchResultsOfLieSearch = [
         "object": "141592",
         "nodes": [
             {
-                "id": 1111111,
+                "id": 141592,
                 "photoDbf": null,
                 "properties": {
                     "Status": null,
@@ -34,7 +34,7 @@ const searchResultsOfLieSearch = [
                 "group": "company"
             },
             {
-                "id": 2222222,
+                "id": 653589,
                 "photoDbf": null,
                 "properties": {
                     "Status": null,
@@ -64,7 +64,7 @@ const searchResultsOfLieSearch = [
                 "group": "company"
             },
             {
-                "id": 3333333,
+                "id": 462643,
                 "photoDbf": null,
                 "properties": {
                     "Status": null,
@@ -94,7 +94,7 @@ const searchResultsOfLieSearch = [
                 "group": "company"
             },
             {
-                "id": 6666666,
+                "id": 793238,
                 "photoDbf": {
                     "iin": "793238",
                     "document_type_id": "2",
@@ -116,7 +116,7 @@ const searchResultsOfLieSearch = [
                     "Autditor": null,
                     "PDL": null,
                     "SroppedByOrgan": null,
-                    "id": 6666666,
+                    "id": 793238,
                     "Status": null,
                     "CHSI": null,
                     "StoppedBySud": null,
@@ -138,13 +138,13 @@ const searchResultsOfLieSearch = [
         ],
         "edges": [
             {
-                "from": 1111111,
-                "to": 2222222,
+                "from": 141592,
+                "to": 653589,
                 "type": "FOUNDER_CUR",
                 "properties": {
                     "data_konca": "NULL",
-                    "id": 1111222,
-                    "Vid_svyaziey": "Учился",
+                    "id": 141592653589,
+                    "Vid_svyaziey": "Учредитель",
                     "data_nachalo": "25.08.2021"
                 },
                 "label": "Учредитель",
@@ -152,15 +152,15 @@ const searchResultsOfLieSearch = [
                 "font": {
                     "color": "black"
                 },
-                "id": 1111222
+                "id": 141592653589
             },
             {
-                "from": 1111111,
-                "to": 3333333,
+                "from": 141592,
+                "to": 462643,
                 "type": "GOSZAKUP",
                 "properties": {
                     "data_konca": "NULL",
-                    "id": 1111333,
+                    "id": 141592462643,
                     "Vid_svyaziey": "ГОСЗАКУП",
                     "data_nachalo": "25.08.2021"
                 },
@@ -169,16 +169,16 @@ const searchResultsOfLieSearch = [
                 "font": {
                     "color": "black"
                 },
-                "id": 1111333
+                "id": 141592462643
             },
             {
-                "from": 1111111,
-                "to": 6666666,
+                "from": 141592,
+                "to": 793238,
                 "type": "AKIM",
                 "properties": {
                     "Vid_svyaziey": "АКИМ",
                     "data_konca": "12.06.2019",
-                    "id": 1111666,
+                    "id": 141592793238,
                     "data_nachalo": "02.09.2019"
                 },
                 "label": "АКИМ",
@@ -186,7 +186,139 @@ const searchResultsOfLieSearch = [
                 "font": {
                     "color": "black"
                 },
-                "id": 1111666
+                "id": 141592793238
+            },
+        ]
+    },
+    {
+        "option": "con4",
+        "object": "653589",
+        "nodes": [
+            {
+                "id": 141592,
+                "photoDbf": null,
+                "properties": {
+                    "Status": null,
+                    "IINBIN": "141592",
+                    "Buhgalter": null,
+                    "StatusPFR": null,
+                    "License": null,
+                    "BLOCK_ESF": null,
+                    "RegisterEndDate": null,
+                    "Source": "MU",
+                    "Name": "АКИМАТ",
+                    "Type": "ЮЛ",
+                    "RegisterStartDate": null,
+                    "BEZDEYSTVIA_UL": null,
+                    "PersonID": null,
+                    "FullNameNatLanguage": "АКИМАТ",
+                    "Bankrot": null,
+                    "ERDR": null,
+                    "DateRegisterAction": "2023-05-26",
+                    "FPG": null,
+                    "DeadlinePassed": null,
+                    "FullNameIP": null
+                },
+                "relCount": 20,
+                "label": "20\t\t\t\t\t\t\t\t\t\n\nАКИМАТ",
+                "opened": false,
+                "group": "company"
+            },
+            {
+                "id": 653589,
+                "photoDbf": null,
+                "properties": {
+                    "Status": null,
+                    "IINBIN": "653589",
+                    "Buhgalter": null,
+                    "StatusPFR": null,
+                    "License": null,
+                    "BLOCK_ESF": null,
+                    "RegisterEndDate": null,
+                    "Source": "MU",
+                    "Name": "ЖКХ",
+                    "Type": "ЮЛ",
+                    "RegisterStartDate": null,
+                    "BEZDEYSTVIA_UL": null,
+                    "PersonID": null,
+                    "FullNameNatLanguage": "ЖКХ",
+                    "Bankrot": null,
+                    "ERDR": null,
+                    "DateRegisterAction": "2023-05-26",
+                    "FPG": null,
+                    "DeadlinePassed": null,
+                    "FullNameIP": null
+                },
+                "relCount": 45,
+                "label": "45\t\t\t\t\t\t\t\t\t\n\nЖКХ",
+                "opened": false,
+                "group": "company"
+            },
+            {
+                "id": 462643,
+                "photoDbf": null,
+                "properties": {
+                    "Status": null,
+                    "IINBIN": "462643",
+                    "Buhgalter": null,
+                    "StatusPFR": null,
+                    "License": null,
+                    "BLOCK_ESF": null,
+                    "RegisterEndDate": null,
+                    "Source": "MU",
+                    "Name": "TOO 1",
+                    "Type": "ЮЛ",
+                    "RegisterStartDate": null,
+                    "BEZDEYSTVIA_UL": null,
+                    "PersonID": null,
+                    "FullNameNatLanguage": "TOO 1",
+                    "Bankrot": null,
+                    "ERDR": null,
+                    "DateRegisterAction": "2023-05-26",
+                    "FPG": null,
+                    "DeadlinePassed": null,
+                    "FullNameIP": null
+                },
+                "relCount": 132,
+                "label": "132\t\t\t\t\t\t\t\t\t\n\nTOO 1",
+                "opened": false,
+                "group": "company"
+            }
+        ],
+        "edges": [
+            {
+                "from": 141592,
+                "to": 462643,
+                "type": "GOSZAKUP",
+                "properties": {
+                    "data_konca": "NULL",
+                    "id": 141592462643,
+                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "data_nachalo": "25.08.2021"
+                },
+                "label": "ГОСЗАКУП",
+                "color": "black",
+                "font": {
+                    "color": "black"
+                },
+                "id": 141592462643
+            },
+            {
+                "from": 653589,
+                "to": 462643,
+                "type": "GOSZAKUP",
+                "properties": {
+                    "data_konca": "NULL",
+                    "id": 653589462643,
+                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "data_nachalo": "25.08.2021"
+                },
+                "label": "ГОСЗАКУП",
+                "color": "black",
+                "font": {
+                    "color": "black"
+                },
+                "id": 141592462643
             },
         ]
     }

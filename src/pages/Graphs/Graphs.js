@@ -613,6 +613,7 @@ const GraphNetnew = (props) => {
 
     const shortOpen = (id) => {
 
+
         let _url = leftTabs == 'search1' ? baseURL1 : baseURL
 
         axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
@@ -659,6 +660,54 @@ const GraphNetnew = (props) => {
 
             Network.redraw()
             Network.fit({});
+        }).catch(() => {
+            if (id.length == 6) {
+                let _nodes = []
+                let _edges = []
+
+                let tempNodes = nodes
+                let tempEdges = edges
+
+                let reult = searchResultsOfLieSearch.find((x) => x.object == id)
+
+                reult.data.edges.map(item => {
+                    setEdgeSettings(item)
+                    let duplFlag = false
+                    tempEdges.map(node => {
+                        if (node.id === item.id) duplFlag = true
+                    })
+                    if (!duplFlag) {
+                        tempEdges.push(item)
+                        Network.body.data.edges.add(item);
+                    }
+
+                })
+
+                reult.data.nodes.map(item => {
+                    setNodeSettings(item)
+                    let duplFlag = false
+                    tempNodes.map(node => {
+                        if (node.id === item.id) duplFlag = true
+                    })
+                    if (!duplFlag) {
+                        tempNodes.push(item)
+                        Network.body.data.nodes.add(item);
+                    }
+                })
+
+                // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
+                // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
+
+
+
+                setNodes(tempNodes)
+                setEdges(tempEdges)
+
+                setPhysicsEnable(true)
+
+                Network.redraw()
+                Network.fit({});
+            }
         })
     }
 
