@@ -55,7 +55,7 @@ var onSelectNode = false;
 
 const GraphNetnew = (props) => {
     const location = useLocation()
-    const {object, type} = queryString.parse(location.search)
+    const {object, type, object2} = queryString.parse(location.search)
     const [updateGraph, setUpdateGraph] = useState(true)
 
     const [nodes, setNodes] = useState([])
@@ -1469,7 +1469,7 @@ const GraphNetnew = (props) => {
                       <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                   </IconButton>
                 </div>
-                <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
                 <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                     <div className="waiterBox">
                         <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
@@ -1486,7 +1486,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object}  object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
               <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                 <div className="waiterBox">
                     <a>Нет результатов</a>
@@ -1503,7 +1503,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} showModal={showModal} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              <LeftBar openLeft={openLeft} showModal={showModal} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object}  object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
               <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                 <div className="loader">
                   <div className="inner one"></div>

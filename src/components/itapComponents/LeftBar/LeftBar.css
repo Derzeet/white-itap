@@ -1,8 +1,6 @@
 .kendrick {
     /*position: relative;*/
 
-    overflow-y: hidden;
-
     position: absolute;
     left: 0;
     top: 0;
@@ -20,10 +18,8 @@
 
     box-shadow: 0px 4px 38px -38px rgba(255, 255, 255, 0.7) inset;
 
-    /* overflow-y: scroll; */
-    height: 100%; 
-    box-sizing: border-box;
-    overflow-x: hidden;
+     /*overflow-y: scroll;*/
+    height: 100%;
 }
 
 .leftBarClose {

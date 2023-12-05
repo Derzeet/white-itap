@@ -38,7 +38,7 @@ const LeftBar = (props) => {
 
     const [newReq, setNewReq] = useState(true)
     const [iin1, setIIN1] = useState(props.object != '' ? props.object : '')
-    const [iin2, setIIN2] = useState("")
+    const [iin2, setIIN2] = useState(props.object2 != '' ? props.object2 : '')
 
     const [searchOption, setSearchOption] = useState("iinOption")
 
@@ -58,7 +58,23 @@ const LeftBar = (props) => {
 
     const [modal, setModal] = useState(false)
 
-    const [mode, setMode] = useState("con1")
+    const getConnectionType = () => {
+        if (type=="fl") {
+            return "con1"
+        } else if (type=="ul") {
+            return "con4"
+        } else if (type=="flfl") {
+            return "con2"
+        } else if (type=="flul") {
+            return "con3"
+        } else if (type=="ulul") {
+            return "con5"
+        } else {
+            return "con1"
+        }
+    };
+
+    const [mode, setMode] = useState(getConnectionType || "con1")
     const [relString, setRelString] = useState("")
     const [tab, setTab] = useState("search")
 
@@ -80,7 +96,7 @@ const LeftBar = (props) => {
                 
                 let formRels  = document.querySelector("#formRels")
                 
-                if (iin1 != '' && type == "iin") {
+                if (iin1 != '' && type == "fl") {
                     let value = document.getElementById("connections").value;
                     document.querySelector("#connections").value = "con1"
                     
@@ -102,25 +118,79 @@ const LeftBar = (props) => {
                 formRels.style.display = 'flex';
                 props.update()
                 setMode("con1")
-            } else if (iin1 != '' && type == "bin") {
+            } else if (iin1 != '' && type == "ul") {
                 setMode("con4")
                 iin1.childNodes[0].innerHTML = "Введите БИН"
-                iin2.childNodes[0].innerHTML = "Введите второй БИН"
-                
+
                 formSearchOptions.style.display = 'none';
-                
+
                 iin1.style.display = 'flex';
-                iin2.style.display = 'flex';
-                
+                iin2.style.display = 'none';
+
                 formFio1.style.display = 'none';
                 formFio2.style.display = 'none';
-                
-                formLimit.style.display = 'none';
-                formDepth.style.display = 'none';
-                
+
+                formLimit.style.display = 'flex';
+                formDepth.style.display = 'flex';
+
                 formRels.style.display = 'flex';
                 props.update()
-            } else {
+            } else if (iin1 != '' && iin2 != '' && type=='flfl') {
+                setMode("con2")
+                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                iin2.childNodes[0].innerHTML = "Введите второй ИИН"
+
+                formSearchOptions.style.display = 'flex';
+
+                iin1.style.display = 'flex';
+                iin2.style.display = 'flex';
+
+                formFio1.style.display = 'none';
+                formFio2.style.display = 'none';
+
+                formLimit.style.display = 'none';
+                formDepth.style.display = 'none';
+
+                formRels.style.display = 'flex';
+                props.update()
+            } else if (iin1 != '' && iin2 != '' && type=='ulul') {
+                    setMode("con5")
+                    iin1.childNodes[0].innerHTML = "Введите БИН"
+                    iin2.childNodes[0].innerHTML = "Введите второй БИН"
+
+                    formSearchOptions.style.display = 'none';
+
+                    iin1.style.display = 'flex';
+                    iin2.style.display = 'flex';
+
+                    formFio1.style.display = 'none';
+                    formFio2.style.display = 'none';
+
+                    formLimit.style.display = 'none';
+                    formDepth.style.display = 'none';
+
+                    formRels.style.display = 'flex';
+                    props.update()
+            } else if (iin1 != '' && iin2 != '' && type=='flul') {
+                    setMode("con3")
+                    iin1.childNodes[0].innerHTML = "Введите ИИН"
+                    iin2.childNodes[0].innerHTML = "Введите БИН"
+
+                    formSearchOptions.style.display = 'flex';
+
+                    iin1.style.display = 'flex';
+                    iin2.style.display = 'flex';
+
+                    formFio1.style.display = 'none';
+                    formFio2.style.display = 'none';
+
+                    formLimit.style.display = 'none';
+                    formDepth.style.display = 'none';
+
+                    formRels.style.display = 'flex';
+                    props.update()
+            }
+            else {
                 let value = document.getElementById("connections").value;
                 document.querySelector("#connections").value = "con1"
 
