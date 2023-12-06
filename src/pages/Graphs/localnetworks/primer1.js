@@ -163,10 +163,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 141592462643,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.6 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.6 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -295,10 +295,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 141592462643,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.6 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.6 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -312,15 +312,15 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 653589462643,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.2 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.2 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
                 },
-                "id": 141592462643
+                "id": 653589462643
             },
         ]
     },
@@ -499,10 +499,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 141592462643,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.6 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.6 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -516,15 +516,15 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 653589462643,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.2 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.2 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
                 },
-                "id": 141592462643
+                "id": 653589462643
             },
             {
                 "from": 462643,
@@ -533,10 +533,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 462643383279,
-                    "Vid_svyaziey": "ЭСФ",
+                    "Vid_svyaziey": "ЭСФ 1.2 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ЭСФ",
+                "label": "ЭСФ 1.2 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -1065,10 +1065,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 462643383279,
-                    "Vid_svyaziey": "ЭСФ",
+                    "Vid_svyaziey": "ЭСФ 1.2 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ЭСФ",
+                "label": "ЭСФ 1.2 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
