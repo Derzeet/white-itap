@@ -1366,10 +1366,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 399375105820,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.1 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.1 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -1535,10 +1535,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 399375105820,
-                    "Vid_svyaziey": "ГОСЗАКУП",
+                    "Vid_svyaziey": "ГОСЗАКУП 1.1 МЛРД",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "ГОСЗАКУП",
+                "label": "ГОСЗАКУП 1.1 МЛРД",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -1776,10 +1776,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 974944998628,
-                    "Vid_svyaziey": "Перевод средств",
+                    "Vid_svyaziey": "Перевод средств 200 МЛН",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "Перевод средств",
+                "label": "Перевод средств 200 МЛН",
                 "color": "black",
                 "font": {
                     "color": "black"
@@ -2508,10 +2508,10 @@ const searchResultsOfLieSearch = [
                 "properties": {
                     "data_konca": "NULL",
                     "id": 974944998628,
-                    "Vid_svyaziey": "Перевод средств",
+                    "Vid_svyaziey": "Перевод средств 200 МЛН",
                     "data_nachalo": "25.08.2021"
                 },
-                "label": "Перевод средств",
+                "label": "Перевод средств 200 МЛН",
                 "color": "black",
                 "font": {
                     "color": "black"
