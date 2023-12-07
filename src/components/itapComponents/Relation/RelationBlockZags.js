@@ -8,7 +8,7 @@ import chroma from 'chroma-js';
 // import {relationsLevel1, relationsLevel2} from '../../../data/relationsData.js'
 
 const relationsLevel1 = [
-    {value: "ZAGS", label: "ЗАГС"},
+    {value: "ZAGS,BLIZKIE_RODS,COUSIN,SIBLING", label: "ЗАГС"},
     {value: "REG_ADDRESS", label: "АДРЕС-РЕГИСТР"},
 ]
 
