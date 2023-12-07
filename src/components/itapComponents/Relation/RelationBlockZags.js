@@ -9,7 +9,7 @@ import chroma from 'chroma-js';
 
 const relationsLevel1 = [
     {value: "ZAGS,BLIZKIE_RODS,COUSIN,SIBLING", label: "ЗАГС"},
-    {value: "REG_ADDRESS", label: "АДРЕС-РЕГИСТР"},
+    {value: "REG_ADDRESS_CUR,REG_ADDRESS_HIST", label: "АДРЕС-РЕГИСТР"},
 ]
 
 const colourStyles = {
