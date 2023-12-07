@@ -495,7 +495,9 @@ const GraphNetnew = (props) => {
         params["sphereName"] = options.approvementObject ? options.approvementObject.sphereName : ''
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
-        axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(async (res) => {
+        //axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params})
+
+        axios.get((baseURL) + url, {params: params}).then(async (res) => {
             setJsonLocalSearchStatus(false)
             let _nodes = []
             let _edges = res.data.edges;
