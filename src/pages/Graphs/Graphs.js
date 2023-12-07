@@ -683,7 +683,8 @@ const GraphNetnew = (props) => {
         Network.redraw()
         Network.fit({});
       } else {
-        let _url = leftTabs == 'search1' ? baseURL1 : baseURL
+        // let _url = leftTabs == 'search1' ? baseURL1 : baseURL
+        let _url = baseURL
   
         axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
             let _nodes = []
