@@ -82,42 +82,45 @@ const LeftBar = (props) => {
         props.setLeftTabs(tab)
 
         if (tab == "search" || tab == "search1") {
+            var button = document.getElementById("initButton")
+            let formSearchOptions = document.querySelector("#formSearchOptions");
 
-                let formSearchOptions = document.querySelector("#formSearchOptions");
-                
-                let iin1 = document.querySelector("#formIIN1");
-                let iin2 = document.querySelector("#formIIN2");
-                
-                let formFio1 = document.querySelector("#formFio1")
-                let formFio2 = document.querySelector("#formFio2")
-                
-                let formLimit = document.querySelector("#formLimit")
-                let formDepth = document.querySelector("#formDepth")
-                
-                let formRels  = document.querySelector("#formRels")
-                
-                if (iin1 != '' && type == "fl") {
-                    let value = document.getElementById("connections").value;
-                    document.querySelector("#connections").value = "con1"
-                    
-                    iin1.style.display = 'flex';
-                    iin2.style.display = 'none';
-                    
-                    formFio1.style.display = 'none';
-                    formFio2.style.display = 'none';
-                    
-                    // setMode(value)
-                
-                iin1.childNodes[0].innerHTML = "Введите ИИН"
-                
-                formSearchOptions.style.display = 'flex';
-                
-                
-                formLimit.style.display = 'flex';
-                formDepth.style.display = 'flex';
-                formRels.style.display = 'flex';
-                props.update()
-                setMode("con1")
+            let iin1 = document.querySelector("#formIIN1");
+            let iin2 = document.querySelector("#formIIN2");
+
+            let formFio1 = document.querySelector("#formFio1")
+            let formFio2 = document.querySelector("#formFio2")
+
+            let formLimit = document.querySelector("#formLimit")
+            let formDepth = document.querySelector("#formDepth")
+
+            let formRels  = document.querySelector("#formRels")
+
+            if (iin1 != '' && type == "fl") {
+                let value = document.getElementById("connections").value;
+                document.querySelector("#connections").value = "con1"
+
+                iin1.style.display = 'flex';
+                iin2.style.display = 'none';
+
+                formFio1.style.display = 'none';
+                formFio2.style.display = 'none';
+
+                // setMode(value)
+
+            iin1.childNodes[0].innerHTML = "Введите ИИН"
+
+            formSearchOptions.style.display = 'flex';
+
+
+            formLimit.style.display = 'flex';
+            formDepth.style.display = 'flex';
+            formRels.style.display = 'flex';
+            props.update()
+            setMode("con1")
+            setTimeout(() => {
+                var button = document.getElementById("initButton")
+                button.click() }, 2000)
             } else if (iin1 != '' && type == "ul") {
                 setMode("con4")
                 iin1.childNodes[0].innerHTML = "Введите БИН"
@@ -135,6 +138,9 @@ const LeftBar = (props) => {
 
                 formRels.style.display = 'flex';
                 props.update()
+                setTimeout(() => {
+                    var button = document.getElementById("initButton")
+                    button.click() }, 2000)
             } else if (iin1 != '' && iin2 != '' && type=='flfl') {
                 setMode("con2")
                 iin1.childNodes[0].innerHTML = "Введите ИИН"
@@ -153,42 +159,51 @@ const LeftBar = (props) => {
 
                 formRels.style.display = 'flex';
                 props.update()
+                setTimeout(() => {
+                    var button = document.getElementById("initButton")
+                    button.click() }, 2000)
             } else if (iin1 != '' && iin2 != '' && type=='ulul') {
-                    setMode("con5")
-                    iin1.childNodes[0].innerHTML = "Введите БИН"
-                    iin2.childNodes[0].innerHTML = "Введите второй БИН"
+                setMode("con5")
+                iin1.childNodes[0].innerHTML = "Введите БИН"
+                iin2.childNodes[0].innerHTML = "Введите второй БИН"
 
-                    formSearchOptions.style.display = 'none';
+                formSearchOptions.style.display = 'none';
 
-                    iin1.style.display = 'flex';
-                    iin2.style.display = 'flex';
+                iin1.style.display = 'flex';
+                iin2.style.display = 'flex';
 
-                    formFio1.style.display = 'none';
-                    formFio2.style.display = 'none';
+                formFio1.style.display = 'none';
+                formFio2.style.display = 'none';
 
-                    formLimit.style.display = 'none';
-                    formDepth.style.display = 'none';
+                formLimit.style.display = 'none';
+                formDepth.style.display = 'none';
 
-                    formRels.style.display = 'flex';
-                    props.update()
+                formRels.style.display = 'flex';
+                props.update()
+                setTimeout(() => {
+                    var button = document.getElementById("initButton")
+                    button.click() }, 2000)
             } else if (iin1 != '' && iin2 != '' && type=='flul') {
-                    setMode("con3")
-                    iin1.childNodes[0].innerHTML = "Введите ИИН"
-                    iin2.childNodes[0].innerHTML = "Введите БИН"
+                setMode("con3")
+                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                iin2.childNodes[0].innerHTML = "Введите БИН"
 
-                    formSearchOptions.style.display = 'flex';
+                formSearchOptions.style.display = 'flex';
 
-                    iin1.style.display = 'flex';
-                    iin2.style.display = 'flex';
+                iin1.style.display = 'flex';
+                iin2.style.display = 'flex';
 
-                    formFio1.style.display = 'none';
-                    formFio2.style.display = 'none';
+                formFio1.style.display = 'none';
+                formFio2.style.display = 'none';
 
-                    formLimit.style.display = 'none';
-                    formDepth.style.display = 'none';
+                formLimit.style.display = 'none';
+                formDepth.style.display = 'none';
 
-                    formRels.style.display = 'flex';
-                    props.update()
+                formRels.style.display = 'flex';
+                props.update()
+                setTimeout(() => {
+                    var button = document.getElementById("initButton")
+                    button.click() }, 2000)
             }
             else {
                 let value = document.getElementById("connections").value;
@@ -836,7 +851,7 @@ const LeftBar = (props) => {
                                 Очистить
                             </Button>
 
-                            <Button variant="contained" onClick={event => {
+                            <Button id="initButton" variant="contained" onClick={event => {
                                 if (!checkAdmin() && !checkVip() && newReq)
                                     setModal(true)
                                 else
@@ -1271,7 +1286,7 @@ const LeftBar = (props) => {
                                 Очистить
                             </Button>
 
-                            <Button variant="contained" onClick={event => {
+                            <Button id="initButton" variant="contained" onClick={event => {
                                 if (!checkAdmin() && !checkVip() && newReq)
                                     setModal(true)
                                 else

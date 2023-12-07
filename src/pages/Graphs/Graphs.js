@@ -111,6 +111,9 @@ const GraphNetnew = (props) => {
 
     useEffect(() => {
         // console.log(openLimit, showRels)
+        if (type != '' || type != null) {
+            setIsLoading(true)
+        }
     }, [openLimit, showRels])
     
     //For Local usage
@@ -264,7 +267,7 @@ const GraphNetnew = (props) => {
         setPhysicsEnable(true)
 
         setIsLoading(true)
-    
+
         if (params == '890724350918') {
             const res = iin890724350918
             let _nodes = []
@@ -281,7 +284,7 @@ const GraphNetnew = (props) => {
                     t.id === value.id
                 ))
             )
-            
+
             res.nodes.filter(item => !nodes.includes(item)).map(item => {
                 setNodeSettings(item, params, "")
             })
@@ -301,7 +304,7 @@ const GraphNetnew = (props) => {
             graJSON.edges = _edges
             graJSON.paramsOfSearch = res.paramsOfSearch
             graJSON.typeOfSearch = res.typeOfSearch
-            
+
             setIsLoading(false)
             setShowActionBtn(true)
 
@@ -322,7 +325,7 @@ const GraphNetnew = (props) => {
                     t.id === value.id
                 ))
             )
-            
+
             res.nodes.filter(item => !nodes.includes(item)).map(item => {
                 setNodeSettings(item, params, "")
             })
@@ -342,7 +345,7 @@ const GraphNetnew = (props) => {
             graJSON.edges = _edges
             graJSON.paramsOfSearch = res.paramsOfSearch
             graJSON.typeOfSearch = res.typeOfSearch
-            
+
             setIsLoading(false)
             setShowActionBtn(true)
 
@@ -363,7 +366,7 @@ const GraphNetnew = (props) => {
                     t.id === value.id
                 ))
             )
-            
+
             res.nodes.filter(item => !nodes.includes(item)).map(item => {
                 setNodeSettings(item, params, "")
             })
@@ -383,12 +386,12 @@ const GraphNetnew = (props) => {
             graJSON.edges = _edges
             graJSON.paramsOfSearch = res.paramsOfSearch
             graJSON.typeOfSearch = res.typeOfSearch
-            
+
             setIsLoading(false)
             setShowActionBtn(true)
 
             return graJSON
-        } 
+        }
     }
 
     const Submit = async (options, tabName) => {
