@@ -428,7 +428,12 @@ const LeftBar = (props) => {
     }
 
     return (
-        <div className={`kendrick ${props.openLeft?'leftBar20':'leftBar0'}`}>
+        <div 
+            className={`kendrick ${props.openLeft?'leftBar20':'leftBar0'}`}
+            style={{
+                overflowX: modal ? 'unset' : 'hidden'
+            }}
+        >
             {modal ?
                 <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow>
                 : ("")}
@@ -438,7 +443,7 @@ const LeftBar = (props) => {
                     <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search1")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '50%'}}>Загс</Button>
                 </ButtonGroup>
                 <Button endIcon={<HistoryIcon/>} onClick={e => {setTab("history")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '100%'}}>История</Button>
-            </ButtonGroup>
+            </ButtonGroup> 
 
             <div className="leftBarClose">
                 <IconButton aria-label="expand row" size="small" onClick={() => props.handleLeftOpen(false)}>
@@ -815,7 +820,11 @@ const LeftBar = (props) => {
                         <TextField type="number"
                             value={limit}
                             sx={{color: '#1b376f'}}
-                            onChange={event => { setLimit(event.target.value) }}
+                            onChange={event => { 
+                                console.log(event.target.value)
+                                if (event.target.value < 0) return;
+                                setLimit(event.target.value)
+                            }}
                             // id="input_IIN2"
                             // className="input_IIN"
                             name="limit"
@@ -829,7 +838,10 @@ const LeftBar = (props) => {
                         <TextField type="number"
                             value={depth}
                             sx={{color: '#1b376f'}}
-                            onChange={event => {setDepth(event.target.value)}}
+                            onChange={event => {
+                                if (event.target.value < 0) return;
+                                setDepth(event.target.value)
+                            }}
                             name="depth"
                             placeholder="Введите глубину поиска"
                             />
@@ -1248,13 +1260,17 @@ const LeftBar = (props) => {
                         <div className="formBlock" id="formLimit" style={{display: "none"}}>
                             <label>Введите лимит</label>
                             <TextField type="number"
-                                       value={limit}
-                                       onChange={event => { setLimit(event.target.value) }}
+                                value={limit}
+                                onChange={event => { 
+                                    console.log(event.target.value)
+                                    if (event.target.value < 0) return;
+                                    setLimit(event.target.value)
+                                }}
                                 // id="input_IIN2"
                                 // className="input_IIN"
-                                       sx={{color: '#1b376f'}}
-                                       name="limit"
-                                       placeholder="Введите лимит объектов"
+                                sx={{color: '#1b376f'}}
+                                name="limit"
+                                placeholder="Введите лимит объектов"
 
                             />
                         </div>
@@ -1262,11 +1278,15 @@ const LeftBar = (props) => {
                         <div className="formBlock" id="formDepth" style={{display: "none"}}>
                             <label>Введите уровень</label>
                             <TextField type="number"
-                                       value={depth}
-                                       onChange={event => {setDepth(event.target.value)}}
-                                       name="depth"
-                                       sx={{color: '#1b376f'}}
-                                       placeholder="Введите глубину поиска"
+                                value={depth}
+                                onChange={event => {
+                                    console.log(event.target.value)
+                                    if (event.target.value < 0) return;
+                                    setDepth(event.target.value)
+                                }}
+                                name="depth"
+                                sx={{color: '#1b376f'}}
+                                placeholder="Введите глубину поиска"
                             />
                         </div>
 
