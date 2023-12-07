@@ -495,7 +495,9 @@ const GraphNetnew = (props) => {
         params["sphereName"] = options.approvementObject ? options.approvementObject.sphereName : ''
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
-        axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params}).then(async (res) => {
+        //axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params})
+
+        axios.get((baseURL) + url, {params: params}).then(async (res) => {
             setJsonLocalSearchStatus(false)
             let _nodes = []
             let _edges = res.data.edges;
@@ -681,7 +683,8 @@ const GraphNetnew = (props) => {
         Network.redraw()
         Network.fit({});
       } else {
-        let _url = leftTabs == 'search1' ? baseURL1 : baseURL
+        // let _url = leftTabs == 'search1' ? baseURL1 : baseURL
+        let _url = baseURL
   
         axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
             let _nodes = []
