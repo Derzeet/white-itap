@@ -13,7 +13,7 @@
     /* align-items: center; */
     justify-content: center;
 
-     background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 .modalWindow {
@@ -24,7 +24,8 @@
     background: #F2F0EE;
     color: white;
     width: max-content;
-    height: 400px;
+    max-height: 600px;
+    height: max-content;
 
     display: flex;
     flex-direction: column;
@@ -107,6 +108,12 @@
 .modalItem * {
     /* border: cadetblue 1px dashed; */
 }
+
+#approvements {
+    height: 30px;
+    padding-left: 4px;
+}
+
 #approvementSend, #approvementCancel {
     border: none;
     color: white;

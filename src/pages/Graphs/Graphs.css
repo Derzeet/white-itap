@@ -3,21 +3,14 @@ body {}
 .mainSection {
   background-color: #FFFFFF !important;
 
-
   position: relative;
-  /* flex: 1; */
 
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between;
   
-    gap: 20px; */
-
   width: 100%;
   box-sizing: border-box;
   height: calc(100vh - 95px);
-  /* Set the min-height of the main section */
-
 }
 
 .leftBarOpen {
