@@ -639,6 +639,150 @@ const searchResultsOfLieSearch = [
                 "group": "person"
             },
             {
+                "id": 123456,
+                "photoDbf": null,
+                "properties": {
+                    "Status": null,
+                    "IINBIN": "123456",
+                    "Buhgalter": null,
+                    "StatusPFR": null,
+                    "License": null,
+                    "BLOCK_ESF": null,
+                    "RegisterEndDate": null,
+                    "Source": "MU",
+                    "Name": "ВУЗ 1",
+                    "Type": "ЮЛ",
+                    "RegisterStartDate": null,
+                    "BEZDEYSTVIA_UL": null,
+                    "PersonID": null,
+                    "FullNameNatLanguage": "ВУЗ 1",
+                    "Bankrot": null,
+                    "ERDR": null,
+                    "DateRegisterAction": "2023-05-26",
+                    "FPG": null,
+                    "DeadlinePassed": null,
+                    "FullNameIP": null
+                },
+                "relCount": 132,
+                "label": "132\t\t\t\t\t\t\t\t\t\n\nВУЗ 1",
+                "opened": false,
+                "group": "company"
+            },
+        ],
+        "edges": [
+            {
+                "from": 502884,
+                "to": 123456,
+                "type": "UCHILSYA",
+                "properties": {
+                    "data_konca": "NULL",
+                    "id": 502884123456,
+                    "Vid_svyaziey": "УЧИЛСЯ",
+                    "data_nachalo": "25.08.2021"
+                },
+                "label": "УЧИЛСЯ",
+                "color": "red",
+                "font": {
+                    "color": "red"
+                },
+                "id": 502884123456
+            },
+            {
+                "from": 462643,
+                "to": 502884,
+                "type": "DIRECTOR",
+                "properties": {
+                    "data_konca": "NULL",
+                    "id": 462643502884,
+                    "Vid_svyaziey": "Директор",
+                    "data_nachalo": "25.08.2021"
+                },
+                "label": "ЭСФ",
+                "color": "black",
+                "font": {
+                    "color": "black"
+                },
+                "id": 462643502884
+            },
+        ]
+    },
+    {
+        "option": "con4",
+        "object": "123456",
+        "nodes": [
+            {
+                "id": 123456,
+                "photoDbf": null,
+                "properties": {
+                    "Status": null,
+                    "IINBIN": "123456",
+                    "Buhgalter": null,
+                    "StatusPFR": null,
+                    "License": null,
+                    "BLOCK_ESF": null,
+                    "RegisterEndDate": null,
+                    "Source": "MU",
+                    "Name": "ВУЗ 1",
+                    "Type": "ЮЛ",
+                    "RegisterStartDate": null,
+                    "BEZDEYSTVIA_UL": null,
+                    "PersonID": null,
+                    "FullNameNatLanguage": "ВУЗ 1",
+                    "Bankrot": null,
+                    "ERDR": null,
+                    "DateRegisterAction": "2023-05-26",
+                    "FPG": null,
+                    "DeadlinePassed": null,
+                    "FullNameIP": null
+                },
+                "relCount": 132,
+                "label": "132\t\t\t\t\t\t\t\t\t\n\nВУЗ 1",
+                "opened": false,
+                "group": "company"
+            },
+            {
+                "id": 502884,
+                "photoDbf": {
+                    "iin": "502884",
+                    "document_type_id": "2",
+                    "photo": avaPhoto,
+                    "date": "2020-03-02 09:35:16"
+                },
+                "properties": {
+                    "Nation": "ҚАЗАҚ",
+                    "Death_Status": null,
+                    "Buhgalter": null,
+                    "StatusPFR": null,
+                    "Place_of_Birth": "ҚАЗАҚСТАН ТҮРКІСТАН МАҚТААРАЛ АУДАНЫ ЖЕТІСАЙ",
+                    "Pristavanie": null,
+                    "Source": "MU",
+                    "Notarius": null,
+                    "Name": "РАХАТ",
+                    "Data_Rozhdenya": "2004-02-05",
+                    "Propal": null,
+                    "Autditor": null,
+                    "PDL": null,
+                    "SroppedByOrgan": null,
+                    "id": 502884,
+                    "Status": null,
+                    "CHSI": null,
+                    "StoppedBySud": null,
+                    "Rozisk": null,
+                    "Citizenship": "ҚАЗАҚСТАН",
+                    "Status_Minzdrav": null,
+                    "FIO": "РАХАТ",
+                    "IIN": "502884",
+                    "Doljnik": null,
+                    "Family": "",
+                    "Otchestvo": "",
+                    "DeadlinePassed": null
+                },
+                "relCount": 6,
+                "label": "6\t\t\t\t\t\t\t\t\t\n\nРАХАТ",
+                "opened": false,
+                "group": "person"
+            },
+            {
                 "id": 197169,
                 "photoDbf": {
                     "iin": "197169",
@@ -684,11 +828,11 @@ const searchResultsOfLieSearch = [
         "edges": [
             {
                 "from": 502884,
-                "to": 197169,
+                "to": 123456,
                 "type": "UCHILSYA",
                 "properties": {
                     "data_konca": "NULL",
-                    "id": 502884197169,
+                    "id": 502884123456,
                     "Vid_svyaziey": "УЧИЛСЯ",
                     "data_nachalo": "25.08.2021"
                 },
@@ -697,24 +841,24 @@ const searchResultsOfLieSearch = [
                 "font": {
                     "color": "red"
                 },
-                "id": 502884197169
+                "id": 502884123456
             },
             {
-                "from": 462643,
-                "to": 502884,
-                "type": "DIRECTOR",
+                "from": 197169,
+                "to": 123456,
+                "type": "UCHILSYA",
                 "properties": {
                     "data_konca": "NULL",
-                    "id": 462643502884,
-                    "Vid_svyaziey": "Директор",
-                    "data_nachalo": "25.08.2021"
+                    "id": 197169123456,
+                    "Vid_svyaziey": "УЧИЛСЯ",
+                    "data_nachalo": "25.08.2020"
                 },
-                "label": "ЭСФ",
-                "color": "black",
+                "label": "УЧИЛСЯ",
+                "color": "red",
                 "font": {
-                    "color": "black"
+                    "color": "red"
                 },
-                "id": 462643502884
+                "id": 197169123456
             },
         ]
     },
@@ -723,46 +867,34 @@ const searchResultsOfLieSearch = [
         "object": "197169",
         "nodes": [
             {
-                "id": 502884,
-                "photoDbf": {
-                    "iin": "502884",
-                    "document_type_id": "2",
-                    "photo": avaPhoto,
-                    "date": "2020-03-02 09:35:16"
-                },
+                "id": 123456,
+                "photoDbf": null,
                 "properties": {
-                    "Nation": "ҚАЗАҚ",
-                    "Death_Status": null,
+                    "Status": null,
+                    "IINBIN": "123456",
                     "Buhgalter": null,
                     "StatusPFR": null,
-                    "Place_of_Birth": "ҚАЗАҚСТАН ТҮРКІСТАН МАҚТААРАЛ АУДАНЫ ЖЕТІСАЙ",
-                    "Pristavanie": null,
+                    "License": null,
+                    "BLOCK_ESF": null,
+                    "RegisterEndDate": null,
                     "Source": "MU",
-                    "Notarius": null,
-                    "Name": "РАХАТ",
-                    "Data_Rozhdenya": "2004-02-05",
-                    "Propal": null,
-                    "Autditor": null,
-                    "PDL": null,
-                    "SroppedByOrgan": null,
-                    "id": 502884,
-                    "Status": null,
-                    "CHSI": null,
-                    "StoppedBySud": null,
-                    "Rozisk": null,
-                    "Citizenship": "ҚАЗАҚСТАН",
-                    "Status_Minzdrav": null,
-                    "FIO": "РАХАТ",
-                    "IIN": "502884",
-                    "Doljnik": null,
-                    "Family": "",
-                    "Otchestvo": "",
-                    "DeadlinePassed": null
+                    "Name": "ВУЗ 1",
+                    "Type": "ЮЛ",
+                    "RegisterStartDate": null,
+                    "BEZDEYSTVIA_UL": null,
+                    "PersonID": null,
+                    "FullNameNatLanguage": "ВУЗ 1",
+                    "Bankrot": null,
+                    "ERDR": null,
+                    "DateRegisterAction": "2023-05-26",
+                    "FPG": null,
+                    "DeadlinePassed": null,
+                    "FullNameIP": null
                 },
-                "relCount": 6,
-                "label": "6\t\t\t\t\t\t\t\t\t\n\nРАХАТ",
+                "relCount": 132,
+                "label": "132\t\t\t\t\t\t\t\t\t\n\nВУЗ 1",
                 "opened": false,
-                "group": "person"
+                "group": "company"
             },
             {
                 "id": 197169,
@@ -881,12 +1013,12 @@ const searchResultsOfLieSearch = [
         ],
         "edges": [
             {
-                "from": 502884,
-                "to": 197169,
+                "from": 197169,
+                "to": 123456,
                 "type": "UCHILSYA",
                 "properties": {
                     "data_konca": "NULL",
-                    "id": 502884197169,
+                    "id": 197169123456,
                     "Vid_svyaziey": "УЧИЛСЯ",
                     "data_nachalo": "25.08.2021"
                 },
@@ -895,7 +1027,7 @@ const searchResultsOfLieSearch = [
                 "font": {
                     "color": "red"
                 },
-                "id": 502884197169
+                "id": 197169123456
             },
             {
                 "from": 383279,
