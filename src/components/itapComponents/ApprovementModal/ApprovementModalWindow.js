@@ -5,6 +5,8 @@ import './approvementModal.css'
 const ApprovementModalWindow = (props) => {
     const [approvement, setApprovement] = useState("app_0")
 
+    const today = new Date().toISOString().split('T')[0]
+
     const UgDelo = () => {
         return (
             <>
@@ -18,9 +20,15 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="date" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
-                        onChange={() => {
-                        }}/>
+                    <input 
+                        type="date" 
+                        name="orderDate" 
+                        className="sendItem requiredItem" 
+                        placeholder="01.01.23"
+                        max={today}
+                        onChange={(event) => {
+                        }}
+                    />
                 </div>
 
                 <div className="modalItem">
@@ -44,9 +52,15 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
-                        onChange={() => {
-                        }}/>
+                    <input 
+                        type="date" 
+                        name="orderDate" 
+                        className="sendItem requiredItem" 
+                        placeholder="01.01.23"
+                        max={today}
+                        onChange={(event) => {
+                        }}
+                    />
                 </div>
 
                 <div className="modalItem">
@@ -70,9 +84,15 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
-                        onChange={() => {
-                        }}/>
+                    <input 
+                        type="date" 
+                        name="orderDate" 
+                        className="sendItem requiredItem" 
+                        placeholder="01.01.23"
+                        max={today}
+                        onChange={(event) => {
+                        }}
+                    />
                 </div>
 
                 <div className="modalItem">
@@ -110,9 +130,15 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
-                        onChange={() => {
-                        }}/>
+                    <input 
+                        type="date" 
+                        name="orderDate" 
+                        className="sendItem requiredItem" 
+                        placeholder="01.01.23"
+                        max={today}
+                        onChange={(event) => {
+                        }}
+                    />
                 </div>
 
                 <div className="modalItem">
@@ -136,9 +162,15 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
-                        onChange={() => {
-                        }}/>
+                    <input 
+                        type="date" 
+                        name="orderDate" 
+                        className="sendItem requiredItem" 
+                        placeholder="01.01.23"
+                        max={today}
+                        onChange={(event) => {
+                        }}
+                    />
                 </div>
             </>
         )
@@ -155,15 +187,32 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
-                        onChange={() => {
-                        }}/>
+                    <input 
+                        type="date" 
+                        name="orderDate" 
+                        className="sendItem requiredItem" 
+                        placeholder="01.01.23"
+                        max={today}
+                        onChange={(event) => {
+                        }}
+                    />
                 </div>
 
                 <div className="modalItem">
                     <label>Введите ФИО руководства *</label>
-                    <input type="text" name="rukName" className="sendItem requiredItem" placeholder="Куанышбеков Мадияр Еркебуланулы"
-                        onChange={() => {
+                    <input 
+                        type="text" 
+                        name="rukName" 
+                        className="sendItem requiredItem" 
+                        placeholder="Куанышбеков Мадияр Еркебуланулы"
+                        onChange={(event) => {
+                            let value = event.target.value;
+                            console.log(value.charAt(value.length-1))
+                            let lastCh = value.charAt(value.length-1)
+
+                            if (!isNaN(lastCh)) {
+                                event.target.value = value.slice(0, -1);;
+                            }
                         }}/>
                 </div>
             </>
@@ -249,7 +298,10 @@ const ApprovementModalWindow = (props) => {
                 <div className="modalItems">
                     <div className="modalItem">
                         <label style={{color: "#000000"}}>Выберите основание</label>
-                        <select name="approvement_type" className="sendItem" id='approvements' 
+                        <select 
+                            name="approvement_type" 
+                            className="sendItem" 
+                            id='approvements' 
                             onChange={event => {
                                 setApprovement(event.target.value);
                                 setApprovements()
