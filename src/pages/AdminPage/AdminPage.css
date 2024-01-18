@@ -25,6 +25,16 @@ section {
     /* border: red 1px solid; */
 }
 
+.displayUnfair h1 {
+    user-select: none;
+
+}
+
+.displayUnfair:hover > h1, svg {
+    opacity: 0.5;
+
+}
+
 .countStats > div {
     width: 324px;
 

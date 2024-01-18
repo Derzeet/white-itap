@@ -75,8 +75,16 @@ const AdminPage = (props) => {
                         <div><a style={{color:"black"}}>{todayLogs}</a></div>
                     </div>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <h1 style={{color: 'black', cursor: 'pointer'}} onClick={() => {setUnfair(!displayUnfair)}}>Нарушение</h1>
+                <div className="displayUnfair" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} onClick={() => {setUnfair(!displayUnfair)}}>
+                    <h1 style={{color: 'black', cursor: 'pointer'}} >Нарушение</h1>
+                    {displayUnfair ? 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 9L12 15L6 9" stroke="#33363F" stroke-width="2"/>
+                    </svg> : 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 15L12 9L6 15" stroke="#33363F" stroke-width="2"/>
+                    </svg>
+                    }
                 </div>
                 <div>
                     <TableContainer style={{display: displayUnfair ? "block" : "none"}}>
