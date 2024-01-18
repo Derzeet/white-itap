@@ -125,6 +125,7 @@ const RelationBlock = (props) => {
             data-content="Выберите связи"
         >
             <ReactSelect
+                placeholder={"Выбрать"}
                 className="relsSelect"
                 options={handleOptions()}
                 isMulti

@@ -979,8 +979,9 @@ const GraphNetnew = (props) => {
                     "ИИН": sp.IIN || "Нет ИИН-а",
                     "Имя": sp.FIO ? sp.FIO.split(" ")[1] : "Нет имени",
                     "Фамилия": sp.Family || "Нет фамилии",
-                    "ФИО": sp.FIO || "Нет ФИО",
                     "Отчество": sp.Otchestvo || "Нет отчества",
+                    "ФИО": sp.FIO || "Нет ФИО",
+
                     "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения",
                 }, '#nodeInfoInner')
 

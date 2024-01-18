@@ -44,7 +44,7 @@ const RightBar = (props) => {
       <div className="infoBlock" id="infoBlock">
         <div>
 
-          <div className="infoBlockTitle">Информация {props.isOnSelectNode || props.isOnSelectEdge ? "о объекте" : ""}</div>
+          <div className="infoBlockTitle">Информация {props.isOnSelectNode || props.isOnSelectEdge ? "об объекте" : ""}</div>
           <div className="nodeImg"
               style={{display: props.showImage 
               ? "flex" : "none"}}>
