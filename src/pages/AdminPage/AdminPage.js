@@ -106,7 +106,7 @@ const AdminPage = (props) => {
                     </TableContainer>
                 </div>
                 <div>
-                    {/* <UsersTable></UsersTable> */}
+                    <UsersTable></UsersTable>
                 </div>
                 <div className="footer"></div>
             </section>
