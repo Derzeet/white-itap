@@ -7,7 +7,7 @@ import './SignInForm.css'
 
 import authService from "../../../services/auth.service";
 
-const SignInForm = () => {
+const SignInForm = ({error, setError}) => {
     const navigate = useNavigate();
 
     const { 
@@ -33,6 +33,11 @@ const SignInForm = () => {
             },
             error => {
                 console.log(error)
+                if (error.request.response.status == 401) {
+                    setError("Некорректное имя пользователя или пароль")
+                } else {
+                    setError("Нейзвестная ошибка")
+                }
             }
         );
     }
@@ -42,7 +47,7 @@ const SignInForm = () => {
 
     const loginOptions = {
         username: { 
-            required: "Username is required", 
+            required: "Зполните логин", 
             minLength: {
                 value: 1,
                 message: "Minimum length is 1"
@@ -90,7 +95,7 @@ const SignInForm = () => {
                     <Button type="submit" onClick={handleSubmit(handleLogin, handleErrors)}value="Войти">Войти</Button>
                 </div>
 
-                {
+                {/* {
                     Object.keys(errors).length != 0 ?
                     <div className="errorsBlock">
                         <div className="title">Invalid Sign in</div>
@@ -100,7 +105,7 @@ const SignInForm = () => {
                         </div>
                     </div> 
                     : ""
-                }
+                } */}
             </form>
         </div>
     );
