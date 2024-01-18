@@ -21,6 +21,8 @@ const AdminPage = (props) => {
     const userSession = JSON.parse(localStorage.getItem("user"))
     const navigate = useNavigate()
 
+    const [displayUnfair, setUnfair] = useState(false)
+
     const [users, setUsers] = useState(0)
     const [logs, setLogs] = useState(0)
     const [todayLogs, setTodayLogs] = useState(0)
@@ -74,10 +76,10 @@ const AdminPage = (props) => {
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <h1 style={{color: 'black'}}>Нарушение</h1>
+                    <h1 style={{color: 'black', cursor: 'pointer'}} onClick={() => {setUnfair(!displayUnfair)}}>Нарушение</h1>
                 </div>
                 <div>
-                    <TableContainer>
+                    <TableContainer style={{display: displayUnfair ? "block" : "none"}}>
                         <Table className="table adminPanelTable uitable">
                             <TableHead>
                                 <TableRow className="uitableHead">
@@ -104,7 +106,7 @@ const AdminPage = (props) => {
                     </TableContainer>
                 </div>
                 <div>
-                    <UsersTable></UsersTable>
+                    {/* <UsersTable></UsersTable> */}
                 </div>
                 <div className="footer"></div>
             </section>

@@ -31,6 +31,9 @@ const GrayNavbar = (props) => {
             navigate('/login')
         }
     })
+    useEffect(() => {
+        const a = !userSession? toLogin() : ""
+    })
 
     const logoutHandler = () => {
         authService.logout();
@@ -74,9 +77,6 @@ const GrayNavbar = (props) => {
         prevOpen.current = open;
     }, [open]);
 
-    useEffect(() => {
-        const a = !userSession? toLogin() : ""
-    })
 
     const toAdmin = () => {
         navigate('/admin')
