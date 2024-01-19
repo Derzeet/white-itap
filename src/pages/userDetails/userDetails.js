@@ -35,7 +35,8 @@ class UserDetails extends Component {
         logs: [],
         role: "",
         newRole: 0,
-        id: 0
+        id: 0,
+        newPassword: "",
     }
     
     componentDidMount = () => {
@@ -74,6 +75,28 @@ class UserDetails extends Component {
                 // window.location.reload(false)
             )
     }
+
+    changePassword = async (e) =>  {
+        console.log(e)
+        const userSession = JSON.parse(localStorage.getItem("user"))
+
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
+        axios.post("http://192.168.30.24:9091/api/finpol/auth/changePassword", null, 
+            { params: { 
+                password: this.state.newPassword,
+                username: e, 
+            }})
+            .then(
+                res => {
+                    if (res.status == 200) {
+                        let alert = document.getElementById('alertofChange')
+                        alert.style.display = 'block'
+                    }
+                }
+                // window.location.reload(false)
+            )
+    }
+
 
     rels = (e) => {
         console.log(e)
@@ -151,9 +174,14 @@ class UserDetails extends Component {
                     <button className="changeRole" onClick={e => this.promote(this.state.user.id)} >Изменить</button>
                     </div>
                     <div id="alertofChange" style={{display: 'none'}}>
-                    <Alert severity="success" style={{backgroundColor: '#17191C'}}>
-                        Уровень доступа пользователя изменен успешно! Перезагрузите страницу для того чтобы обновить данные
+                    <Alert severity="success" style={{backgroundColor: 'rgb(132, 216, 153)'}}>
+                        Изменения внесены в базу! Перезагрузите страницу для того чтобы обновить данные
                     </Alert>
+                    </div>
+
+                    <div className="password-change">
+                        <input value={this.state.newPassword} onChange={event => this.setState({newPassword: event.target.value})}/>
+                        <a onClick = {(event) => this.changePassword(this.state.user.username)}>Изменить пароль</a>
                     </div>
                     
                     <div className="countStatsUser">
