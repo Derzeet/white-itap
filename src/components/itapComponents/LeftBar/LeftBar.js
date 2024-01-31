@@ -458,6 +458,7 @@ const LeftBar = (props) => {
                         <div className="select" style={{width: '100%'}}>
                             <Select  value={mode} sx={{width: '100%', color: '#1b376f'}} name="connections" id='connections'
                                 onChange={event => {
+                                    setNewReq(true)
                                     let value = document.getElementById("connections").value;
 
                                     let formSearchOptions = document.querySelector("#formSearchOptions");
@@ -475,6 +476,7 @@ const LeftBar = (props) => {
                                     setMode(event.target.value)
 
                                     if (event.target.value === "con1") {
+                                        setNewReq(true)
                                         iin1.childNodes[0].innerHTML = "Введите ИИН"
 
                                         formSearchOptions.style.display = 'flex';
@@ -501,6 +503,7 @@ const LeftBar = (props) => {
                                         props.update()
                                     }
                                     else if (event.target.value ==="con2") {
+                                        setNewReq(true)
                                         iin1.childNodes[0].innerHTML = "Введите ИИН"
                                         iin2.childNodes[0].innerHTML = "Введите второй ИИН"
 
@@ -528,6 +531,7 @@ const LeftBar = (props) => {
                                         props.update()
                                     }
                                     else if (event.target.value ==="con3") {
+                                        setNewReq(true)
                                         iin1.childNodes[0].innerHTML = "Введите ИИН"
                                         iin2.childNodes[0].innerHTML = "Введите БИН"
 
@@ -555,6 +559,7 @@ const LeftBar = (props) => {
                                         props.update()
                                     }
                                     else if (event.target.value === "con4") {
+                                        setNewReq(true)
                                         iin1.childNodes[0].innerHTML = "Введите БИН"
 
                                         formSearchOptions.style.display = 'none';
@@ -572,6 +577,7 @@ const LeftBar = (props) => {
                                         props.update()
                                     }
                                     else if (event.target.value === "con5") {
+                                        setNewReq(true)
                                         iin1.childNodes[0].innerHTML = "Введите БИН"
                                         iin2.childNodes[0].innerHTML = "Введите второй БИН"
 
@@ -657,6 +663,7 @@ const LeftBar = (props) => {
                     <div id="formFio1" style={{display: "none"}}>
                         <div>
                             <input id="accurateCheckbox1" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
+                                setNewReq(true)
                                 setChecks1(event.target.checked)
                             }}/>
                             <label htmlFor="accurateCheckbox1">Точный поиск</label>
@@ -664,7 +671,10 @@ const LeftBar = (props) => {
                         <div className="formBlock">
                             <label>Введите Фамилию первого объекта </label>
                             {!checks1 ?
-                            <Select sx={{ width: '100%'}} value={firstFamilia} onChange={e => {setFirstFamilia(e.target.value)}}>
+                            <Select sx={{ width: '100%'}} value={firstFamilia} onChange={e => {
+                                setNewReq(true)
+                                setFirstFamilia(e.target.value)
+                                }}>
                                 <MenuItem value="starts">Начинается с</MenuItem>
                                 <MenuItem value="include">Включает</MenuItem>
                                 <MenuItem value="ends">Заканчивается</MenuItem>
@@ -687,7 +697,9 @@ const LeftBar = (props) => {
                         <div className="formBlock">
                             <label>Введите Имя первого объекта </label>
                             {!checks1 ?
-                            <Select sx={{ width: '100%'}} value={firstName} onChange={e => {setFirstName(e.target.value)}}>
+                            <Select sx={{ width: '100%'}} value={firstName} onChange={e => {
+                                setNewReq(true)
+                                setFirstName(e.target.value)}}>
                                 <MenuItem value="starts">Начинается с</MenuItem>
                                 <MenuItem value="include">Включает</MenuItem>
                                 <MenuItem value="ends">Заканчивается</MenuItem>
@@ -710,7 +722,10 @@ const LeftBar = (props) => {
                         <div className="formBlock">
                             <label>Введите Отчество первого объекта </label>
                             {!checks1 ?
-                            <Select sx={{width: "100%"}} value= {firstFatherName} onChange={e => {setFirstFatherName(e.target.value)}}>
+                            <Select sx={{width: "100%"}} value= {firstFatherName} onChange={e => {
+                                setNewReq(true)
+                                setFirstFatherName(e.target.value)
+                                }}>
                                 <MenuItem value="starts">Начинается с</MenuItem>
                                 <MenuItem value="include">Включает</MenuItem>
                                 <MenuItem value="ends">Заканчивается</MenuItem>
@@ -736,7 +751,9 @@ const LeftBar = (props) => {
                         <TextField type="text"
                             value={iin2}
                             sx={{color: '#1b376f'}}
-                            onChange={event => { setIIN2(event.target.value) }}
+                            onChange={event => { 
+                                setNewReq(true)
+                                setIIN2(event.target.value) }}
                             id="input_IIN2"
                             // className="input_IIN"
                             name="iin2"
@@ -747,6 +764,7 @@ const LeftBar = (props) => {
                     <div id="formFio2" style={{display: "none"}}>
                         <div>
                             <input id="accurateCheckbox2" className="accurateCheckbox" type={"checkbox"} onChange={(event) => {
+                                setNewReq(true)
                                 setChecks2(event.target.checked)
                             }}/>
                             <label htmlFor="accurateCheckbox1">Точный поиск</label>
@@ -754,7 +772,9 @@ const LeftBar = (props) => {
                         <div className="formBlock">
                             <label>Введите Фамилию второго объекта </label>
                             {!checks2 ?
-                            <Select sx={{width: "100%"}} value= {secondFamilia} onChange={e => {setSecondFamilia(e.target.value)}}>
+                            <Select sx={{width: "100%"}} value= {secondFamilia} onChange={e => {
+                                setNewReq(true)
+                                setSecondFamilia(e.target.value)}}>
                                 <MenuItem value="starts">Начинается с</MenuItem>
                                 <MenuItem value="include">Включает</MenuItem>
                                 <MenuItem value="ends">Заканчивается</MenuItem>
@@ -764,7 +784,9 @@ const LeftBar = (props) => {
                             <TextField type="text"
                                 value={lname2}
                                 sx={{color: '#1b376f'}}
-                                onChange={event => { setLName2(event.target.value) }}
+                                onChange={event => { 
+                                    setNewReq(true)
+                                    setLName2(event.target.value) }}
                                 id="input_FIO2_1"
                                 // className="input_IIN"
                                 name="Fam2"
@@ -775,7 +797,9 @@ const LeftBar = (props) => {
                         <div className="formBlock">
                             <label>Введите Имя второго объекта </label>
                             {!checks2 ?
-                            <Select sx={{width: "100%"}} value= {secondName} onChange={e => {setSecondName(e.target.value)}}>
+                            <Select sx={{width: "100%"}} value= {secondName} onChange={e => {
+                                setNewReq(true)
+                                setSecondName(e.target.value)}}>
                                 <MenuItem value="starts">Начинается с</MenuItem>
                                 <MenuItem value="include">Включает</MenuItem>
                                 <MenuItem value="ends">Заканчивается</MenuItem>
@@ -785,7 +809,9 @@ const LeftBar = (props) => {
                             <TextField type="text"
                                 value={name2}
                                 sx={{color: '#1b376f'}}
-                                onChange={event => { setName2(event.target.value) }}
+                                onChange={event => { 
+                                    setNewReq(true)
+                                    setName2(event.target.value) }}
                                 id="input_FIO2_2"
                                 // className="input_IIN"
                                 name="fname2"
@@ -796,7 +822,9 @@ const LeftBar = (props) => {
                         <div className="formBlock">
                             <label>Введите Отчество второго объекта </label>
                             {!checks2 ?
-                            <Select sx={{width: "100%"}} value= {secondFatherName} onChange={e => {setSecondFatherName(e.target.value)}}>
+                            <Select sx={{width: "100%"}} value= {secondFatherName} onChange={e => {
+                                setNewReq(true)
+                                setSecondFatherName(e.target.value)}}>
                                 <MenuItem value="starts">Начинается с</MenuItem>
                                 <MenuItem value="include">Включает</MenuItem>
                                 <MenuItem value="ends">Заканчивается</MenuItem>
@@ -806,7 +834,9 @@ const LeftBar = (props) => {
                             <TextField type="text"
                                 value={fname2}
                                 sx={{color: '#1b376f'}}
-                                onChange={event => { setFName2(event.target.value) }}
+                                onChange={event => { 
+                                    setNewReq(true)
+                                    setFName2(event.target.value) }}
                                 id="input_FIO2_3"
                                 // className="input_IIN"
                                 name="lname2"
@@ -821,6 +851,7 @@ const LeftBar = (props) => {
                             value={limit}
                             sx={{color: '#1b376f'}}
                             onChange={event => { 
+                                setNewReq(true)
                                 console.log(event.target.value)
                                 if (event.target.value < 0) return;
                                 setLimit(event.target.value)
@@ -839,6 +870,7 @@ const LeftBar = (props) => {
                             value={depth}
                             sx={{color: '#1b376f'}}
                             onChange={event => {
+                                setNewReq(true)
                                 if (event.target.value < 0) return;
                                 setDepth(event.target.value)
                             }}
@@ -903,137 +935,138 @@ const LeftBar = (props) => {
                             <div className="select">
                                 <Select  value={mode} sx={{width: '100%'}} name="connections" id='connections'
                                          onChange={event => {
-                                             let value = document.getElementById("connections").value;
+                                            setNewReq(true)
+                                            let value = document.getElementById("connections").value;
 
-                                             let formSearchOptions = document.querySelector("#formSearchOptions");
+                                            let formSearchOptions = document.querySelector("#formSearchOptions");
 
-                                             let iin1 = document.querySelector("#formIIN1");
-                                             let iin2 = document.querySelector("#formIIN2");
+                                            let iin1 = document.querySelector("#formIIN1");
+                                            let iin2 = document.querySelector("#formIIN2");
 
-                                             let formFio1 = document.querySelector("#formFio1")
-                                             let formFio2 = document.querySelector("#formFio2")
+                                            let formFio1 = document.querySelector("#formFio1")
+                                            let formFio2 = document.querySelector("#formFio2")
 
-                                             let formLimit = document.querySelector("#formLimit")
-                                             let formDepth = document.querySelector("#formDepth")
-                                             let formRels  = document.querySelector("#formRels")
+                                            let formLimit = document.querySelector("#formLimit")
+                                            let formDepth = document.querySelector("#formDepth")
+                                            let formRels  = document.querySelector("#formRels")
 
-                                             setMode(event.target.value)
+                                            setMode(event.target.value)
 
-                                             if (event.target.value === "con1") {
-                                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                            if (event.target.value === "con1") {
+                                                iin1.childNodes[0].innerHTML = "Введите ИИН"
 
-                                                 formSearchOptions.style.display = 'flex';
+                                                formSearchOptions.style.display = 'flex';
 
-                                                 if (searchOption == "iinOption") {
-                                                     iin1.style.display = 'flex';
-                                                     iin2.style.display = 'none';
+                                                if (searchOption == "iinOption") {
+                                                    iin1.style.display = 'flex';
+                                                    iin2.style.display = 'none';
 
-                                                     formFio1.style.display = 'none';
-                                                     formFio2.style.display = 'none';
+                                                    formFio1.style.display = 'none';
+                                                    formFio2.style.display = 'none';
 
-                                                 } else if (searchOption == "fioOption") {
-                                                     iin1.style.display = 'none';
-                                                     iin2.style.display = 'none';
+                                                } else if (searchOption == "fioOption") {
+                                                    iin1.style.display = 'none';
+                                                    iin2.style.display = 'none';
 
-                                                     formFio1.style.display = 'flex';
-                                                     formFio2.style.display = 'none';
-                                                 }
+                                                    formFio1.style.display = 'flex';
+                                                    formFio2.style.display = 'none';
+                                                }
 
 
-                                                 formLimit.style.display = 'flex';
-                                                 formDepth.style.display = 'flex';
-                                                 formRels.style.display = 'flex';
-                                                 props.update()
-                                             }
-                                             else if (event.target.value ==="con2") {
-                                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
-                                                 iin2.childNodes[0].innerHTML = "Введите второй ИИН"
+                                                formLimit.style.display = 'flex';
+                                                formDepth.style.display = 'flex';
+                                                formRels.style.display = 'flex';
+                                                props.update()
+                                            }
+                                            else if (event.target.value ==="con2") {
+                                                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                                iin2.childNodes[0].innerHTML = "Введите второй ИИН"
 
-                                                 formSearchOptions.style.display = 'flex';
+                                                formSearchOptions.style.display = 'flex';
 
-                                                 if (searchOption == "iinOption") {
-                                                     iin1.style.display = 'flex';
-                                                     iin2.style.display = 'flex';
+                                                if (searchOption == "iinOption") {
+                                                    iin1.style.display = 'flex';
+                                                    iin2.style.display = 'flex';
 
-                                                     formFio1.style.display = 'none';
-                                                     formFio2.style.display = 'none';
+                                                    formFio1.style.display = 'none';
+                                                    formFio2.style.display = 'none';
 
-                                                 } else if (searchOption == "fioOption") {
-                                                     iin1.style.display = 'none';
-                                                     iin2.style.display = 'none';
+                                                } else if (searchOption == "fioOption") {
+                                                    iin1.style.display = 'none';
+                                                    iin2.style.display = 'none';
 
-                                                     formFio1.style.display = 'flex';
-                                                     formFio2.style.display = 'flex';
-                                                 }
+                                                    formFio1.style.display = 'flex';
+                                                    formFio2.style.display = 'flex';
+                                                }
 
-                                                 formLimit.style.display = 'none';
-                                                 formDepth.style.display = 'none';
+                                                formLimit.style.display = 'none';
+                                                formDepth.style.display = 'none';
 
-                                                 formRels.style.display = 'flex';
-                                                 props.update()
-                                             }
-                                             else if (event.target.value ==="con3") {
-                                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
-                                                 iin2.childNodes[0].innerHTML = "Введите БИН"
+                                                formRels.style.display = 'flex';
+                                                props.update()
+                                            }
+                                            else if (event.target.value ==="con3") {
+                                                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                                iin2.childNodes[0].innerHTML = "Введите БИН"
 
-                                                 formSearchOptions.style.display = 'flex';
+                                                formSearchOptions.style.display = 'flex';
 
-                                                 if (searchOption == "iinOption") {
-                                                     iin1.style.display = 'flex';
-                                                     iin2.style.display = 'flex';
+                                                if (searchOption == "iinOption") {
+                                                    iin1.style.display = 'flex';
+                                                    iin2.style.display = 'flex';
 
-                                                     formFio1.style.display = 'none';
-                                                     formFio2.style.display = 'none';
+                                                    formFio1.style.display = 'none';
+                                                    formFio2.style.display = 'none';
 
-                                                 } else if (searchOption == "fioOption") {
-                                                     iin1.style.display = 'none';
-                                                     iin2.style.display = 'flex';
+                                                } else if (searchOption == "fioOption") {
+                                                    iin1.style.display = 'none';
+                                                    iin2.style.display = 'flex';
 
-                                                     formFio1.style.display = 'flex';
-                                                     formFio2.style.display = 'none';
-                                                 }
+                                                    formFio1.style.display = 'flex';
+                                                    formFio2.style.display = 'none';
+                                                }
 
-                                                 formLimit.style.display = 'none';
-                                                 formDepth.style.display = 'none';
+                                                formLimit.style.display = 'none';
+                                                formDepth.style.display = 'none';
 
-                                                 formRels.style.display = 'flex';
-                                                 props.update()
-                                             }
-                                             else if (event.target.value === "con4") {
-                                                 iin1.childNodes[0].innerHTML = "Введите БИН"
+                                                formRels.style.display = 'flex';
+                                                props.update()
+                                            }
+                                            else if (event.target.value === "con4") {
+                                                iin1.childNodes[0].innerHTML = "Введите БИН"
 
-                                                 formSearchOptions.style.display = 'none';
+                                                formSearchOptions.style.display = 'none';
 
-                                                 iin1.style.display = 'flex';
-                                                 iin2.style.display = 'none';
+                                                iin1.style.display = 'flex';
+                                                iin2.style.display = 'none';
 
-                                                 formFio1.style.display = 'none';
-                                                 formFio2.style.display = 'none';
+                                                formFio1.style.display = 'none';
+                                                formFio2.style.display = 'none';
 
-                                                 formLimit.style.display = 'flex';
-                                                 formDepth.style.display = 'flex';
+                                                formLimit.style.display = 'flex';
+                                                formDepth.style.display = 'flex';
 
-                                                 formRels.style.display = 'flex';
-                                                 props.update()
-                                             }
-                                             else if (event.target.value === "con5") {
-                                                 iin1.childNodes[0].innerHTML = "Введите БИН"
-                                                 iin2.childNodes[0].innerHTML = "Введите второй БИН"
+                                                formRels.style.display = 'flex';
+                                                props.update()
+                                            }
+                                            else if (event.target.value === "con5") {
+                                                iin1.childNodes[0].innerHTML = "Введите БИН"
+                                                iin2.childNodes[0].innerHTML = "Введите второй БИН"
 
-                                                 formSearchOptions.style.display = 'none';
+                                                formSearchOptions.style.display = 'none';
 
-                                                 iin1.style.display = 'flex';
-                                                 iin2.style.display = 'flex';
+                                                iin1.style.display = 'flex';
+                                                iin2.style.display = 'flex';
 
-                                                 formFio1.style.display = 'none';
-                                                 formFio2.style.display = 'none';
+                                                formFio1.style.display = 'none';
+                                                formFio2.style.display = 'none';
 
-                                                 formLimit.style.display = 'none';
-                                                 formDepth.style.display = 'none';
+                                                formLimit.style.display = 'none';
+                                                formDepth.style.display = 'none';
 
-                                                 formRels.style.display = 'flex';
-                                                 props.update()
-                                             }
+                                                formRels.style.display = 'flex';
+                                                props.update()
+                                            }
                                          }}>
                                     <MenuItem value="con1">Фл</MenuItem>
                                     <MenuItem value="con2">Фл - Фл</MenuItem>
@@ -1177,7 +1210,10 @@ const LeftBar = (props) => {
                             <label>Второй второй ИИН</label>
                             <TextField type="text"
                                        value={iin2}
-                                       onChange={event => { setIIN2(event.target.value) }}
+                                       onChange={event => { 
+                                        setNewReq(true)
+                                        setIIN2(event.target.value) 
+                                        }}
                                        id="input_IIN2"
                                        sx={{color: '#1b376f'}}
                                 // className="input_IIN"

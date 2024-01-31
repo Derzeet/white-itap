@@ -111,10 +111,10 @@ const GraphNetnew = (props) => {
 
     useEffect(() => {
         // console.log(openLimit, showRels)
-        if (type != '' || type != null) {
+        if (type != '' && type != null) {
             setIsLoading(true)
         }
-    }, [openLimit, showRels])
+    }, [])
     
     //For Local usage
     const [physicsEnable, setPhysicsEnable] = useState(true)
@@ -1502,7 +1502,7 @@ const GraphNetnew = (props) => {
             </div>
         )
 
-    } else if (isLoading && nodes.length === 0) {
+    } else if (isLoading == true && nodes.length === 0) {
         return (
             <div className='mainSection'>
               <div className="leftBarOpen" style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
