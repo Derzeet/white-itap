@@ -7,11 +7,16 @@ export const relationsLevel1 = [
     {value: "DFO_AFF_UL", label: "ДФО-Юл"},
 
     {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
+    {value: "PHONE", label: "Телефон"},
     //LOCAL
     {value: "AKIM", label: "АКИМ"},
     {value: "DIRECTOR_HIST", label: "Бывший Директор"},
     {value: "FOUNDER_CUR", label: "Нынешний Учредитель"},
     {value: "FOUNDER_HIST", label: "Бывший Учредитель"},
+    {value: "esf_1000kk_10kkk", label: "ЭСФ от 1МЛРД до 10МЛРД"},
+    {value: "esf_10kk_100kk", label: "ЭСФ от 10МЛН до 100МЛН"},
+    {value: "esf_100kk_1000kk", label: "ЭСФ от 100МЛН до 1МЛРД"},
+    {value: "esf_10kkk_bolshe", label: "ЭСФ от 10МЛРД и больше"},
     // {value: "ESF_100", label: "ЭСФ100М+"},
     // {value: "ESF_10and100", label: "ЭСФ1М-10М"},
     // {value: "ESF_10and50", label: "ЭСФ10М-50М"},

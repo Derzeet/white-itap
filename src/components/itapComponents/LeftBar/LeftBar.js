@@ -81,7 +81,7 @@ const LeftBar = (props) => {
     useEffect(() => {
         props.setLeftTabs(tab)
 
-        if (tab == "search" || tab == "search1") {
+        if (tab == "search" || tab == "zags") {
             var button = document.getElementById("initButton")
             let formSearchOptions = document.querySelector("#formSearchOptions");
 
@@ -440,7 +440,7 @@ const LeftBar = (props) => {
             <ButtonGroup variant="outlined" aria-label="outlined button group" style={{paddingBottom: '20px', width: '70%', display: 'flex', flexDirection: 'column', }}>
                 <ButtonGroup variant="outlined" aria-label="outlined button group" style={{}}>
                     <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '50%'}}>Общий</Button>
-                    <Button endIcon={<SearchIcon/>} onClick={e => {setTab("search1")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '50%'}}>Загс</Button>
+                    <Button endIcon={<SearchIcon/>} onClick={e => {setTab("zags")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '50%'}}>Загс</Button>
                 </ButtonGroup>
                 <Button endIcon={<HistoryIcon/>} onClick={e => {setTab("history")}} style={{color: '#1b376f', borderColor: '#1b376f', fontSize: '0.6rem', width: '100%'}}>История</Button>
             </ButtonGroup> 
@@ -927,7 +927,7 @@ const LeftBar = (props) => {
 
             </div> :
 
-            tab == "search1" ?
+            tab == "zags" ?
                 <div className="leftBar">
                     <form >
                         <div className="formBlock">

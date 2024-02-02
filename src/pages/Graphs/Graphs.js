@@ -20,6 +20,8 @@ import THIRDSch from "./localnetworks/thirdSchema";
 import ISCH from "./localnetworks/whiteItap";
 import searchResultsOfLieSearch from "./localnetworks/primer1";
 
+import { relationsLevel1 } from "../../data/relationsData";
+
 // import userIconWhite from "./../../user-icon-white.png";
 // import userIconBlack from "./../../user-icon-black.png";
 // import buildingIcon from "./../../eclipse-1.png";
@@ -44,6 +46,7 @@ import carIcon from '../../icons/car.png'
 
 
 const baseURL = "http://192.168.30.24:9091/api/finpol/main"
+const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
 const baseURL1 = "http://192.168.30.24:9092/api/finpol/main"
 
 var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false}
@@ -499,8 +502,12 @@ const GraphNetnew = (props) => {
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
         //axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params})
-
-        axios.get((baseURL) + url, {params: params}).then(async (res) => {
+        let currentURL = baseURL
+        if (tabName == 'zags') {
+          currentURL = zagsURL
+        }
+        console.log(currentURL + url)
+        axios.get((currentURL) + url, {params: params}).then(async (res) => {
             setJsonLocalSearchStatus(false)
             let _nodes = []
             let _edges = res.data.edges;
@@ -811,7 +818,11 @@ const GraphNetnew = (props) => {
     }
 
     const setEdgeSettings = (edge) => {
-        edge.label = edge.properties.Vid_svyaziey
+        if (edge.properties.Vid_svyaziey == 'ЭСФ') {
+          edge.label = relationsLevel1.find(x => x.value == edge.type).label || edge.properties.Vid_svyaziey
+        } else {
+          edge.label = edge.properties.Vid_svyaziey
+        }
 
         Object.assign(edge, {"color": "black"})
         Object.assign(edge, {font: {color: "black"}})
@@ -835,6 +846,8 @@ const GraphNetnew = (props) => {
         node.label = node.relCount + '\t\t\t\t\t\t\t\t\t';
 
         Object.assign(node, {"opened": false})
+
+        
 
         if (node.properties.IINBIN) {
             // settings for ul
@@ -880,8 +893,12 @@ const GraphNetnew = (props) => {
             // settings for fl
             const p = node.properties;
 
+            if (p.FIO == null) {
+              node.label = p.Familia + " " + p.Name + " " + p.Otchestvo
+            } else {
+              node.label += "\n\n" + p.FIO
+            }
 
-            node.label += "\n\n" + p.FIO
 
             key = false;
             if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true;
@@ -977,10 +994,10 @@ const GraphNetnew = (props) => {
                     
                 assignInfoBlock({
                     "ИИН": sp.IIN || "Нет ИИН-а",
-                    "Имя": sp.FIO ? sp.FIO.split(" ")[1] : "Нет имени",
-                    "Фамилия": sp.Family || "Нет фамилии",
+                    "Имя": sp.FIO ? sp.FIO.split(" ")[1] : sp.Name ? sp.Name : "Нет имени",
+                    "Фамилия": sp.Family ? sp.Family : sp.Familia ? sp.Familia : "Нет фамилии",
                     "Отчество": sp.Otchestvo || "Нет отчества",
-                    "ФИО": sp.FIO || "Нет ФИО",
+                    // "ФИО": sp.FIO ? sp.FIO : sp.sp.Name + " " + sp.Familia + " " + sp.Otchestvo "Нет ФИО",
 
                     "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения",
                 }, '#nodeInfoInner')
@@ -1521,7 +1538,7 @@ const GraphNetnew = (props) => {
             </div>
         )
 
-    } else { 
+    } else if (nodes.length > 0 && !isLoading) { 
         return (
             <div className='mainSection'>
               <div className="leftBarOpen" style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
