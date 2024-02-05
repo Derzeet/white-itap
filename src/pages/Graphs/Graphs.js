@@ -61,6 +61,8 @@ const GraphNetnew = (props) => {
     const {object, type, object2} = queryString.parse(location.search)
     const [updateGraph, setUpdateGraph] = useState(true)
 
+    const [urlState, setURLState] = useState(baseURL)
+
     const [nodes, setNodes] = useState([])
     const [edges, setEdges] = useState([])
 
@@ -503,8 +505,10 @@ const GraphNetnew = (props) => {
 
         //axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params})
         let currentURL = baseURL
+        setURLState(baseURL)
         if (tabName == 'zags') {
           currentURL = zagsURL
+          setURLState(zagsURL)
         }
         console.log(currentURL + url)
         axios.get((currentURL) + url, {params: params}).then(async (res) => {
@@ -694,7 +698,7 @@ const GraphNetnew = (props) => {
         Network.fit({});
       } else {
         // let _url = leftTabs == 'search1' ? baseURL1 : baseURL
-        let _url = baseURL
+        let _url = urlState
   
         axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels, limit: openLimit }}).then(res => {
             let _nodes = []
