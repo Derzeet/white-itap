@@ -116,7 +116,7 @@ const RightBar = (props) => {
 
         <div className="showRelsBlockRight" >
           <div>
-              {props.leftTabs == 'search1'
+              {props.leftTabs == 'zags'
                   ? <RelationBlockZags setRels={setShowRels}></RelationBlockZags>
                   : <RelationBlock setRels={setShowRels}></RelationBlock>
               }
