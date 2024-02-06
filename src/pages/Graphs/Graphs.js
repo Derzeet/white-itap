@@ -45,7 +45,7 @@ import glkPersonIcon from '../../icons/GLK.jpeg'
 import carIcon from '../../icons/car.png'
 
 
-const baseURL = "http://192.168.30.24:9091/api/finpol/main"
+const baseURL = "http://localhost:9091/api/finpol/main"
 const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
 const baseURL1 = "http://192.168.30.24:9092/api/finpol/main"
 
@@ -546,6 +546,7 @@ const GraphNetnew = (props) => {
 
             setNodes(_nodes)
             setEdges(_edges)
+            console.log(_nodes)
 
             graJSON.nodes = _nodes
             graJSON.edges = _edges
@@ -557,8 +558,8 @@ const GraphNetnew = (props) => {
 
             setShowActionBtn(true)
             if(Network) Network.stabilize()
-        }).catch(() => {
-            console.log('first')
+        }).catch((r) => {
+            console.log(r)
             let res = []
             if (options.iin1.length == 6) {
                 // if
@@ -629,6 +630,8 @@ const GraphNetnew = (props) => {
 
             setShowActionBtn(true)
             if(Network) Network.stabilize()
+        }).finally(() => {
+            setIsLoading(false)
         })
     };
 
@@ -857,10 +860,10 @@ const GraphNetnew = (props) => {
             // settings for ul
             // node.label += '\n\n' + node.properties.Name;
 
-            if (node.properties.Name.length > 60) {
+            if (node.properties.Name?.length > 60) {
                 node.label += '\n\n' + cropLabel(node.properties.Name)
             } else {
-                node.label += '\n\n' + node.properties.Name
+                node.label += '\n\n' + (node.properties.Name ? node.properties.Name : node.properties.FullNameIP) 
             }
 
 
@@ -1493,7 +1496,7 @@ const GraphNetnew = (props) => {
         return graJSON
     }
 
-    if (counter === 0 && !isLoading) {
+    if (counter === 0 && !isLoading && nodes.length == 0) {
         return (
             <div className='mainSection'>
                 <div className="leftBarOpen" setLeftTabs={setLeftTabs} style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
@@ -1527,7 +1530,7 @@ const GraphNetnew = (props) => {
             </div>
         )
 
-    } else if (isLoading == true && nodes.length === 0) {
+    } else if (isLoading) {
         return (
             <div className='mainSection'>
               <div className="leftBarOpen" style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
