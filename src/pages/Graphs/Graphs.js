@@ -45,7 +45,7 @@ import glkPersonIcon from '../../icons/GLK.jpeg'
 import carIcon from '../../icons/car.png'
 
 
-const baseURL = "http://localhost:9091/api/finpol/main"
+const baseURL = "http://192.168.30.24:9091/api/finpol/main"
 const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
 const baseURL1 = "http://192.168.30.24:9092/api/finpol/main"
 
