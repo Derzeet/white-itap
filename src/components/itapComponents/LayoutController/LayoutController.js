@@ -3,7 +3,7 @@ import './layoutController.css'
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-const LayoutController = (props) => {
+const LayoutController = ({handleLayoutGlobal}) => {
     const [open, setOpen] = useState(false)
     const [enabled, setenabled] = useState(false)
 
@@ -24,7 +24,7 @@ const LayoutController = (props) => {
     }, [enabled, levelSeparation, nodeSpacing, treeSpacing, blockShifting, edgeMinimization, parentCentralization, direction, sortMethod, shakeTowards])
 
     const handleLayout = () => {
-        props.handleLayout({
+        handleLayoutGlobal({
             enabled,
             levelSeparation, nodeSpacing, treeSpacing,
             blockShifting, edgeMinimization, parentCentralization,
@@ -33,7 +33,7 @@ const LayoutController = (props) => {
     } 
 
     return (
-        <div className="layoutControllerBlock">
+        <div className="layoutControllerBlock" style={{marginTop: '20px'}}>
             <div className="layoutControllerTitle" onClick={() => setOpen(curr => !curr)}>
                 <div>Иерархия</div>
                 <div></div>

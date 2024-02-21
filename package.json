@@ -43,8 +43,13 @@
     "react-vis-network-graph": "^3.0.1",
     "sass": "^1.62.0",
     "superset-dashboard-sdk": "^1.0.0-alpha.10",
+    "sort-by": "^1.2.0",
+    "reactflow": "^11.10.3",
+    
+    
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
+    
   },
   "scripts": {
     "start": "set PORT=2189 && react-scripts start",

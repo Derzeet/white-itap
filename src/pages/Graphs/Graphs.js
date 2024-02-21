@@ -56,7 +56,7 @@ var SelectedEdge = {}
 
 var onSelectNode = false;
 
-const GraphNetnew = (props) => {
+const GraphNetnew = ({physicsEnable, setPhysicsEnable, layoutOptions, setLayoutOptions,keys, rnodes, redges, setGlobalNodes, setGlobalEdges, iin1, iin2}) => {
     const location = useLocation()
     const {object, type, object2} = queryString.parse(location.search)
     const [updateGraph, setUpdateGraph] = useState(true)
@@ -92,6 +92,52 @@ const GraphNetnew = (props) => {
 
     const [jsonLocalSearchStatus, setJsonLocalSearchStatus] = useState(false)
 
+
+
+    useEffect(() => {
+      if (rnodes?.length > 0) {
+        
+        setJsonLocalSearchStatus(false)
+          let _nodes = []
+          let _edges = redges;
+  
+          // console.log(res.data)
+  
+          function removeDuplicatesById(arr) {
+              const uniqueIds = new Set();
+              const resArr = [];
+  
+              for (const item of arr) {
+                  if (!uniqueIds.has(item.properties.id)) {
+                      uniqueIds.add(item.properties.id)
+                      resArr.push(item)
+                  }
+              }
+  
+              return resArr;
+          }
+  
+          _edges = removeDuplicatesById(_edges);
+  
+          _edges.map(item => {
+              setEdgeSettings(item);
+          })
+  
+          rnodes.map(item => {
+              setNodeSettings(item)
+              _nodes.push(item);
+          })
+  
+          setNodes(_nodes)
+          setEdges(_edges)
+  
+          setIsLoading(false)
+  
+  
+          setShowActionBtn(true)
+          if(Network) Network.stabilize()
+      }
+    }, [rnodes, redges])
     // useEffect(() => {
     //   const centralBar = document.querySelector('.centralBar');
       
@@ -122,23 +168,6 @@ const GraphNetnew = (props) => {
     }, [])
     
     //For Local usage
-    const [physicsEnable, setPhysicsEnable] = useState(true)
-    const [layoutOptions, setLayoutOptions] = useState({
-        hierarchical: {
-            enabled: false,
-            levelSeparation: 150,
-            nodeSpacing: 200,
-            treeSpacing: 200,
-            blockShifting: true,
-            edgeMinimization: true,
-            parentCentralization: true,
-            direction: 'UD',        // UD, DU, LR, RL
-            sortMethod: 'hubsize',  // hubsize, directed
-            shakeTowards: 'leaves'  // roots, leaves
-        },
-        randomSeed: 1123,
-        improvedLayout: true,
-    })
 
     const edgesOptions = {
         length: 400,
@@ -291,7 +320,7 @@ const GraphNetnew = (props) => {
             )
 
             res.nodes.filter(item => !nodes.includes(item)).map(item => {
-                setNodeSettings(item, params, "")
+                setNodeSettings(item)
             })
 
             _nodes = res.nodes.filter((value, index, self) =>
@@ -332,7 +361,7 @@ const GraphNetnew = (props) => {
             )
 
             res.nodes.filter(item => !nodes.includes(item)).map(item => {
-                setNodeSettings(item, params, "")
+                setNodeSettings(item)
             })
 
             _nodes = res.nodes.filter((value, index, self) =>
@@ -373,7 +402,7 @@ const GraphNetnew = (props) => {
             )
 
             res.nodes.filter(item => !nodes.includes(item)).map(item => {
-                setNodeSettings(item, params, "")
+                setNodeSettings(item)
             })
 
             _nodes = res.nodes.filter((value, index, self) =>
@@ -510,7 +539,7 @@ const GraphNetnew = (props) => {
           currentURL = zagsURL
           setURLState(zagsURL)
         }
-        console.log(currentURL + url)
+        // console.log(currentURL + url)
         axios.get((currentURL) + url, {params: params}).then(async (res) => {
             setJsonLocalSearchStatus(false)
             let _nodes = []
@@ -540,13 +569,13 @@ const GraphNetnew = (props) => {
             })
 
             res.data.nodes.map(item => {
-                setNodeSettings(item, options.iin1, options.iin2)
+                setNodeSettings(item)
                 _nodes.push(item);
             })
 
             setNodes(_nodes)
             setEdges(_edges)
-            console.log(_nodes)
+            // console.log(_nodes)
 
             graJSON.nodes = _nodes
             graJSON.edges = _edges
@@ -613,7 +642,7 @@ const GraphNetnew = (props) => {
             })
 
             res.nodes.map(item => {
-                setNodeSettings(item, options.iin1, options.iin2)
+                setNodeSettings(item)
                 _nodes.push(item);
             })
 
@@ -709,34 +738,37 @@ const GraphNetnew = (props) => {
   
             let tempNodes = nodes
             let tempEdges = edges
-  
+
+            
             res.data.edges.map(item => {
-                setEdgeSettings(item)
-                let duplFlag = false
-                tempEdges.map(node => {
-                    if (node.id === item.id) duplFlag = true
-                })
-                if (!duplFlag) {
-                    tempEdges.push(item)
-                    Network.body.data.edges.add(item);
-                }
-  
+            setEdgeSettings(item)
+            let duplFlag = false
+              tempEdges.map(node => {
+                if (node.id === item.id) duplFlag = true
+              })
+              if (!duplFlag) {
+                tempEdges.push(item)
+                Network.body.data.edges.add(item);
+              }
+              
             })
-  
+            
             res.data.nodes.map(item => {
-                setNodeSettings(item)
-                let duplFlag = false
-                tempNodes.map(node => {
-                    if (node.id === item.id) duplFlag = true
-                })
-                if (!duplFlag) {
-                    tempNodes.push(item)
-                    Network.body.data.nodes.add(item);
-                }
+              setNodeSettings(item)
+              let duplFlag = false
+              tempNodes.map(node => {
+                if (node.id === item.id) duplFlag = true
+              })
+              if (!duplFlag) {
+                tempNodes.push(item)
+                Network.body.data.nodes.add(item);
+              }
             })
-  
-            // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
-            // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
+            setGlobalEdges(tempEdges)
+            setGlobalNodes(tempNodes)
+              
+              // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
+              // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
   
             setNodes(tempNodes)
             setEdges(tempEdges)
@@ -796,6 +828,9 @@ const GraphNetnew = (props) => {
         nodesToCheck.map(item => {
             deepRemove(item.id)
         })
+
+        setGlobalNodes(nodes)
+        setGlobalEdges(edges)
         
     }
 
@@ -808,6 +843,8 @@ const GraphNetnew = (props) => {
             if (item.from == id) relatedNodes.push(Network.body.nodes[item.to])
         })
 
+        setGlobalNodes(nodes)
+        setGlobalEdges(edges)
 
     }
 
@@ -822,6 +859,8 @@ const GraphNetnew = (props) => {
         }
 
         setNodes(tempNodes)
+        setGlobalNodes(nodes)
+      setGlobalEdges(edges)
     }
 
     const setEdgeSettings = (edge) => {
@@ -847,7 +886,7 @@ const GraphNetnew = (props) => {
         return cropedLabel
     }
 
-    const setNodeSettings = (node, iin1, iin2) => {
+    const setNodeSettings = (node) => {
         let key = false
 
         node.label = node.relCount + '\t\t\t\t\t\t\t\t\t';
@@ -875,7 +914,7 @@ const GraphNetnew = (props) => {
                     ||  p.BEZDEYSTVIA_UL != null ||  p.ERDR != null ||  p.FPG != null) {
                 node.group = "judgeCompany"
 
-            } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
+            } else if (keys.includes(p.IINBIN) || keys.includes(p.IINBIN)) {
                 setKeyNodeId(node.id);
                 node.group = "keyCompany"
 
@@ -908,7 +947,7 @@ const GraphNetnew = (props) => {
 
 
             key = false;
-            if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true;
+            if (p.IIN != null && (keys.includes(p.IIN))) key = true;
 
             if (p.Death_Status != null) {
                 node.group = "ripPerson"
@@ -930,7 +969,7 @@ const GraphNetnew = (props) => {
 
             ) {
 
-                console.log(p)
+                // console.log(p)
 
                 if (key) node.group = "keyJudgePerson"
                 else node.group = "judgePerson"
@@ -1504,7 +1543,7 @@ const GraphNetnew = (props) => {
                       <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                   </IconButton>
                 </div>
-                <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                {/* <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object} object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar> */}
                 <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                     <div className="waiterBox">
                         <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
@@ -1515,13 +1554,13 @@ const GraphNetnew = (props) => {
 
     } else if (counter !== 0 && nodes.length === 0 && !isLoading) {
         return (
-            <div className='mainSection '>
+            <div className='mainSection'>
               <div className="leftBarOpen" style={{display: openLeft?'none':'block', transition: 'display .8s ease'}}>
                 <IconButton aria-label="expand row" size="small" onClick={() => handleLeftOpen(true)}>
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object}  object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              {/* <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object}  object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar> */}
               <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                 <div className="waiterBox">
                     <a>Нет результатов</a>
@@ -1538,7 +1577,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} showModal={showModal} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object}  object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              {/* <LeftBar openLeft={openLeft} showModal={showModal} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} object={object}  object2={object2} type={type} handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar> */}
               <div className={`centralBar ${!openLeft && !openRight ?'centralBar100' : openLeft && openRight ? 'centralBar60' : 'centralBar80'} `}>
                 <div className="loader">
                   <div className="inner one"></div>
@@ -1548,7 +1587,6 @@ const GraphNetnew = (props) => {
               </div>
             </div>
         )
-
     } else if (nodes.length > 0 && !isLoading) { 
         return (
             <div className='mainSection'>
@@ -1557,7 +1595,7 @@ const GraphNetnew = (props) => {
                   <KeyboardArrowRightIcon style={{ fill: '#000000' }}/>
                 </IconButton>
               </div>
-              <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} handleLayout={handleLayout} params={graJSON} update={update} downloadScheme={download} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+              {/* <LeftBar openLeft={openLeft} setLeftTabs={setLeftTabs} handleLeftOpen={handleLeftOpen} handleLayout={handleLayout} params={graJSON} update={update} downloadScheme={download} exportBt={exportBt} handleSubmit={Submit}></LeftBar> */}
               <div className={`centralBar ${openLeft && openRight ?'centralBar60' : openLeft || openRight ? 'centralBar80' : 'centralBar100'} `}>
                   <div className="nodeSearch">
                       <div>

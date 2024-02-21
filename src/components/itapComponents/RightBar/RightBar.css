@@ -5,23 +5,22 @@
   z-index: 1;
   overflow-y: scroll;
   overflow-x: hidden;
-
+  
   color: #808080;
-
+  
   background-color: #F2F0EE;
-
+  
   border: 1px #bbbbbb solid;
   border-right: none;
   border-top: none;
   border-bottom: none;
-
+  
   padding-top: 20px;
   padding-bottom: 40px;
   /*padding-right: 20px;*/
   width: 20%;
-  height: 100%;
+  height: calc(100vh - 80px);
   box-sizing: border-box;
-  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;

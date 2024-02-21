@@ -32,6 +32,9 @@ import SupersetPage from "./pages/Superset/SupersetPage";
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import GraphNetnew from './pages/Graphs/Graphs';
 
+import ITapPage from './pages/iTapCombatPage/ITapPage';
+
+
 function App() {
   const userSession = JSON.parse(localStorage.getItem("user"))
 
@@ -81,12 +84,8 @@ function App() {
                 {/* <div style={{height: "12px"}}></div> */}
                 <GrayNavbar/>
 
-                  <Suspense fallback={<span class="loader"></span>}>
-                    <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.2 }}>
-                      <GraphNetnew />
+                  <ITapPage />
 
-                    </motion.div>
-                  </Suspense>
               </>
             } />
             <Route path='/profile' element={

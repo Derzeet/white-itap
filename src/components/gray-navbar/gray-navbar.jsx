@@ -26,14 +26,14 @@ const GrayNavbar = (props) => {
 
     const debugMode = useState(false)
 
-    useEffect(() => {
-        if (userSession == null) {
-            navigate('/login')
-        }
-    })
-    useEffect(() => {
-        const a = !userSession? toLogin() : ""
-    })
+    // useEffect(() => {
+    //     if (userSession == null) {
+    //         navigate('/login')
+    //     }
+    // })
+    // useEffect(() => {
+    //     const a = !userSession? toLogin() : ""
+    // })
 
     const logoutHandler = () => {
         authService.logout();
