@@ -1,121 +1,48 @@
-export default function assignGridPositions(nodes, keys, startX, startY, gapX, gapY) {
+import stringToColor from "./stringToColor";
+import { MarkerType } from "reactflow";
+
+export default function paintEdges(nodes, edges, keys) {
+    console.log(keys)
     const keyNode = nodes.find(node => keys.includes(node.data.IINBIN || node.data.IIN));
     
     const transformedEdges = nodes.filter(node => node.type == 'edgeNode' && (node.data.source == keyNode.id || node.data.target == keyNode.id))
+
     // console.log("Directly connected edges", transformedEdges)
-    const companies = nodes.filter(
+    const children = nodes.filter(
         node => 
             !keys.includes((node.data.IINBIN || node.data.IIN) && node.located == false) && 
-            (node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source ) &&
-            node.data.type == 'company'
-            )
-    const persons = nodes.filter(
-        node => 
-            !keys.includes(node.data.IINBIN || node.data.IIN) && 
-            (node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source ) &&
-            node.data.type == 'person'
-            )
-    const addresses = nodes.filter(
-        node => 
-            !keys.includes(node.data.IINBIN || node.data.IIN) && 
-            (node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source ) &&
-            node.data.type == 'address'
+            (node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source )
             )
 
-    // const resNodes = nodes.filter(
-    //     node => !keys.includes(node.data.IINBIN || node.data.IIN) && 
-    //         (node.id != transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id != transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source )
-    //         )
+    const childrenIds = children.map(node => node.id)
+    const edgesIds = children.map(edge => edge.id)        
 
-
-    // console.log("Result", addresses)
-
-    // Assuming 'quadric' nodes are directly related and others need special handling
-    const directlyRelatedNodes = nodes.filter(node => !keys.includes(node.data.IINBIN || node.data.IIN) && node.type === 'quadric');
-    const otherNodes = nodes.filter(node => !keys.includes(node.data.IINBIN || node.data.IIN) && node.type !== 'quadric');
-
-    // Position the key node
-    if (keyNode) {
-        keyNode.position = { x: startX + (gapX * (companies.length + persons.length) / 4), y: startY - 70};
-        keyNode.located = true
-    }
-
-    let currentX = startX - (companies.length * (gapX)) 
-    companies.forEach(node => {
-        node.position = { x: currentX, y: startY + gapY * 2 };
-        node.located = true
-        assignBinaryTree(nodes, node, gapX, gapY)
-
-        // assignBinaryTree(nodes, node, gapX, gapY)
-        let itsEdges = transformedEdges.filter(x => (x.data.target == node.id) || (x.data.source == node.id))
-        if (itsEdges.length > 1) {
-            let widthOfEdgeLine = currentX + 150 - ((itsEdges.length * 200) + ((itsEdges.length - 1) * 50))/2 
-            itsEdges.forEach(edge => {
-                edge.position = { x: widthOfEdgeLine, y: startY + gapY }
-                edge.located = true
-                widthOfEdgeLine += 250
-            })
+    edges = edges.map((link) => {
+        let color = stringToColor(keyNode.id.toString())
+        if ((link.source == keyNode.id) || (edgesIds.includes(link.source) && childrenIds.includes(link.target) || (edgesIds.includes(link.target) && childrenIds.includes(link.target)))) {
+            return {
+                ...link,
+                markerEnd: {
+                    type: MarkerType.ArrowClosed,
+                    width: 20,
+                    height: 20,
+                    color: color,
+                },
+                style: {
+                    strokeWidth: 2,
+                    stroke: color,
+                } 
+            }
         } else {
-            itsEdges.forEach(edge => {
-                edge.position = { x: currentX + 50, y: startY + gapY }
-                edge.located = true
-            })
+            return link
         }
-        currentX += gapX + 100; // Move down for the next node
-    });
-    currentX += gapX * 2
-    persons.forEach(node => {
-        node.position = { x: currentX, y: startY + gapY * 2 }; 
-        node.located = true
-        assignBinaryTree(nodes, node, gapX, gapY)
-        let itsEdges = transformedEdges.filter(x => (x.data.target == node.id) || (x.data.source == node.id))
-        if (itsEdges.length > 1) {
-            let widthOfEdgeLine = currentX + 150 - ((itsEdges.length * 200) + ((itsEdges.length - 1) * 50))/2 
-            itsEdges.forEach(edge => {
-                edge.position = { x: widthOfEdgeLine, y: startY + gapY }
-                edge.located = true
-                widthOfEdgeLine += 250
-            })
-        } else {
-            itsEdges.forEach(edge => {
-                edge.position = { x: currentX + 50, y: startY + gapY }
-                edge.located = true
-            })
-        }
-        currentX += gapX + 100; // Move down for the next node
-    });
-    let addressX = keyNode.position.x + 150 - ((addresses.length * gapX) + (addresses.length - 1)*100)/2
-    // let addressX = (startX + 150) - (addresses.length * 300)/4
-    addresses.forEach(node => {
-        node.position = { x: addressX, y: startY - gapY * 2 };
-        node.located = true
-        assignBinaryTree(nodes, node, gapX, gapY)
+    })
 
-        // assignBinaryTree(nodes, node, gapX, gapY)
-        let itsEdges = transformedEdges.filter(x => (x.data.target == node.id) || (x.data.source == node.id))
-        if (itsEdges.length > 1) {
-            let widthOfEdgeLine = addressX + 100 - ((itsEdges.length * 200) + ((itsEdges.length - 1) * 50))/2 
-            itsEdges.forEach(edge => {
-                edge.position = { x: widthOfEdgeLine, y: startY - gapY }
-                edge.located = true
-
-                widthOfEdgeLine += 250
-            })
-        } else {
-            itsEdges.forEach(edge => {
-                edge.position = { x: addressX + 50, y: startY - gapY }
-                edge.located = true
-            })
-        }
-        addressX += gapX + 100; // Move down for the next node
-    });
-
-    return nodes;
+    return edges;
 }
 
 
 function assignBinaryTree(nodes, keyNode, gapX, gapY) {
-    
     const transformedEdges = nodes.filter(node => node.type == 'edgeNode' && (node.data.source == keyNode.id || node.data.target == keyNode.id))
     // console.log("Directly connected edges", transformedEdges)
     if (transformedEdges.length > 0) {

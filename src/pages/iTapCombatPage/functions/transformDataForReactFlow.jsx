@@ -1,9 +1,11 @@
 import { MarkerType } from "reactflow";
+import stringToColor from "./stringToColor";
+import paintEdges from "./paintEdgesHierarchicaly";
 
-const transformDataForReactFlow = (responseData) => {
+const transformDataForReactFlow = (nodes, edges, keys) => {
   let idCounter = 10000; // Start an ID counter for new edge-nodes to avoid ID conflicts
   // Transform nodes
-  const transformedNodes = responseData.nodes.map((node) => {
+  const transformedNodes = nodes.map((node) => {
     let nodeType = 'person';
     if (node.properties.FIO) {
       nodeType = 'person';
@@ -26,13 +28,12 @@ const transformDataForReactFlow = (responseData) => {
   const connectingEdges = [];
 
   // Transform edges into edge-nodes and connecting edges
-  responseData.edges.forEach((edge) => {
-    let target = responseData.nodes.find(x => x.id == edge.to.toString())
-    let source = responseData.nodes.find(x => x.id == edge.from.toString())
+  edges.forEach((edge) => {
+    let target = nodes.find(x => x.id == edge.to.toString())
+    let source = nodes.find(x => x.id == edge.from.toString())
     if (target && source) {
-
       const edgeNodeId = `edge-node-${idCounter++}`; // Unique ID for the edge-node
-  
+      let color = stringToColor(edge.to.toString())
       // Create an edge-node for each edge
       edgeNodes.push({
         id: edgeNodeId,
@@ -47,7 +48,16 @@ const transformDataForReactFlow = (responseData) => {
         source: edge.from.toString(),
         target: edgeNodeId,
         type: 'smoothstep',
-        markerEnd: { type: MarkerType.ArrowClosed },
+        markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: 'grey',
+        },
+        style: {
+            strokeWidth: 2,
+            stroke: 'grey',
+        } 
       });
   
       // Create connecting edges: edge-node to target
@@ -56,15 +66,64 @@ const transformDataForReactFlow = (responseData) => {
         source: edgeNodeId,
         target: edge.to.toString(),
         type: 'smoothstep',
-        markerEnd: { type: MarkerType.ArrowClosed },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 20,
+          height: 20,
+          color: 'grey',
+        },
+        style: {
+            strokeWidth: 2,
+            stroke: 'grey',
+        } 
       });
     }
   });
-
   // Combine original nodes with edge-nodes
   const combinedNodes = [...transformedNodes, ...edgeNodes];
   // Use the new connecting edges instead of the original edges
   const combinedEdges = [...connectingEdges];
+
+  // console.log(responseData.keys)
+  // console.log(paintEdges(combinedNodes, combinedEdges, responseData.keys))
+  // // const ed = paintEdges(combinedNodes, combinedEdges, keys)
+  // console.log("asdasd",responseData.keys)
+
+  //COLORING
+  // const keyNode = combinedNodes.find(node => keys.includes(node.data.IINBIN || node.data.IIN));
+    
+  // const transformedEdges = combinedNodes.filter(node => node.type == 'edgeNode' && (node.data.source == keyNode.id || node.data.target == keyNode.id))
+
+  // // console.log("Directly connected edges", transformedEdges)
+  // const children = combinedNodes.filter(
+  //     node => 
+  //         (node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source )
+  //         )
+
+  // const childrenIds = children.map(node => node.id.toString())
+  // const edgesIds = transformedEdges.map(edge => edge.id.toString())        
+
+  // let comEdges = combinedEdges.map((link) => {
+  //     let color = stringToColor(keyNode.id.toString())
+  //     console.log(link.target)
+  //     if ((link.source == keyNode.id)){
+  //         return {
+  //             ...link,
+  //             markerEnd: {
+  //                 type: MarkerType.ArrowClosed,
+  //                 width: 20,
+  //                 height: 20,
+  //                 color: color,
+  //             },
+  //             style: {
+  //                 strokeWidth: 2,
+  //                 stroke: color,
+  //             } 
+  //         }
+  //     } else {
+  //         return link
+  //     }
+  // })
 
   return { initialNodes: combinedNodes, initialEdges: combinedEdges };
 };

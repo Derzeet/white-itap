@@ -90,7 +90,7 @@ function RelationNode({ id, data }) {
                 {visibleKeys.map(x => {
                     if (data[x] != null && data[x] && data[x] != 'NULL') {
                         return (
-                            <a>{x}: {data[x]}</a>
+                            <a>{propertiesDictionary[x]}: {data[x]}</a>
                         )
                     }
                 })}
@@ -134,7 +134,7 @@ function RelationNode({ id, data }) {
                                 return (
                                     <div className='prop-vision'>
                                         <input type="checkbox" onChange={() => handlePropertyChange(x)} name="" id="" checked={visibleKeys.includes(x)} />
-                                        <a>{x}</a>
+                                        <a>{propertiesDictionary[x]}</a>
                                     </div>
                                 )
                             })}
@@ -175,6 +175,32 @@ function RelationNode({ id, data }) {
             </div>
         </div>
     );
+}
+const propertiesDictionary = {
+    "Description": "Описание",
+    "Vid_svyaziey": "Вид связи",
+    "Start_Date": "Начало срока",
+    "End_Date": "Конец срока",
+    "Data_nachalo_affilirovannosti": "Дата начала афф.",
+    "Type_affilirovannosti": "Тип аффилированности",
+    "data_nachalo": "Дата начала",
+    "data_okonchaniya": "Дата окончания",
+    "data_konca": "Дата конца",
+    "dataa": "Дата",
+    "dolzhnik": "Должник",
+    "kategoria": "Категория",
+    "organ": "Орган",
+    "summa": "Сумма",
+    "sum": "Сумма",
+    "sum_by_periods": "Сумма по периодам",
+    "SumFundTG": "Сумма вклада тг",
+    "ShareFundPercent": "Сумма вклада проц",
+    "Dolzhnost": "Должность",
+    "Organ": "Орган",
+    "telephone": "Телефон",
+    "tip": "Тип",
+    "god_sluzhbi": "Год службы",
+    "specialnost": "Специальность",
 }
 
 export default memo(RelationNode);

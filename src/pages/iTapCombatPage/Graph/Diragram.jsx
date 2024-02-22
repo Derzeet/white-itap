@@ -26,6 +26,7 @@ import '../samles/overview.css'
 
 import assignGridPositions from "../functions/AssignGridPositions";
 import generateUniqueId from "../functions/createUniqueIdGenerator";
+import paintEdges from "../functions/paintEdgesHierarchicaly";
 
 const nodeTypes = {
     quadric: QuadricNode,
@@ -44,20 +45,45 @@ const minimapStyle = {
 const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
   
 
-function N4JDiagram({shortOpen, keys, rnodes, redges}) {
-    const { initialNodes, initialEdges } = transformDataForReactFlow({nodes: rnodes, edges: redges});
+function N4JDiagram({edgeStraight, shortOpen, keys, rnodes, redges}) {
+    const { initialNodes, initialEdges } = transformDataForReactFlow(rnodes, redges, keys);
     // const { initialNodes, initialEdges } = transformDataForReactFlow(response);
     const edgeUpdateSuccessful = useRef(true);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(assignGridPositions(initialNodes, keys, 0, 0, 300, 200));
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(paintEdges(nodes, initialEdges, keys));
     const [zoomOnScroll, setZoomOnScroll] = useState(true);
+
+
 
     const countEdgesBetweenNodes = (source, target, edgesArray) => {
         return edgesArray.filter((e) => 
         (e.source === source && e.target === target) || (e.source === target && e.target === source)
         ).length;
     };
+
+    useEffect(() => {
+        if (edgeStraight) {
+            const edgesWithTypes = edges.map((edge) => {
+            return {
+                ...edge,
+                type: 'straight',
+            };
+            });
+        
+            setEdges(edgesWithTypes);
+        } else {
+            const edgesWithTypes = edges.map((edge) => {
+            return {
+                ...edge,
+                type: 'smoothstep',
+            };
+            });
+        
+            setEdges(edgesWithTypes);
+
+        }
+    }, [edgeStraight])
     
     useEffect(() => {
         // Map through your initial edges to set the correct type
@@ -79,7 +105,7 @@ function N4JDiagram({shortOpen, keys, rnodes, redges}) {
     }, []);
 
     useEffect(() => {
-        let {initialNodes, initialEdges} = (transformDataForReactFlow({nodes: rnodes, edges: redges}))
+        let {initialNodes, initialEdges} = (transformDataForReactFlow(rnodes, redges, keys))
         setNodes(assignGridPositions(initialNodes, keys, 0, 0, 300, 200))
         setEdges(initialEdges)
     }, [rnodes, redges])
@@ -139,17 +165,6 @@ function N4JDiagram({shortOpen, keys, rnodes, redges}) {
         setIsModalOpen(false);
     };
 
-
-    // we are using a bit of a shortcut here to adjust the edge type
-    // this could also be done with a custom edge for example
-    const edgesWithUpdatedTypes = edges.map((edge) => {
-        if (edge.sourceHandle && !edge.type) {
-            const edgeType = nodes.find((node) => node.type === 'custom').data.selects[edge.sourceHandle];
-            edge.type = edgeType;
-        }
-        return edge;
-    });
-
     const onEdgeUpdateStart = useCallback(() => {
         edgeUpdateSuccessful.current = false;
     }, []);
@@ -165,6 +180,39 @@ function N4JDiagram({shortOpen, keys, rnodes, redges}) {
         }
         edgeUpdateSuccessful.current = true;
     }, []);
+
+    const [selectedNodeIds, setSelectedNodeIds] = useState(new Set());
+
+  const onNodeClick = useCallback((event, node) => {
+    // Toggle selection
+    if (selectedNodeIds.has(node.id)) {
+      selectedNodeIds.delete(node.id);
+    } else {
+      selectedNodeIds.add(node.id);
+    }
+    setSelectedNodeIds(new Set(selectedNodeIds));
+    console.log(selectedNodeIds)
+  }, [selectedNodeIds]);
+
+  const onNodesDrag = useCallback(({ nodes: draggedNodes }) => {
+    const updates = draggedNodes.map(draggedNode => {
+      if (selectedNodeIds.has(draggedNode.id)) {
+        // Find the original node and calculate the new position
+        const originalNode = nodes.find(n => n.id === draggedNode.id);
+        return {
+          ...originalNode,
+          position: draggedNode.position
+        };
+      }
+      return null;
+    }).filter(Boolean);
+    
+    setNodes(ns => ns.map(node => {
+      const update = updates.find(u => u.id === node.id);
+      return update || node;
+    }));
+  }, [nodes, selectedNodeIds, setNodes]);
+
 
     return (
         <>
@@ -182,15 +230,7 @@ function N4JDiagram({shortOpen, keys, rnodes, redges}) {
                         createNodeAndConnect,
                         setZoomOnScroll } 
                 }))}
-                edges={edgesWithUpdatedTypes.map((edge, index) => {
-                    const offset = index * 2; // Adjust offset based on the number of edges
-                    return {
-                      ...edge,
-                    //   offset: offset,
-                    //   style: { strokeWidth: 1 },
-                    //   data: { curvature: 0.9 + offset },
-                    };
-                  })}
+                edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onEdgeUpdate={onEdgeUpdate}
@@ -204,6 +244,10 @@ function N4JDiagram({shortOpen, keys, rnodes, redges}) {
                 edgeTypes={edgeTypes}
                 zoomOnScroll={zoomOnScroll}
                 onNodeDoubleClick={handleDoubleClick}
+                minZoom={0.01}
+                maxZoom={10}
+                onNodeClick={onNodeClick}
+                onNodesDrag={onNodesDrag}
                 >
                 <MiniMap style={minimapStyle} zoomable pannable />
                 {/* <Controls /> */}

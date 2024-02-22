@@ -14,14 +14,19 @@ import GraphNetnew from "../Graphs/Graphs"
 import graphIcon from './images/graphIcon.svg'
 import tableIcon from './images/graphTableIcon.svg'
 
-const baseURL = "http://localhost:9091/api/finpol/main"
-const zagsURL = "http://localhost:9091/api/finpol/zags"
+import edgeTypeOne from './images/edge.svg'
+import edgeTypeTwo from './images/edge2.svg'
+
+const baseURL = "http://192.168.30.24:9091/api/finpol/main"
+const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
 
 
 
 function ITapPage() {
     const [lbOpened, setLbOpened] = useState(true)
     const [graphType, setGraphType] = useState('graph')
+
+    const [edgeStraight, setEdgeStraight] = useState(false)
 
     const [physicsEnable, setPhysicsEnable] = useState(true)
     const [layoutOptions, setLayoutOptions] = useState({
@@ -247,6 +252,11 @@ function ITapPage() {
                                 </div>
                             }
                         </div>
+                        <div className={lbOpened ? "table-view-state" : "table-view-state closed"}>
+                            <div className={`edge-state ${edgeStraight ? '' : 'active'}`} onClick={() => setEdgeStraight(!edgeStraight)}>
+                                <img src={edgeTypeOne} alt="G" />
+                            </div>
+                        </div>
                 </div>
                 <div className="graph-container">
                     {loading ? 
@@ -255,7 +265,7 @@ function ITapPage() {
                         nodes.length > 0 ?
                             <>
                                 {graphType == 'graph' && <GraphNetnew physicsEnable={physicsEnable} setPhysicsEnable={setPhysicsEnable} layoutOptions={layoutOptions} setLayoutOptions={setLayoutOptions} keys={keyNodes} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }   
-                                {diagramAllowed && <N4JDiagram keys={keyNodes} shortOpen={shortOpen} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }
+                                {diagramAllowed && <N4JDiagram edgeStraight={edgeStraight} keys={keyNodes} shortOpen={shortOpen} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }
                             </>
                             
                             : <a className="no-results">Нет результатов</a>
