@@ -17,7 +17,7 @@ function QuadricNode({ id, data }) {
     const [colorBasedOnType, setColorBasedOnType] = useState(color ? color : type == 'company' ? "#0A84C3" : type == 'person' ? "#97C30A" : type == 'address' ? '#F5A623' : '#0A84C3')
 
     const [keys, setKeys] = useState(Object.keys(data))
-    const [visibleKeys, setVisibleKeys] = useState(type == 'person' ? ['IIN', 'FIO', 'Data_Rozhdenya'] : type == 'company' ? ['FullNameNatLanguage', 'IINBIN'] : ['PKA', 'Adress'])
+    const [visibleKeys, setVisibleKeys] = useState(type == 'person' ? ['IIN', 'FIO', 'Data_Rozhdenya'] : type == 'company' ? ['FullNameNatLanguage', 'IINBIN'] : type == 'created' ? [] : ['PKA', 'Adress'])
 
     
 
