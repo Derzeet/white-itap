@@ -30,15 +30,23 @@ function QuadricNode({ id, data }) {
     const [additionalText, setAdditionalText] = useState([])
 
     const addNewText = () => {
-        setAdditionalText(currentArray => [...currentArray, ''])
+        setAdditionalText(currentArray => [...currentArray, 'Текст'])
     }
 
     const updateArrayItem = (index, newValue) => {
-        setAdditionalText(currentArray => 
-            currentArray.map((item, currentIndex) => 
-                currentIndex === index ? newValue : item
-            )    
-        )
+        if (newValue != '') {
+            setAdditionalText(currentArray => 
+                currentArray.map((item, currentIndex) => 
+                    currentIndex === index ? newValue : item
+                )    
+            )
+        } else {
+            setAdditionalText(currentArray => 
+                {
+                    return [...currentArray.slice(0, index), ...currentArray.slice(index+1)]
+                }
+            )
+        }
     }
 
     const handlePropertyChange = (x) => {
@@ -110,15 +118,20 @@ function QuadricNode({ id, data }) {
             <div className="node-body">
                 {visibleKeys.map(x => {
                     if (propertiesMAP[x]) {
-                        return (
-                            <a style={{fontSize: type == 'created' ? '11px' : '15px'}}>{propertiesMAP[x]}: {data[x]}</a>
-                        )
+                        if (data[x] || data[x] != '')
+                        {
+                            return (
+                                <a style={{fontSize: type == 'created' ? '11px' : '15px'}}>{propertiesMAP[x]}: {data[x]}</a>
+                            )
+                        }
                     }
                 })}
                 {additionalText.map(x => {
-                    return (
-                        <a style={{fontSize: type == 'created' ? '11px' : '15px'}}>{x}</a>
-                    )
+                    if (x != '') {
+                        return (
+                            <a style={{fontSize: type == 'created' ? '11px' : '15px'}}>{x}</a>
+                        )
+                    }
                 })}
             </div>
             <Handle
