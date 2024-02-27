@@ -76,7 +76,6 @@ function ITapPage() {
     }
 
     useEffect(() => {
-        console.log('ipdat4ed', nodes)
     }, [nodes, edges])
 
 
@@ -130,7 +129,7 @@ function ITapPage() {
         axios.get((axiosURL) + endPoint, {params: params}).then(async (res) => {
             let _nodes = []
             let _edges = res.data.edges;
-            console.log(res)
+            // console.log(res)
             function removeDuplicatesById(arr) {
                 const uniqueIds = new Set();
                 const resArr = [];
@@ -160,6 +159,8 @@ function ITapPage() {
     };
 
     const shortOpen = async (id) => {
+        setLoading(true)
+
         let _url = baseURL
         let showRels = allRelations.map(x => {
             return x.value;
@@ -171,6 +172,7 @@ function ITapPage() {
                 return x.value;
             })
         }
+
   
         axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels.join(','), limit: 20 }}).then( async (res) => {
             let _nodes = nodes
@@ -178,6 +180,7 @@ function ITapPage() {
 
             let tempNodes = res.data.nodes
             let tempEdges = res.data.edges
+            // console.log(tempEdges)
 
             tempNodes.map(x => {
                 let b = nodes.find(y => y.id == x.id)
@@ -189,17 +192,18 @@ function ITapPage() {
                 }
             })
             tempEdges.map(x => {
-                let q = edges.find(y => y.id == x.id)
-                if (q) {
+                // let q = edges.find(y => y.id == x.id)
+                // if (q) {
 
-                } else {
+                // } else {
                     _edges.push(x)
-                }
+                // }
             })
-
+            
             setEdges(_edges)
             setNodes(_nodes)
-
+            
+            setLoading(false)
         })
     }
 

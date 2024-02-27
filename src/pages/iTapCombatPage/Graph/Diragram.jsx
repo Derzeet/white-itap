@@ -50,7 +50,7 @@ function N4JDiagram({edgeStraight, shortOpen, keys, rnodes, redges}) {
     // const { initialNodes, initialEdges } = transformDataForReactFlow(response);
     const edgeUpdateSuccessful = useRef(true);
 
-    const [nodes, setNodes, onNodesChange] = useNodesState(assignGridPositions(initialNodes, keys, 0, 0, 300, 200));
+    const [nodes, setNodes, onNodesChange] = useNodesState(assignGridPositions(initialNodes, keys, 0, 0, 300, 1000));
     const [edges, setEdges, onEdgesChange] = useEdgesState(paintEdges(nodes, initialEdges, keys));
     const [zoomOnScroll, setZoomOnScroll] = useState(true);
 
@@ -111,8 +111,8 @@ function N4JDiagram({edgeStraight, shortOpen, keys, rnodes, redges}) {
     }, [rnodes, redges])
     
     const handleDoubleClick = (event, node) => {
-        console.log('Node double-clicked:', node)
-        // shortOpen(node.id)
+        // console.log('Node double-clicked:', node)
+        shortOpen(node.id)
     }
 
     //Delete node
@@ -191,7 +191,6 @@ function N4JDiagram({edgeStraight, shortOpen, keys, rnodes, redges}) {
       selectedNodeIds.add(node.id);
     }
     setSelectedNodeIds(new Set(selectedNodeIds));
-    console.log(selectedNodeIds)
   }, [selectedNodeIds]);
 
   const onNodesDrag = useCallback(({ nodes: draggedNodes }) => {

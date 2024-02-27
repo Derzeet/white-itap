@@ -106,26 +106,23 @@ const transformDataForReactFlow = (nodes, edges, keys) => {
   // let comEdges = combinedEdges.map((link) => {
   //     let color = stringToColor(keyNode.id.toString())
   //     console.log(link.target)
-  //     if ((link.source == keyNode.id)){
-  //         return {
-  //             ...link,
-  //             markerEnd: {
-  //                 type: MarkerType.ArrowClosed,
-  //                 width: 20,
-  //                 height: 20,
-  //                 color: color,
-  //             },
-  //             style: {
-  //                 strokeWidth: 2,
-  //                 stroke: color,
-  //             } 
-  //         }
-  //     } else {
-  //         return link
+     
+  //     return {
+  //         ...link,
+  //         markerEnd: {
+  //             type: MarkerType.ArrowClosed,
+  //             width: 20,
+  //             height: 20,
+  //             color: color,
+  //         },
+  //         style: {
+  //             strokeWidth: 2,
+  //             stroke: color,
+  //         } 
   //     }
   // })
-
-  return { initialNodes: combinedNodes, initialEdges: combinedEdges };
+  const comEE = paintEdges(combinedNodes, combinedEdges, keys)
+  return { initialNodes: combinedNodes, initialEdges: comEE };
 };
 
 export default transformDataForReactFlow;

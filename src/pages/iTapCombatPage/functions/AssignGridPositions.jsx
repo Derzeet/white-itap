@@ -42,7 +42,7 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
 
     let currentX = startX - (companies.length * (gapX)) 
     companies.forEach(node => {
-        node.position = { x: currentX, y: startY + gapY * 2 };
+        node.position = { x: currentX, y: startY + (gapY * 2) };
         node.located = true
         assignBinaryTree(nodes, node, gapX, gapY)
 
@@ -164,12 +164,12 @@ function assignBinaryTree(nodes, keyNode, gapX, gapY) {
                         let widthOfEdgeLine = currentX + 150 - ((itsEdges.length * 200) + ((itsEdges.length - 1) * 50))/2 
                         // console.log(itsEdges)
                         itsEdges.forEach(edge => {
-                            edge.position = { x: widthOfEdgeLine, y: startY + gapY }
+                            edge.position = { x: widthOfEdgeLine, y: startY + (gapY + 100) }
                             widthOfEdgeLine += 250
                         })
                     } else {
                         itsEdges.forEach(edge => {
-                            edge.position = { x: currentX + 50, y: startY + gapY }
+                            edge.position = { x: currentX + 50, y: startY + gapY + 100 }
                         })
                     }
                     currentX += gapX + 100; // Move down for the next node
@@ -195,12 +195,12 @@ function assignBinaryTree(nodes, keyNode, gapX, gapY) {
                         let widthOfEdgeLine = currentX + 150 - ((itsEdges.length * 200) + ((itsEdges.length - 1) * 50))/2 
                         // console.log(itsEdges)
                         itsEdges.forEach(edge => {
-                            edge.position = { x: widthOfEdgeLine, y: startY + gapY }
+                            edge.position = { x: widthOfEdgeLine, y: startY + gapY + 100 }
                             widthOfEdgeLine += 250
                         })
                     } else {
                         itsEdges.forEach(edge => {
-                            edge.position = { x: currentX + 50, y: startY + gapY }
+                            edge.position = { x: currentX + 50, y: startY + gapY + 100 }
                         })
                     }
                     currentX += gapX + 100; // Move down for the next node
@@ -227,12 +227,12 @@ function assignBinaryTree(nodes, keyNode, gapX, gapY) {
                         let widthOfEdgeLine = addressX + 100 - ((itsEdges.length * 200) + ((itsEdges.length - 1) * 50))/2 
                         // console.log(itsEdges)
                         itsEdges.forEach(edge => {
-                            edge.position = { x: widthOfEdgeLine, y: startY - gapY }
+                            edge.position = { x: widthOfEdgeLine, y: startY - gapY + 100 }
                             widthOfEdgeLine += 250
                         })
                     } else {
                         itsEdges.forEach(edge => {
-                            edge.position = { x: addressX + 50, y: startY - gapY }
+                            edge.position = { x: addressX + 50, y: startY - gapY + 100 }
                         })
                     }
                     addressX += gapX + 100; // Move down for the next node
