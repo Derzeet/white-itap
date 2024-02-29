@@ -87,7 +87,7 @@ function ITapPage() {
 
     const approveBeforeSubmit = (params, endPoint, newRequest, keys, options) => {
         setKeyNodes(keys ? keys : [])
-        if (newRequest || !userSession.roles.includes['ADMIN', 'VIP']) {
+        if (!userSession.roles.includes['ADMIN', 'VIP']) {
             // Submit(params, endPoint, options)
             setApprovementFormModal(true)
         } else {
