@@ -2,7 +2,7 @@ import avaPhoto from "./avaPhoto";
 
 const searchResultsOfLieSearch = [
     {
-        "option": "con4",
+        "option": "ul",
         "object": "141592",
         "nodes": [
             {
@@ -193,7 +193,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con4",
+        "option": "ul",
         "object": "653589",
         "nodes": [
             {
@@ -325,7 +325,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con4",
+        "option": "ul",
         "object": "462643",
         "nodes": [
             {
@@ -563,7 +563,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "502884",
         "nodes": [
             {
@@ -707,7 +707,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con4",
+        "option": "ul",
         "object": "123456",
         "nodes": [
             {
@@ -863,7 +863,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "197169",
         "nodes": [
             {
@@ -1066,7 +1066,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con4",
+        "option": "ul",
         "object": "383279",
         "nodes": [
             {
@@ -1210,7 +1210,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "793238",
         "nodes": [
             {
@@ -1367,7 +1367,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con4",
+        "option": "ul",
         "object": "399375",
         "nodes": [
             {
@@ -1511,7 +1511,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con4",
+        "option": "ul",
         "object": "105820",
         "nodes": [
             {
@@ -1714,7 +1714,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "974944",
         "nodes": [
             {
@@ -1921,7 +1921,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "592307",
         "nodes": [
             {
@@ -2077,7 +2077,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "816406",
         "nodes": [
             {
@@ -2502,7 +2502,7 @@ const searchResultsOfLieSearch = [
         ]
     },
     {
-        "option": "con1",
+        "option": "fl",
         "object": "998628",
         "nodes": [
             {

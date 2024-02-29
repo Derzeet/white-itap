@@ -4,6 +4,7 @@ import './leftbar.scss'
 import './spinner.scss'
 import axios from 'axios'
 
+
 import GenericInput from '../components/GenericInput/genericInput'
 import CompactLogs from './compactLogs/CompactLogs'
 // import allRelations from '../../../data/Relations'
@@ -79,6 +80,7 @@ function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
     const handleSubmit = () => {
         let endPoint = ''
         let params = {}
+        let options = {}
         let keys = []
         let firstName1 = f1SearchType == 'starts' ? fname1 + '.*' : f1SearchType == 'ends' ? '.*' + fname1 : '.*' + fname1 + '.*'
         let lastName1 = s1SearchType == 'starts' ? sname1 + '.*' : s1SearchType == 'ends' ? '.*' + sname1 : '.*' + sname1 + '.*'
@@ -90,6 +92,7 @@ function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
             if (fl_1_searchType == 'iin') {
                 endPoint = '/fltree'
                 params = {person: object1, relations: relations.join(','), depth, limit}
+                options = {mode: 'fl', iin1: object1, iin2: ''}
                 keys.push(object1)
             }
             else {
@@ -120,6 +123,7 @@ function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
             if (fl_1_searchType == 'iin') {
                 endPoint = "/shortestpaths";
                 params = {person: object1, person2: object2, relations: relations.join(',')}
+                options = {mode: 'flfl', iin1: object1, iin2: object2}
                 keys.push(object1)
                 keys.push(object2)
             } else {
@@ -140,6 +144,7 @@ function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
             if (fl_1_searchType == "iin") {
                 endPoint = "/flulpath";
                 params = {person: object1, ul: object2, relations: relations.join(',')}
+                options = {mode: 'flul', iin1: object1, iin2: object2}
                 keys.push(object1)
                 keys.push(object2)
             } else {
@@ -157,15 +162,17 @@ function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
         } else if (searchType == 'ul') {
             endPoint = "/ultree";
             params = {ul: object1, relations: relations.join(','), depth, limit }
+            options = {mode: 'ul', iin1: object1, iin2: ''}
             keys.push(object1)
         } else if (searchType == 'ulul') {
             endPoint = "/ululpath";
             params = {ul1: object1, ul2: object2, relations: relations.join(',') }
+            options = {mode: 'ulul', iin1: object1, iin2: object2}
             keys.push(object1)
             keys.push(object2)
         }
 
-        Submit(params, endPoint, newRequest, keys)
+        Submit(params, endPoint, newRequest, keys, options)
         
         // let options = {
         //     iin1, iin2, limit, depth, mode, relString, approvementObject, searchOption, checks1, checks2, fam1, nam1, fath1, fam2, nam2, fath2

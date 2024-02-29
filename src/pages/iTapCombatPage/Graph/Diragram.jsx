@@ -12,6 +12,7 @@ import ReactFlow, {
 import transformDataForReactFlow from "../functions/transformDataForReactFlow";
 
 import response from "../samles/apiResponseExample";
+import DownloadButton from "../functions/DownloadDiragramButton";
 
 import CustomNode from "../samles/CustomNode";
 import QuadricNode from "../components/CustomNodes/QuadricNode";
@@ -45,7 +46,7 @@ const minimapStyle = {
 const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
   
 
-function N4JDiagram({edgeStraight, shortOpen, keys, rnodes, redges}) {
+function N4JDiagram({buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) {
     const { initialNodes, initialEdges } = transformDataForReactFlow(rnodes, redges, keys);
     // const { initialNodes, initialEdges } = transformDataForReactFlow(response);
     const edgeUpdateSuccessful = useRef(true);
@@ -251,6 +252,7 @@ function N4JDiagram({edgeStraight, shortOpen, keys, rnodes, redges}) {
                 <MiniMap style={minimapStyle} zoomable pannable />
                 {/* <Controls /> */}
                 <Background color="#aaa" gap={16} />
+                <DownloadButton buttonRef={buttonRef}></DownloadButton>
             </ReactFlow>
         </>
     );

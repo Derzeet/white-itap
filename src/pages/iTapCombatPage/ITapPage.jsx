@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 
 
@@ -10,22 +10,31 @@ import './itappage.scss'
 import './loader.scss'
 import N4JDiagram from "./Graph/Diragram"
 import GraphNetnew from "../Graphs/Graphs"
-
+import searchResultsOfLieSearch from "../Graphs/localnetworks/primer1"
+import odualSSS from './data/offlineSearch'
 import graphIcon from './images/graphIcon.svg'
 import tableIcon from './images/graphTableIcon.svg'
+import exportIcon from './images/export.svg'
 
+import DownloadButton from "./functions/DownloadDiragramButton"
+import { toPng } from "html-to-image"
 import edgeTypeOne from './images/edge.svg'
 import edgeTypeTwo from './images/edge2.svg'
 
 const baseURL = "http://192.168.30.24:9091/api/finpol/main"
 const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
 
-
-
 function ITapPage() {
+    const buttonRef = useRef(null);
+    const itapRef = useRef(null)
+
+    const userSession = JSON.parse(localStorage.getItem("user"))
+
+
     const [lbOpened, setLbOpened] = useState(true)
     const [graphType, setGraphType] = useState('graph')
 
+    const [jsonLocalSearchStatus, setJsonLocalSearchStatus] = useState(false)
     const [edgeStraight, setEdgeStraight] = useState(false)
 
     const [physicsEnable, setPhysicsEnable] = useState(true)
@@ -60,18 +69,29 @@ function ITapPage() {
     const [dbVariant, setDbVariant] = useState('regular')
 
     const [loading, setLoading] = useState(false)
-
+    const handleClick = () => {
+        if (graphType == 'table') {
+            if (buttonRef.current) {
+                buttonRef.current.click();
+            }
+        } else {
+            if (itapRef.current) {
+                itapRef.current.click()
+            }
+        }
+    };
+    
     useEffect(() => {
         setTimeout(() => {setErrorDisplay(false)}, 5000)
     }, [errorDisplay == true])
 
-    const approveBeforeSubmit = (params, endPoint, newRequest, keys) => {
+    const approveBeforeSubmit = (params, endPoint, newRequest, keys, options) => {
         setKeyNodes(keys ? keys : [])
-        if (newRequest) {
-            Submit(params, endPoint)
-            // setApprovementFormModal(true)
+        if (newRequest || !userSession.roles.includes['ADMIN', 'VIP']) {
+            // Submit(params, endPoint, options)
+            setApprovementFormModal(true)
         } else {
-            Submit()
+            Submit(params, endPoint, options)
         }
     }
 
@@ -79,13 +99,12 @@ function ITapPage() {
     }, [nodes, edges])
 
 
-    const Submit = async (params, endPoint, approves) => {
+    const Submit = async (params, endPoint, options, approves) => {
         setApprovementFormModal(false)
         setLoading(true)
         setNodes([])
         setEdges([])
-
-        const userSession = JSON.parse(localStorage.getItem("user"))
+        
 
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
         
@@ -126,36 +145,68 @@ function ITapPage() {
             setDiragramAllowed(false)
         }
 
-        axios.get((axiosURL) + endPoint, {params: params}).then(async (res) => {
-            let _nodes = []
-            let _edges = res.data.edges;
-            // console.log(res)
-            function removeDuplicatesById(arr) {
-                const uniqueIds = new Set();
-                const resArr = [];
+        console.log(axiosURL + endPoint)
 
-                for (const item of arr) {
-                    if (!uniqueIds.has(item.properties.id)) {
-                        uniqueIds.add(item.properties.id)
-                        resArr.push(item)
-                    }
-                }
+        if (options?.iin1?.length == 6 || options?.iin1?.length == 13) {
+            let res = []
+            if (options.iin1.length == 6) {
+                setJsonLocalSearchStatus(true)
 
-                return resArr;
+                res = searchResultsOfLieSearch.find(item => item.option == options.mode && (item.object == options.iin1));
+                // }
+            } else {
+
+                res = odualSSS.find(item => item.option == options.mode && (item.iin1 == options.iin1));
             }
+    
+            if (res) {
 
-            _edges = await removeDuplicatesById(_edges);
+                let _nodes = res.nodes
+                const _edges = res.edges;
+    
+                setNodes(_nodes)
+                setEdges(_edges)
+    
+    
+                setLoading(false)
+            } else {
+                setLoading(false)
 
-            setNodes(res.data.nodes)
-            setEdges(_edges)
+                setErrorDisplay(true)
+            }
+        } else {
+            axios.get((axiosURL) + endPoint, {params: params}).then(async (res) => {
+                let _nodes = []
+                let _edges = res.data.edges;
+                // console.log(res)
+                function removeDuplicatesById(arr) {
+                    const uniqueIds = new Set();
+                    const resArr = [];
+    
+                    for (const item of arr) {
+                        if (!uniqueIds.has(item.properties.id)) {
+                            uniqueIds.add(item.properties.id)
+                            resArr.push(item)
+                        }
+                    }
+    
+                    return resArr;
+                }
+    
+                _edges = await removeDuplicatesById(_edges);
+    
+                setNodes(res.data.nodes)
+                setEdges(_edges)
+    
+            }).catch((r) => {
+                console.log(r)
+                setLoading(false)
+                setErrorDisplay(true)
+            }).finally(() => {
+                setLoading(false)
+            })
+        }
 
-        }).catch((r) => {
-            console.log(r)
-            setLoading(false)
-            setErrorDisplay(true)
-        }).finally(() => {
-            setLoading(false)
-        })
     };
 
     const shortOpen = async (id) => {
@@ -255,10 +306,16 @@ function ITapPage() {
                                     <img src={tableIcon} alt="T" />
                                 </div>
                             }
+
                         </div>
                         <div className={lbOpened ? "table-view-state" : "table-view-state closed"}>
                             <div className={`edge-state ${edgeStraight ? '' : 'active'}`} onClick={() => setEdgeStraight(!edgeStraight)}>
                                 <img src={edgeTypeOne} alt="G" />
+                            </div>
+                        </div>
+                        <div style={{display: nodes.length>0 ? 'block' : 'none'}} className={lbOpened ? "download-state" : "download-state closed"}>
+                            <div className={'edge-state'} onClick={() => handleClick()} >
+                                <img src={exportIcon} alt="G" />
                             </div>
                         </div>
                 </div>
@@ -268,8 +325,8 @@ function ITapPage() {
                         : 
                         nodes.length > 0 ?
                             <>
-                                {graphType == 'graph' && <GraphNetnew physicsEnable={physicsEnable} setPhysicsEnable={setPhysicsEnable} layoutOptions={layoutOptions} setLayoutOptions={setLayoutOptions} keys={keyNodes} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }   
-                                {diagramAllowed && <N4JDiagram edgeStraight={edgeStraight} keys={keyNodes} shortOpen={shortOpen} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }
+                                {graphType == 'graph' && <GraphNetnew itapRef={itapRef} physicsEnable={physicsEnable} setPhysicsEnable={setPhysicsEnable} layoutOptions={layoutOptions} setLayoutOptions={setLayoutOptions} keys={keyNodes} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }   
+                                {diagramAllowed && <N4JDiagram buttonRef={buttonRef} edgeStraight={edgeStraight} keys={keyNodes} shortOpen={shortOpen} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }
                             </>
                             
                             : <a className="no-results">Нет результатов</a>

@@ -56,7 +56,7 @@ var SelectedEdge = {}
 
 var onSelectNode = false;
 
-const GraphNetnew = ({physicsEnable, setPhysicsEnable, layoutOptions, setLayoutOptions,keys, rnodes, redges, setGlobalNodes, setGlobalEdges, iin1, iin2}) => {
+const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, setLayoutOptions,keys, rnodes, redges, setGlobalNodes, setGlobalEdges, iin1, iin2}) => {
     const location = useLocation()
     const {object, type, object2} = queryString.parse(location.search)
     const [updateGraph, setUpdateGraph] = useState(true)
@@ -591,21 +591,6 @@ const GraphNetnew = ({physicsEnable, setPhysicsEnable, layoutOptions, setLayoutO
             console.log(r)
             let res = []
             if (options.iin1.length == 6) {
-                // if
-                // (options.mode == 'con2') {
-                //     if (params.person == '000940' || params.person2 == '041140') {
-                //         res = IISch
-                //     }
-                // } else if (options.mode == 'con3') {
-                //     if (params.person == '000940' || params.ul == '041140') {
-                //         res = THIRDSch
-                //     }
-                // } else if (options.mode == 'con5') {
-                //     if (params.ul1 == '000940' || params.ul2 == '041140') {
-                //         res = ISCH
-                //     }
-                // } else
-                // {
                   setJsonLocalSearchStatus(true)
 
                   res = searchResultsOfLieSearch.find(item => item.option == options.mode && (item.object == options.iin1));
@@ -619,21 +604,6 @@ const GraphNetnew = ({physicsEnable, setPhysicsEnable, layoutOptions, setLayoutO
                     res = iin811006300996
                 }
             }
-            // if (params.person == '890724350918') {
-            //     res = iin890724350918
-            // } else if (params.person == '770712302729') {
-            //     res = iin770712302729
-            // } else if (params.person == '811006300996') {
-            //     res = iin811006300996
-            // } else if (params.ul1 == '000940' || params.ul2 == '041140' || options.mode == 'con5') {
-            //     res = ISCH
-            // } else if (options.iin1 == '000940' || options.iin2 == '041140' || options.mode == 'con3') {
-            //     console.log("con3sdsadsfd")
-            //     res = THIRDSch
-            // } else if (params.person == '000940' || params.person2 == '041140' || options.mode == 'con2') {
-            //     console.log(params)
-            //     res = IISch
-            // }
             let _nodes = []
             const _edges = res.edges;
 
@@ -1633,6 +1603,7 @@ const GraphNetnew = ({physicsEnable, setPhysicsEnable, layoutOptions, setLayoutO
                       updateGraph={updateGraph}
                   />
               </div>
+                <div style={{display: 'none'}} ref={itapRef} onClick={() => download()}></div>
                 <div className="rightBarOpen" style={{display: openRight?'none':'block', transition: 'display .8s ease'}}>
                     <IconButton aria-label="expand row" size="small" onClick={() => handleRightOpen(true)}>
                         <KeyboardArrowLeftIcon style={{ fill: '#000000' }}/>

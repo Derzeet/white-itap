@@ -133,7 +133,7 @@
             }
         }
 
-        .table-view-state {
+        .table-view-state, .download-state {
             background-color: #F2F0EE;
             border: 1px solid #BEBEBE;
             padding: 5px;
@@ -179,6 +179,10 @@
             &.closed {
                 left: 10px;
             }
+        }
+
+        .download-state {
+            top: 170px;
         }
 
     }

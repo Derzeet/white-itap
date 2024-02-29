@@ -29,6 +29,7 @@
     "chroma-js": "^2.4.2",
     "dayjs": "^1.11.7",
     "framer-motion": "^10.2.5",
+    "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
     "isexe": "^2.0.0",
     "query-string": "^8.1.0",
@@ -41,15 +42,12 @@
     "react-select": "^5.7.0",
     "react-virtuoso": "^4.2.2",
     "react-vis-network-graph": "^3.0.1",
-    "sass": "^1.62.0",
-    "superset-dashboard-sdk": "^1.0.0-alpha.10",
-    "sort-by": "^1.2.0",
     "reactflow": "^11.10.3",
-    
-    
+    "sass": "^1.62.0",
+    "sort-by": "^1.2.0",
+    "superset-dashboard-sdk": "^1.0.0-alpha.10",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
-    
   },
   "scripts": {
     "start": "set PORT=2189 && react-scripts start",
