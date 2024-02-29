@@ -342,7 +342,7 @@ const ApprovementModalWindow = (props) => {
                                 props.setApprovementObj(approvementss)
 
                                 if ( validate() ) {
-                                    props.send(approvementss)
+                                    props.send(props.params, props.endPoint, props.options, approvementss)
                                 } else {
                                     showError()
                                 }

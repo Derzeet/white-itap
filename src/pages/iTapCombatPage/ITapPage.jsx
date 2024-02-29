@@ -69,6 +69,11 @@ function ITapPage() {
     const [dbVariant, setDbVariant] = useState('regular')
 
     const [loading, setLoading] = useState(false)
+
+    const [param, setParam] = useState({})
+    const [endP, setEndP] = useState('')
+    const [optin, setOptin] = useState({})
+
     const handleClick = () => {
         if (graphType == 'table') {
             if (buttonRef.current) {
@@ -87,7 +92,10 @@ function ITapPage() {
 
     const approveBeforeSubmit = (params, endPoint, newRequest, keys, options) => {
         setKeyNodes(keys ? keys : [])
-        if (!userSession.roles.includes['ADMIN', 'VIP']) {
+        if (!userSession.roles.includes('ADMIN') && !userSession.roles.includes('VIP')) {
+            setParam(params)
+            setEndP(endPoint)
+            setOptin(options)
             // Submit(params, endPoint, options)
             setApprovementFormModal(true)
         } else {
@@ -271,7 +279,7 @@ function ITapPage() {
     return (
         <>
             {approbementFormModal &&
-                <ApprovementModalWindow send={Submit} setModal={setApprovementFormModal} setApprovementObj={setApprovementObject}/>
+                <ApprovementModalWindow params={param} endPoint={endP} optin={optin} send={Submit} setModal={setApprovementFormModal} setApprovementObj={setApprovementObject}/>
             }
             <div className="itap-tool-wraper">
                 <div className="warning-block" style={{top: !errorDisplay ? '-200px' : '10px'}}>
