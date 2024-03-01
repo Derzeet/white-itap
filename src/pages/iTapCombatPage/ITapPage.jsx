@@ -15,6 +15,7 @@ import odualSSS from './data/offlineSearch'
 import graphIcon from './images/graphIcon.svg'
 import tableIcon from './images/graphTableIcon.svg'
 import exportIcon from './images/export.svg'
+import binIcon from './images/bin.svg'
 
 import DownloadButton from "./functions/DownloadDiragramButton"
 import { toPng } from "html-to-image"
@@ -27,8 +28,12 @@ const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
 function ITapPage() {
     const buttonRef = useRef(null);
     const itapRef = useRef(null)
+    const deleteRef = useRef(null)
 
     const userSession = JSON.parse(localStorage.getItem("user"))
+
+    //For selection controller
+    const [selectionStarted, setSelectionStarted] = useState(false)
 
 
     const [lbOpened, setLbOpened] = useState(true)
@@ -74,6 +79,24 @@ function ITapPage() {
     const [endP, setEndP] = useState('')
     const [optin, setOptin] = useState({})
 
+    const handleDownload = () => {
+        const data = {
+            nodes,
+            edges,
+            param,
+        };
+        const jsonString = JSON.stringify(data);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const href = URL.createObjectURL(blob);
+        // const link = downloadLinkRef.current;
+        // if (link) {
+        //     link.href = href;
+        //     link.download = 'data.json';
+        //     link.click();
+        // }
+        // URL.revokeObjectURL(href);
+    };
+
     const handleClick = () => {
         if (graphType == 'table') {
             if (buttonRef.current) {
@@ -85,6 +108,13 @@ function ITapPage() {
             }
         }
     };
+
+    const handleNodesDelete = () => {
+        if (deleteRef.current) {
+            deleteRef.current.click();
+        }
+    };
+    
     
     useEffect(() => {
         setTimeout(() => {setErrorDisplay(false)}, 5000)
@@ -314,7 +344,6 @@ function ITapPage() {
                                     <img src={tableIcon} alt="T" />
                                 </div>
                             }
-
                         </div>
                         <div className={lbOpened ? "table-view-state" : "table-view-state closed"}>
                             <div className={`edge-state ${edgeStraight ? '' : 'active'}`} onClick={() => setEdgeStraight(!edgeStraight)}>
@@ -326,6 +355,11 @@ function ITapPage() {
                                 <img src={exportIcon} alt="G" />
                             </div>
                         </div>
+                        <div style={{display: selectionStarted ? 'block' : 'none'}} className={lbOpened ? "delete-state" : "delete-state closed"}>
+                            <div className={'edge-state'} onClick={() => handleNodesDelete()} >
+                                <img src={binIcon} alt="G" />
+                            </div>
+                        </div>
                 </div>
                 <div className="graph-container">
                     {loading ? 
@@ -334,7 +368,18 @@ function ITapPage() {
                         nodes.length > 0 ?
                             <>
                                 {graphType == 'graph' && <GraphNetnew itapRef={itapRef} physicsEnable={physicsEnable} setPhysicsEnable={setPhysicsEnable} layoutOptions={layoutOptions} setLayoutOptions={setLayoutOptions} keys={keyNodes} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }   
-                                {diagramAllowed && <N4JDiagram buttonRef={buttonRef} edgeStraight={edgeStraight} keys={keyNodes} shortOpen={shortOpen} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }
+                                {diagramAllowed && <N4JDiagram 
+                                                        deleteRef={deleteRef}
+                                                        setSelectionStarted={setSelectionStarted}
+                                                        buttonRef={buttonRef} 
+                                                        edgeStraight={edgeStraight} 
+                                                        keys={keyNodes} 
+                                                        shortOpen={shortOpen} 
+                                                        rnodes={nodes} 
+                                                        redges={edges} 
+                                                        setGlobalNodes={setNodes} 
+                                                        setGlobalEdges={setEdges}/> 
+                                                    }
                             </>
                             
                             : <a className="no-results">Нет результатов</a>

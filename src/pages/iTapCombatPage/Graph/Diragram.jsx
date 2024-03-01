@@ -46,7 +46,7 @@ const minimapStyle = {
 const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
   
 
-function N4JDiagram({buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) {
+function N4JDiagram({deleteRef, setSelectionStarted, buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) {
     const { initialNodes, initialEdges } = transformDataForReactFlow(rnodes, redges, keys);
     // const { initialNodes, initialEdges } = transformDataForReactFlow(response);
     const edgeUpdateSuccessful = useRef(true);
@@ -55,7 +55,30 @@ function N4JDiagram({buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) 
     const [edges, setEdges, onEdgesChange] = useEdgesState(paintEdges(nodes, initialEdges, keys));
     const [zoomOnScroll, setZoomOnScroll] = useState(true);
 
+    const [selectedElements, setSelectedElements] = useState([])
 
+    const deleteSelectedElements = () => {
+        if (!selectedElements) return;
+    
+        const selectedNodeIds = new Set(selectedElements.nodes?.map(node => node.id));
+        const selectedEdgeIds = new Set(selectedElements.edges?.map(edge => edge.id));
+    
+        // Filter out selected nodes and edges
+        const newNodes = nodes.filter(node => !selectedNodeIds.has(node.id));
+        const newEdges = edges.filter(edge => !selectedEdgeIds.has(edge.id) && !selectedNodeIds.has(edge.source) && !selectedNodeIds.has(edge.target));
+    
+        setNodes(newNodes);
+        setEdges(newEdges);
+        setSelectedElements([]); // Clear selection
+    };
+ 
+    useEffect(() => {
+        if (selectedElements.nodes?.length > 0) {
+            setSelectionStarted(true)
+        } else {
+            setSelectionStarted(false)
+        }
+    }, [selectedElements])
 
     const countEdgesBetweenNodes = (source, target, edgesArray) => {
         return edgesArray.filter((e) => 
@@ -222,6 +245,7 @@ function N4JDiagram({buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) 
                     onClose={() => setIsModalOpen(false)}
                 />
             )}
+            <button ref={deleteRef} style={{display: 'none'}} onClick={() => deleteSelectedElements()}></button>
             <ReactFlow
                 nodes={nodes.map(node => ({ 
                     ...node, 
@@ -237,6 +261,7 @@ function N4JDiagram({buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) 
                 onEdgeUpdateStart={onEdgeUpdateStart}
                 onEdgeUpdateEnd={onEdgeUpdateEnd}
                 onConnect={onConnect}
+                onSelectionChange={setSelectedElements}
                 onInit={onInit}
                 fitView
                 attributionPosition="top-right"
