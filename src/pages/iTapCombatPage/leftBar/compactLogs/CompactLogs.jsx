@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-
+import defaultURL from '../../../../data/baseURL';
 import '../spinner.scss'
 
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -99,7 +99,7 @@ export default function CompactLogs() {
   const userSession = JSON.parse(localStorage.getItem("user"))
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-    axios.get("http://192.168.30.24:9091/api/finpol/main/getCurrUserDetails").then(res=> {
+    axios.get(`${defaultURL}/main/getCurrUserDetails`).then(res=> {
         console.log(res.data.logs)
         const array = res.data.logs.map(x => {
             return {

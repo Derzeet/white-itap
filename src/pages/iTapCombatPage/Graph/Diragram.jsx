@@ -46,7 +46,7 @@ const minimapStyle = {
 const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
   
 
-function N4JDiagram({deleteRef, setSelectionStarted, buttonRef, edgeStraight, shortOpen, keys, rnodes, redges}) {
+function N4JDiagram({deleteRef, setSelectionStarted, buttonRef, edgeStraight, shortOpen, keys, rnodes, redges, setGlobalNodes, setGlobalEdges}) {
     const { initialNodes, initialEdges } = transformDataForReactFlow(rnodes, redges, keys);
     // const { initialNodes, initialEdges } = transformDataForReactFlow(response);
     const edgeUpdateSuccessful = useRef(true);
@@ -67,8 +67,26 @@ function N4JDiagram({deleteRef, setSelectionStarted, buttonRef, edgeStraight, sh
         const newNodes = nodes.filter(node => !selectedNodeIds.has(node.id));
         const newEdges = edges.filter(edge => !selectedEdgeIds.has(edge.id) && !selectedNodeIds.has(edge.source) && !selectedNodeIds.has(edge.target));
     
+
         setNodes(newNodes);
         setEdges(newEdges);
+        try {
+            const newGlobalNodes = rnodes.filter(node => !selectedNodeIds.has(node.id.toString()));
+            
+            console.log(selectedNodeIds)
+            
+            setGlobalNodes(newGlobalNodes);
+        } catch (e) {
+            console.log(e)
+        }
+        try {
+            const newGlobalEdges = redges.filter(edge => !selectedEdgeIds.has(edge.id.toString()));
+            setGlobalEdges(newGlobalEdges);
+            console.log(newGlobalEdges)
+
+        } catch (e) {
+            console.log(e)
+        }
         setSelectedElements([]); // Clear selection
     };
  

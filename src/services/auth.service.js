@@ -1,11 +1,12 @@
 import axios from "axios";
+import defaultURL from "../data/baseURL";
 
-const API_URL = "http://192.168.30.24:9091/api/finpol/auth/";
+const API_URL = "/auth/";
 
 class AuthService {
   login(username, password) {
     return axios
-      .post(API_URL + "signin", {
+      .post(defaultURL + API_URL + "signin", {
         username,
         password
       })
@@ -23,8 +24,8 @@ class AuthService {
   }
 
   register(username, email, FIO, password, level, user_photo) {
-    return axios.post(API_URL + "signup", {
-      username,
+    return axios.post(defaultURL +     API_URL + "signup", {
+      username,       
       email,
       FIO,
       password,

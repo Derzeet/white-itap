@@ -373,7 +373,7 @@ const odualSSS = [
               "properties": {
                 "id": 119790531,
                 "Start_Date": "01.11.2019",
-                "End_Date": "27.03.2023",
+                "End_Date": "27.02.2024",
                 "Vid_svyaziey": "Нынешний сотрудник"
               },
               "label": "Нынешний сотрудник",

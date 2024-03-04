@@ -12,10 +12,10 @@ import {TableRow} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-
+import defaultURL from "../../data/baseURL";
 import iconImp from './../../images/icons8-alert-96.png'
 
-const baseURL = "http://192.168.30.24:9091/api/finpol/main"
+const baseURL = "/main"
 
 const AdminPage = (props) => {
     const userSession = JSON.parse(localStorage.getItem("user"))
@@ -40,7 +40,7 @@ const AdminPage = (props) => {
     useEffect(() => {
         const a = !userSession.roles.includes("ADMIN") ? navigate('/') : ""
 
-        axios.get(`${baseURL}/general`)
+        axios.get(`${defaultURL}${baseURL}/general`)
         .then(res => {
             setUsers(res.data.userNumber)
             setLogs(res.data.allLogsNum)
@@ -48,7 +48,7 @@ const AdminPage = (props) => {
             // console.log(this.location)
         })
 
-        axios.get(`${baseURL}/getLogsImp`)
+        axios.get(`${defaultURL}${baseURL}/getLogsImp`)
             .then(res => {
                 setImpLogs( res.data );
                 console.log(res.data)

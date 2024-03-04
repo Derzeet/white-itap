@@ -22,8 +22,10 @@ import { toPng } from "html-to-image"
 import edgeTypeOne from './images/edge.svg'
 import edgeTypeTwo from './images/edge2.svg'
 
-const baseURL = "http://192.168.30.24:9091/api/finpol/main"
-const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
+import defaultURL from "../../data/baseURL"
+
+const baseURL = "/main"
+const zagsURL = "/zags"
 
 function ITapPage() {
     const buttonRef = useRef(null);
@@ -183,7 +185,7 @@ function ITapPage() {
             setDiragramAllowed(false)
         }
 
-        console.log(axiosURL + endPoint)
+        console.log(defaultURL + axiosURL + endPoint)
 
         if (options?.iin1?.length == 6 || options?.iin1?.length == 13) {
             let res = []
@@ -213,9 +215,10 @@ function ITapPage() {
                 setErrorDisplay(true)
             }
         } else {
-            axios.get((axiosURL) + endPoint, {params: params}).then(async (res) => {
+            axios.get(defaultURL + axiosURL + endPoint, {params: params}).then(async (res) => {
                 let _nodes = []
                 let _edges = res.data.edges;
+                console.log(res.data.edges)
                 // console.log(res)
                 function removeDuplicatesById(arr) {
                     const uniqueIds = new Set();
@@ -250,13 +253,13 @@ function ITapPage() {
     const shortOpen = async (id) => {
         setLoading(true)
 
-        let _url = baseURL
+        let _url = defaultURL + baseURL
         let showRels = allRelations.map(x => {
             return x.value;
         })
 
         if (dbVariant == 'zags') {
-            _url = zagsURL
+            _url = defaultURL + zagsURL
             showRels = relationsZags.map(x => {
                 return x.value;
             })
