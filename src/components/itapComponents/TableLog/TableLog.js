@@ -10,13 +10,6 @@ export default class TableLog extends Component {
         logs: [],
     }
 
-    // componentDidMount() {
-    //     axios.get(`http://localhost:9111/api/finpol/main/logs`)
-    //       .then(res => {
-    //         const logs = res.data;
-    //         this.setState({ logs });
-    //       })
-    //   }
 
     render() {
         return (

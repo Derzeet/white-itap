@@ -7,30 +7,17 @@ import { ruRU } from '@mui/x-date-pickers/locales';
 
 import {motion} from 'framer-motion';
 
-import CalendarPage from './pages/CalendarPage/CalendarPage';
 import './App.scss'
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
-import DosiePage from './pages/dosPage/DosiePage';
-import UlDosiePage from './pages/ulDosPage/UlDosiePage'
-import MainPage from './pages/mainPage/MainPage';
-import SearchPage from './pages/searchPage/SearchPage';
 import Navbar from './components/dossierComponents/nav-bar/Navbar';
-import WorkersPage from './pages/WorkersPage/WorkersPage';
 // import Navbar from './components/itapComponents/NavBar/Navbar';
 import GrayNavbar from './components/gray-navbar/gray-navbar';
 import { createTheme, ThemeProvider } from '@mui/material';
-import OracleTable from "./pages/OracleTable/OracleTable";
-import NewsPage from './pages/NewsPage/NewsPage';
-import ArticlePage from './pages/ArticlePage/ArticlePage';
-import CreateArticlePage from './pages/CreateArticle/CreateArticlePage';
-import BureauPage from './pages/BureauPage/BureauPage';
-import SupersetPage from "./pages/Superset/SupersetPage";
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-import GraphNetnew from './pages/Graphs/Graphs';
 
 import ITapPage from './pages/iTapCombatPage/ITapPage';
 

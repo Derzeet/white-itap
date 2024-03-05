@@ -26,7 +26,7 @@ import './tabContent_fio.scss'
 
 import DopInfoBlock from '../dop-info-block/DopInfoBlock';
 import default_host from '../../../config/config';
-// const baseURL = 'http://localhost:9095/'
+
 const selectStyle = {
     width: '200px',
     height: '35px',

@@ -19,8 +19,9 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import default_host from "../../config/config";
 
-const baseURL = "http://192.168.30.24:9111/api/finpol/main"
+const baseURL = default_host+"api/finpol/main"
 
 function withParams(Component) {
     return props => <Component {...props} username={useParams()} />;
@@ -81,7 +82,7 @@ class UserDetails extends Component {
         const userSession = JSON.parse(localStorage.getItem("user"))
 
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-        axios.post("http://192.168.30.24:9111/api/finpol/auth/changePassword", null, 
+        axios.post(default_host+"api/finpol/auth/changePassword", null, 
             { params: { 
                 password: this.state.newPassword,
                 username: e, 

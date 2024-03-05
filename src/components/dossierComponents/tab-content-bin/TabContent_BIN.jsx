@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import SearchedTable from '../searchedTableUL/SearchedTableUL';
-// const baseURL = 'http://192.168.30.24:9095/'
 import default_host from '../../../config/config';
 
 const inputStyle = {
