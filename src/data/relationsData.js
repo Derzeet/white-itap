@@ -36,7 +36,7 @@ export const relationsLevel1 = [
     {value: "SLUZHIL", label: "Служил"},
     {value: "SUDIM", label: "Судим"},
     {value: "UCHILSYA", label: "Образование"},
-    {value: "WORKER_CUR", label: "НЫНЕШНИЙ РАБОТНИК"},
+    {value: "WORKER_CUR", label: "ДЕЙСТВУЮЩИЙ РАБОТНИК"},
     {value: "WORKER_HIST", label: "БЫВШИЙ РАБОТНИК"},
     {value: "ZAGS", label: "ЗАГС"},
     // {value: "ZAGS_FIO", label: "ЗАГС-ФИО"},
