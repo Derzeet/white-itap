@@ -57,7 +57,7 @@ function ProfilePage(props) {
     const getUserInfo = async () => {
         console.log(userSession)
 
-        let res = await axios.get("http://192.168.30.24:9091/api/finpol/main/getUserInfo",
+        let res = await axios.get("http://192.168.30.24:9111/api/finpol/main/getUserInfo",
     { headers: {
                 Authorization: `Bearer ${userSession.accessToken}`
             }})
@@ -77,7 +77,7 @@ function ProfilePage(props) {
             setChangePasswordError(false)
 
             
-            let res = await axios.post("http://192.168.30.24:9091/api/finpol/auth/changePassword?password=" + newPassword)
+            let res = await axios.post("http://192.168.30.24:9111/api/finpol/auth/changePassword?password=" + newPassword)
             console.log(res.body)
             document.getElementById('tab1').click()
 
@@ -348,7 +348,7 @@ function OldProfilePage(props) {
             setChangePasswordError(false)
 
             
-            let res = await axios.post("http://192.168.30.24:9091/api/finpol/auth/changePassword?password=" + newPassword)
+            let res = await axios.post("http://192.168.30.24:9111/api/finpol/auth/changePassword?password=" + newPassword)
             console.log(res.body)
             document.getElementById('tab1').click()
 
@@ -360,7 +360,7 @@ function OldProfilePage(props) {
     const getUserInfo = async () => {
         console.log(userSession)
 
-        let res = await axios.get("http://192.168.30.24:9091/api/finpol/main/getUserInfo",
+        let res = await axios.get("http://192.168.30.24:9111/api/finpol/main/getUserInfo",
     { headers: {
                 Authorization: `Bearer ${userSession.accessToken}`
             }})
