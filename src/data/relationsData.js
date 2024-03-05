@@ -6,7 +6,7 @@ export const allRelations = [
     {value: "DFO_AFF_UL", label: "ДФО-Юл"},
 
     {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
-    {value: "PHONE", label: "Телефон"},
+    // {value: "PHONE", label: "Телефон"},
     // {value: "AKIM", label: "АКИМ"},
     {value: "DIRECTOR_HIST", label: "Бывший Директор"},
     {value: "FOUNDER_CUR", label: "Нынешний Учредитель"},
@@ -16,7 +16,7 @@ export const allRelations = [
     {value: "esf_100kk_1000kk", label: "ЭСФ от 100млн до 1млрд"},
     {value: "esf_10kkk_bolshe", label: "ЭСФ от 10млрд и больше"},
     {value: "GOSZAKUP", label: "ГОСЗАКУП"},
-    {value: "IP-KX", label: "ИП-КХ"},
+    // {value: "IP-KX", label: "ИП-КХ"},
     {value: "OPG", label: "ОПГ"},
     {value: "PDL", label: "ПДЛ"},
     {value: "REG_ADDRESS_CUR", label: "АДРЕС-НЫНЕШНИЙ"},
@@ -52,7 +52,7 @@ export const relationsLevel1 = [
     {value: "DFO_AFF_UL", label: "ДФО-Юл"},
 
     {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
-    {value: "PHONE", label: "Телефон"},
+    // {value: "PHONE", label: "Телефон"},
     //LOCAL
     // {value: "AKIM", label: "АКИМ"},
     {value: "DIRECTOR_HIST", label: "Бывший Директор"},
@@ -69,7 +69,7 @@ export const relationsLevel1 = [
     // {value: "ESF_5and10", label: "ЭСФ500-1М"},
     // {value: "FPG", label: "ФПГ"},
     {value: "GOSZAKUP", label: "ГОСЗАКУП"},
-    {value: "IP-KX", label: "ИП-КХ"},
+    // {value: "IP-KX", label: "ИП-КХ"},
     // {value: "NTR_FL", label: "Нотариус Фл"},
     // {value: "NTR_UL_FL", label: "Нотариус ЮЛ-Фл"},
     {value: "OPG", label: "ОПГ"},
