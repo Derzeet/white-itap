@@ -9,7 +9,6 @@ export const relationsLevel1 = [
     {value: "DIRECTOR_CUR", label: "Нынешний Директор"},
     {value: "PHONE", label: "Телефон"},
     //LOCAL
-    {value: "AKIM", label: "АКИМ"},
     {value: "DIRECTOR_HIST", label: "Бывший Директор"},
     {value: "FOUNDER_CUR", label: "Нынешний Учредитель"},
     {value: "FOUNDER_HIST", label: "Бывший Учредитель"},
