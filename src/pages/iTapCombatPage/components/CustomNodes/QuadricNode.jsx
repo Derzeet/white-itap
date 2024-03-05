@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
 import plusIcon from '../../images/plucIcon.svg'
@@ -14,13 +14,36 @@ function QuadricNode({ id, data }) {
     const [renderedLabel, setRenderedLabel] = useState(type == 'person' ? (data.FIO ? data.FIO : data.Familia + " " + data.Name + " " + data.Otchestvo) : type == 'company' ? (data.Name? data.Name : data.FullNameIP ) : type == 'address' ? data.Adress : type == 'created' ? data.Name : 'address')
 
     const [propertiesMAP, setPropertiesMAP] = useState(type == 'person' ? personDictionary : type == 'company' ? companyDictionary : propertiesDictionary)
+    const [isKey, setIsKey] = useState(false)
     const [colorBasedOnType, setColorBasedOnType] = useState(color ? color : type == 'company' ? "#0A84C3" : type == 'person' ? "#97C30A" : type == 'address' ? '#F5A623' : '#0A84C3')
-
     const [keys, setKeys] = useState(Object.keys(data))
     const [visibleKeys, setVisibleKeys] = useState(type == 'person' ? ['IIN', 'FIO', 'Data_Rozhdenya'] : type == 'company' ? ['FullNameNatLanguage', 'IINBIN'] : type == 'created' ? [] : ['PKA', 'Adress'])
-
-    
-
+    const [judge, setJudge] = useState(false)
+    useEffect(() => {
+        console.log(data)
+        if (data.key == true) {
+            setIsKey(true)
+            setColorBasedOnType('black')
+        }
+        if (data.STATUS_OPG != null || data.STATYA_ERDR != null || data.ORGAN_REGISTER != null
+            ||  data.Status_neplatejasposobnosti != null ||  data.Bankrot != null
+            ||  data.BEZDEYSTVIA_UL != null ||  data.ERDR != null ||  data.FPG != null || data.Organ_pravanarushenya != null || data.Pristavanie != null || data.Doljnik != null
+            || data.Doljnik_po_alimentam != null || data.Status_neplatejasposobnosti != null || data.Razmer_Shtrafa != null
+            || data.Status_KUIS != null || data.Status_Minzdrav != null || data.Statya != null || data.V_Roziske != null
+            || data.Sud_ispolnitel != null || data.Med_org != null
+            || data.StoppedBySud != null
+            || data.PDL != null
+            || data.SroppedByOrgan != null
+            || data.ERDR != null
+            || data.Propal != null
+            || data.Rozisk != null
+            || data.StatusPFR != null
+            || data.DeadlinePassed != null
+            || data.Doljnik != null
+            || data.Rozisk != null) {
+                setJudge(true)
+            }
+    }, [])
     const [hoverState, setHoverState] = useState('')
 
     
@@ -68,7 +91,7 @@ function QuadricNode({ id, data }) {
     };
 
     return (
-        <div className='quadric-node' style={{backgroundColor: colorBasedOnType}}>
+        <div className='quadric-node' style={{backgroundColor: colorBasedOnType, border: judge ? '10px solid red' : 'none'}} >
             <Handle
                 type="source"
                 position={Position.Top}
@@ -77,7 +100,7 @@ function QuadricNode({ id, data }) {
             />
             {data.photo ? 
             <div className="node-header-with-photo"> 
-                <img src={'data:image/jpeg;base64,'+data.photo} alt="" />               
+                <img src={'data:image/jpeg;base64,'+data.photo} alt=""/>               
                 <textarea
                     className='rendered-label-input'
                     style={{ fontSize: type === 'created' ? '12px' : '16px' }}
