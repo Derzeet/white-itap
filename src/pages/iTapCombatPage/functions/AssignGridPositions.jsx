@@ -40,6 +40,7 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
         if (keyNode) {
             keyNode.position = { x: startX + (gapX * (companies.length + persons.length) / 4), y: startY - 70};
             keyNode.located = true
+            keyNode.data.key = true
         }
     
         let currentX = startX - (companies.length * (gapX)) 
