@@ -81,24 +81,65 @@ function ITapPage() {
     const [endP, setEndP] = useState('')
     const [optin, setOptin] = useState({})
 
+
     const handleDownload = () => {
+        // Include all relevant state in the data object
         const data = {
             nodes,
             edges,
+            diagramAllowed,
+            dbVariant,
             param,
+            keyNodes
         };
-        const jsonString = JSON.stringify(data);
+        const jsonString = JSON.stringify(data, null, 2); // Beautify the JSON string
         const blob = new Blob([jsonString], { type: 'application/json' });
         const href = URL.createObjectURL(blob);
-        // const link = downloadLinkRef.current;
-        // if (link) {
-        //     link.href = href;
-        //     link.download = 'data.json';
-        //     link.click();
-        // }
-        // URL.revokeObjectURL(href);
+    
+        // Create a temporary anchor element to trigger the download
+        const downloadLink = document.createElement('a');
+        downloadLink.href = href;
+        downloadLink.download = 'diagram_data.json'; // Name of the file to be downloaded
+        document.body.appendChild(downloadLink); // Append to the body to ensure it can be clicked
+        downloadLink.click(); // Programmatically click the link to trigger the download
+    
+        document.body.removeChild(downloadLink); // Clean up by removing the link
+        URL.revokeObjectURL(href); // Release the created object URL
     };
 
+    const handleDragOver = (e) => {
+        e.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+    };
+    
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        if (files.length) {
+            const file = files[0];
+            if (file.type === "application/json") {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    try {
+                        const json = JSON.parse(content);
+                        // Assuming json contains { nodes, edges, param }
+                        setNodes(json.nodes || []);
+                        setEdges(json.edges || []);
+                        setParam(json.param || {});
+                        setKeyNodes(json.keyNodes || [])
+                        // Update other states as needed
+                    } catch (error) {
+                        console.error("Error parsing JSON file", error);
+                        // Handle error (e.g., show notification to the user)
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                // Handle wrong file type (e.g., show notification to the user)
+            }
+        }
+    };
+    
     const handleClick = () => {
         if (graphType == 'table') {
             if (buttonRef.current) {
@@ -327,7 +368,7 @@ function ITapPage() {
                 </div>
                 <div className="left-bar-container-button">
                     <div className={lbOpened ? "left-bar-container" : "left-bar-container closed"}>
-                        <LeftBar handleLayout={handleLayout} graphType={graphType} dbVariant={dbVariant} setDbVariant={setDbVariant} Submit={approveBeforeSubmit}/>
+                        <LeftBar handleDownload={handleDownload} handleLayout={handleLayout} graphType={graphType} dbVariant={dbVariant} setDbVariant={setDbVariant} Submit={approveBeforeSubmit}/>
                     </div>
                     <div className="open-lb-button" onClick={() => {setLbOpened(!lbOpened)}}>
                         <svg className={lbOpened ? "default-svg closed wide" : "hidden-svg"} xmlns="http://www.w3.org/2000/svg" width="9" height="24" viewBox="0 0 9 24" fill="none">
@@ -364,7 +405,9 @@ function ITapPage() {
                             </div>
                         </div>
                 </div>
-                <div className="graph-container">
+                <div className="graph-container"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}>
                     {loading ? 
                         <span class="loader"></span>
                         : 

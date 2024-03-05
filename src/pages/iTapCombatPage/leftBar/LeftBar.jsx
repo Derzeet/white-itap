@@ -17,7 +17,7 @@ import { setRef } from '@mui/material'
 import LayoutController from '../../../components/itapComponents/LayoutController/LayoutController'
 
 
-function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
+function LeftBar({handleDownload, handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
     const [newRequest, setNewRequest] = useState(true)
 
     const [searchType, setSearchType] = useState('fl')
@@ -610,6 +610,8 @@ function LeftBar({handleLayout, graphType, dbVariant, setDbVariant, Submit}) {
                 }
             </div>
             <div className="submit-block">
+                <a className='clear' onClick={handleDownload}>Скачать схему</a>
+
                 <a className='clear' onClick={clearOptions}>Очистить</a>
                 <a className='submit' onClick={handleSubmit}>Запустить</a>
             </div>
