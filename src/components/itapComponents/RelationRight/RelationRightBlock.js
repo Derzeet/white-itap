@@ -144,7 +144,7 @@ const RelationBlock = (props) => {
             level: 0
         },
         WORKER_CUR: {
-            value: "НЫНЕШНИЙ РАБОТНИК",
+            value: "ДЕЙСТВУЮЩИЙ РАБОТНИК",
             checked: false,
             level: 0
         },
