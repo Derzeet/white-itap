@@ -36,7 +36,7 @@ import Select from '@mui/material/Select';
 import dayjs from "dayjs";
 import moment from "moment/moment";
 import { createTheme, ThemeProvider } from '@mui/material';
-const baseURL = "http://192.168.30.24:9091/api/finpol/main"
+const baseURL = "http://192.168.30.24:9111/api/finpol/main"
 
 const dictionaryOfTable = {
     "messOfmId" : "Идентификатор записи о сообщении",
