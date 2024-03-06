@@ -114,6 +114,8 @@ function ITapPage() {
     const handleDrop = (e) => {
         e.preventDefault();
         const files = e.dataTransfer.files;
+        setNodes([])
+        setEdges([])
         if (files.length) {
             const file = files[0];
             if (file.type === "application/json") {

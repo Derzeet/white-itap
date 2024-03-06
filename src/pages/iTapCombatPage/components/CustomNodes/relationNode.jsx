@@ -1,6 +1,7 @@
 import React, { memo, useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
+import { allRelations } from '../../../../data/relationsData';
 import plusIcon from '../../images/plucIcon.svg'
 import trashIcon from '../../images/trashIcon.svg'
 import editIcon from '../../images/editIcon.svg'
@@ -12,7 +13,7 @@ import { hover } from '@testing-library/user-event/dist/hover';
 function RelationNode({ id, data }) {
     const { onDeleteNode, createNodeAndConnect, setZoomOnScroll, color, type } = data;
 
-    const [renderedLabel, setRenderedLabel] = useState(data.Vid_svyaziey)
+    const [renderedLabel, setRenderedLabel] = useState(data.label)
 
     const [colorBasedOnType, setColorBasedOnType] = useState('#9B8B7B')
 

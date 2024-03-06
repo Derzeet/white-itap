@@ -20,7 +20,7 @@ import THIRDSch from "./localnetworks/thirdSchema";
 import ISCH from "./localnetworks/whiteItap";
 import searchResultsOfLieSearch from "./localnetworks/primer1";
 
-import { relationsLevel1 } from "../../data/relationsData";
+import { allRelations, relationsLevel1 } from "../../data/relationsData";
 
 // import userIconWhite from "./../../user-icon-white.png";
 // import userIconBlack from "./../../user-icon-black.png";
@@ -835,7 +835,7 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
         if (edge.properties.Vid_svyaziey == 'ЭСФ') {
           edge.label = relationsLevel1.find(x => x.value == edge.type).label || edge.properties.Vid_svyaziey
         } else {
-          edge.label = edge.properties.Vid_svyaziey
+          edge.label = allRelations.find(x => x.value == edge.type).label
         }
 
         Object.assign(edge, {"color": "black"})
