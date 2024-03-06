@@ -12,7 +12,7 @@ import { hover } from '@testing-library/user-event/dist/hover';
 function RelationNode({ id, data }) {
     const { onDeleteNode, createNodeAndConnect, setZoomOnScroll, color, type } = data;
 
-    const [renderedLabel, setRenderedLabel] = useState(data.Vid_svyaziey)
+    const [renderedLabel, setRenderedLabel] = useState(data.label)
 
     const [colorBasedOnType, setColorBasedOnType] = useState('#9B8B7B')
 
