@@ -46,6 +46,9 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
         let currentX = startX - (companies.length * (gapX)) 
         companies.forEach(node => {
             node.position = { x: currentX, y: startY + (gapY * 2) };
+            if (keys.includes(node.data.IINBIN || node.data.IIN)) {
+                node.data.key = true
+            }
             node.located = true
             assignBinaryTree(nodes, node, gapX, gapY)
     
@@ -69,6 +72,7 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
         currentX += gapX * 2
         persons.forEach(node => {
             node.position = { x: currentX, y: startY + gapY * 2 }; 
+            // console.log(keys)
             node.located = true
             assignBinaryTree(nodes, node, gapX, gapY)
             let itsEdges = transformedEdges.filter(x => (x.data.target == node.id) || (x.data.source == node.id))
@@ -112,7 +116,12 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
             }
             addressX += gapX + 100; // Move down for the next node
         });
-    
+
+        nodes.forEach(node => {
+            if (keys.includes(node.data.IINBIN || node.data.IIN)) {
+                node.data.key = true
+            }
+        })
         return nodes;
     } else {
         return nodes;
