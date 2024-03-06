@@ -1,13 +1,13 @@
 export default function assignGridPositions(nodes, keys, startX, startY, gapX, gapY) {
     const keyNode = nodes.find(node => keys.includes(node.data.IINBIN || node.data.IIN));
-    
+    console.log(keyNode)
     if (keyNode) {
 
         const transformedEdges = nodes.filter(node => node.type == 'edgeNode' && (node.data.source == keyNode.id || node.data.target == keyNode.id))
         // console.log("Directly connected edges", transformedEdges)
         const companies = nodes.filter(
             node => 
-                !keys.includes((node.data.IINBIN || node.data.IIN) && node.located == false) && 
+                !keys.includes((node.data.IINBIN || node.data.IIN)) && 
                 (node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.target || node.id == transformedEdges.find(x => (x.data.target == node.id) || (x.data.source == node.id))?.data.source ) &&
                 node.data.type == 'company'
                 )
@@ -38,16 +38,20 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
     
         // Position the key node
         if (keyNode) {
-            keyNode.position = { x: startX + (gapX * (companies.length + persons.length) / 4), y: startY - 70};
+            console.log("keynode", keyNode)
+            keyNode.position = { x: startX, y: startY - 70};
             keyNode.located = true
             keyNode.data.key = true
         }
     
-        let currentX = startX - (companies.length * (gapX)) 
+        let currentX = startX - (companies.length * (gapX + 100)) 
         companies.forEach(node => {
-            node.position = { x: currentX, y: startY + (gapY * 2) };
             if (keys.includes(node.data.IINBIN || node.data.IIN)) {
                 node.data.key = true
+            }
+            node.position = { x: currentX, y: startY + (gapY * 2) };
+            if (node.located == false) {
+
             }
             node.located = true
             assignBinaryTree(nodes, node, gapX, gapY)
@@ -69,7 +73,7 @@ export default function assignGridPositions(nodes, keys, startX, startY, gapX, g
             }
             currentX += gapX + 100; // Move down for the next node
         });
-        currentX += gapX * 2
+        currentX += 400
         persons.forEach(node => {
             node.position = { x: currentX, y: startY + gapY * 2 }; 
             // console.log(keys)
@@ -159,10 +163,10 @@ function assignBinaryTree(nodes, keyNode, gapX, gapY) {
     
         // Position the key node
         let startX = keyNode.position.x
-        let startY = keyNode.position.y
+        let startY = keyNode.position.y + 50
         
 
-        let currentX = startX - (companies.length * (gapX)) - 200 
+        let currentX = startX - (companies.length * (gapX + 100)) 
         if (companies.length > 0) {
             companies.forEach(node => {
                 if (node.located) {
