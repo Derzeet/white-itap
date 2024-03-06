@@ -20,7 +20,7 @@ import THIRDSch from "./localnetworks/thirdSchema";
 import ISCH from "./localnetworks/whiteItap";
 import searchResultsOfLieSearch from "./localnetworks/primer1";
 
-import { relationsLevel1 } from "../../data/relationsData";
+import { allRelations, relationsLevel1 } from "../../data/relationsData";
 
 // import userIconWhite from "./../../user-icon-white.png";
 // import userIconBlack from "./../../user-icon-black.png";
@@ -43,11 +43,10 @@ import ripPersonIcon from '../../icons/rip_person.png'
 import ntrIcon from '../../icons/ntrIcon.jpg'
 import glkPersonIcon from '../../icons/GLK.jpeg'
 import carIcon from '../../icons/car.png'
+import default_host from "../../config/config";
 
-
-const baseURL = "http://192.168.30.24:9091/api/finpol/main"
-const zagsURL = "http://192.168.30.24:9091/api/finpol/zags"
-const baseURL1 = "http://192.168.30.24:9092/api/finpol/main"
+const baseURL = default_host+"api/finpol/main"
+const zagsURL = default_host+"api/finpol/zags"
 
 var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false}
 var Network;
@@ -532,7 +531,6 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
         params["sphereName"] = options.approvementObject ? options.approvementObject.sphereName : ''
         params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ''
 
-        //axios.get((tabName == 'search' ? baseURL : "http://192.168.30.24:9092/api/finpol/main") + url, {params: params})
         let currentURL = baseURL
         setURLState(baseURL)
         if (tabName == 'zags') {
@@ -837,7 +835,7 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
         if (edge.properties.Vid_svyaziey == 'ЭСФ') {
           edge.label = relationsLevel1.find(x => x.value == edge.type).label || edge.properties.Vid_svyaziey
         } else {
-          edge.label = edge.properties.Vid_svyaziey
+          edge.label = allRelations.find(x => x.value == edge.type).label
         }
 
         Object.assign(edge, {"color": "black"})
