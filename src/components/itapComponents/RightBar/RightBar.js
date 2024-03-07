@@ -80,7 +80,7 @@ const RightBar = (props) => {
               </div>
             </div> 
 
-            <div className="nodeInfo" id="nodeAddInfo" style={{display: props.isOnSelectNode && props.showSudInfo ? "flex" : "none"}}>
+            {/* <div className="nodeInfo" id="nodeAddInfo" style={{display: props.isOnSelectNode && props.showSudInfo ? "flex" : "none"}}>
               <div className="nodeInfoTitle" 
                   onClick={() => {
                     setShowNodeAddInfo(!showNodeAddInfo)
@@ -92,7 +92,7 @@ const RightBar = (props) => {
               <div className="nodeInfoInner nodeSudInfoInner" id="nodeSudInfoInner">
 
               </div>
-            </div> 
+            </div>  */}
         </div> 
       </div>
 
