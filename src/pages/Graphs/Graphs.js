@@ -986,12 +986,12 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
 
             const infoBlock = document.querySelector("#nodeInfoInner")
             const addInfoBlock = document.querySelector("#nodeAddInfoInner")
-            const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
+            // const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
             const nodeImage = document.querySelector('.nodeImg');
 
             addInfoBlock.innerHTML = ""
             infoBlock.innerHTML = ""
-            sudInfoBlock.innerHTML = ""
+            // sudInfoBlock.innerHTML = ""
 
             const sp = SelectedNode.options.properties;
             const sg = SelectedNode.options.group;
@@ -1087,7 +1087,8 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
                     // "Source": sp.Source,
                 }, '#nodeAddInfoInner')
 
-                assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
+                // assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeAddInfoInner')
             }
 
             assignInfoBlock({"Доп. инфо": sp.dop_info,}, '#nodeAddInfoInner')
@@ -1099,33 +1100,34 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
 
             if (sg == 'judgePerson' || sg == 'keyJudgePerson' || sg == 'judgeCompany' || sp == 'Status_doljnika' || sp == 'Status_neplatejasposobnosti' ) {
                 setShowSudInfo(true)
+                //RISK
 
-                assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статус должника": sp.Status_doljnika,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статус неплатежеспособности": sp.Status_neplatejasposobnosti,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Должник по алиментам": sp.Doljnik_po_alimentam,}, '#nodeSudInfoInner')
-                assignInfoBlock({"В розыске": sp.V_Roziske,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Приставание в общественных местах": sp.Pristavanie,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Орган, выявивший правонарушение": sp.Organ_pravanarushenya,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Дата решения": sp.Data_reshenya,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статус КУИС": sp.Status_KUIS,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Размер наложенного штрафа": sp.Razmer_Shtrafa,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статус Минздрав": sp.Status_Minzdrav,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Приказ о снятии с регистрационного учета": sp.PRIKAZ_O_SNYATYA,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Бездействующие ЮЛ": sp.BEZDEYSTVIA_UL,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статус ОПГ": sp.STATUS_OPG,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статья ЕРДР": sp.STATYA_ERDR,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Статус ЕРДР": sp.STATUS_ERDR,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Орган регистрации": sp.ORGAN_REGISTER,}, '#nodeSudInfoInner')
-                assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
-                assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статус должника": sp.Status_doljnika,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статус неплатежеспособности": sp.Status_neplatejasposobnosti,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Должник по алиментам": sp.Doljnik_po_alimentam,}, '#nodeAddInfoInner')
+                assignInfoBlock({"В розыске": sp.V_Roziske,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Приставание в общественных местах": sp.Pristavanie,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Орган, выявивший правонарушение": sp.Organ_pravanarushenya,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Дата решения": sp.Data_reshenya,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статус КУИС": sp.Status_KUIS,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Размер наложенного штрафа": sp.Razmer_Shtrafa,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статус Минздрав": sp.Status_Minzdrav,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Приказ о снятии с регистрационного учета": sp.PRIKAZ_O_SNYATYA,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Бездействующие ЮЛ": sp.BEZDEYSTVIA_UL,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статус ОПГ": sp.STATUS_OPG,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статья ЕРДР": sp.STATYA_ERDR,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Статус ЕРДР": sp.STATUS_ERDR,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Орган регистрации": sp.ORGAN_REGISTER,}, '#nodeAddInfoInner')
+                assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeAddInfoInner')
+                assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeAddInfoInner')
 
-                assignInfoBlock({"Взыскатель": sp.Vziskatel}, '#nodeSudInfoInner')
-                assignInfoBlock({"Дата": sp.dataa}, '#nodeSudInfoInner')
-                assignInfoBlock({"Должник": sp.dolzhnik}, '#nodeSudInfoInner')
-                assignInfoBlock({"Категория": sp.kategoria}, '#nodeSudInfoInner')
-                assignInfoBlock({"Орган": sp.organ}, '#nodeSudInfoInner')
-                assignInfoBlock({"Сумма": sp.summa}, '#nodeSudInfoInner')
+                assignInfoBlock({"Взыскатель": sp.Vziskatel}, '#nodeAddInfoInner')
+                assignInfoBlock({"Дата": sp.dataa}, '#nodeAddInfoInner')
+                assignInfoBlock({"Должник": sp.dolzhnik}, '#nodeAddInfoInner')
+                assignInfoBlock({"Категория": sp.kategoria}, '#nodeAddInfoInner')
+                assignInfoBlock({"Орган": sp.organ}, '#nodeAddInfoInner')
+                assignInfoBlock({"Сумма": sp.summa}, '#nodeAddInfoInner')
 
                 assignInfoBlock({
                     "Просрочка": sp.DeadlinePassed,
@@ -1142,7 +1144,7 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
                     "Розыск": sp.Rosizk,
                     "Должник": sp.Doljnik,
                     "Пропавший": sp.Propal,
-                }, '#nodeSudInfoInner')
+                }, '#nodeAddInfoInner')
             }
 
       }, 
@@ -1150,11 +1152,11 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
       deselectNode: (event) => {
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
-        const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
+        // const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
 
         infoBlock.innerHTML = ""
         addInfoBlock.innerHTML = ""
-        sudInfoBlock.innerHTML = ""
+        // sudInfoBlock.innerHTML = ""
 
         onSelectNode = false
 
@@ -1178,10 +1180,10 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
 
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
-        const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
+        // const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
         addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
-        sudInfoBlock.innerHTML = ""
+        // sudInfoBlock.innerHTML = ""
 
         const sp = SelectedEdge.properties
         assignInfoBlock({
