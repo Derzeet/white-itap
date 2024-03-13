@@ -23,6 +23,7 @@ import edgeTypeOne from './images/edge.svg'
 import edgeTypeTwo from './images/edge2.svg'
 
 import defaultURL from "../../data/baseURL"
+import { blobToBase64, hexStringToBlob } from "./functions/hexToBase64"
 
 const baseURL = "/main"
 const zagsURL = "/zags"
@@ -259,7 +260,7 @@ function ITapPage() {
             }
         } else {
             axios.get(defaultURL + axiosURL + endPoint, {params: params}).then(async (res) => {
-                let _nodes = []
+                let _nodes = res.data.nodes
                 let _edges = res.data.edges;
                 console.log(res.data.edges)
                 // console.log(res)
@@ -278,8 +279,26 @@ function ITapPage() {
                 }
     
                 _edges = await removeDuplicatesById(_edges);
+                const processedNodes = _nodes.map(node => {
+                    // console.log(node.base64)
+                    // console.log(node.photoDbf?.photo)
+                    if (node.photoDbf && node.photoDbf.photo) {
+                        let image = ''
+                        const blob = hexStringToBlob(atob(node.photoDbf.photo));
+                        // console.log(blob)
+                        // downloadImage(blob);
+                        blobToBase64(blob, (base64) => {
+                            console.log(base64)
+                            image = base64.split(',')[1]
+                            node.photoDbf.photo = base64.split(',')[1];
+                        })
+                        // Assign the base64 string to the photo property
+                    }
+                    return node;
+                })
+                
     
-                setNodes(res.data.nodes)
+                setNodes(processedNodes)
                 setEdges(_edges)
     
             }).catch((r) => {
@@ -324,6 +343,19 @@ function ITapPage() {
 
                 } else {
                     _nodes.push(x)
+                    if (x.photoDbf && x.photoDbf.photo) {
+                        let image = ''
+                        const blob = hexStringToBlob(atob(x.photoDbf.photo));
+                        // console.log(blob)
+                        // downloadImage(blob);
+                        blobToBase64(blob, (base64) => {
+                            console.log(base64)
+                            image = base64.split(',')[1]
+                            x.photoDbf.photo = base64.split(',')[1];
+                        })
+                        // Assign the base64 string to the photo property
+                    }
+                    
                 }
             })
             tempEdges.map(x => {
