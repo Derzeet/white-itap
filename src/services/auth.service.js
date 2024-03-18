@@ -1,12 +1,12 @@
 import axios from "axios";
-import defaultURL from "../data/baseURL";
+import default_host from "../config/config";
 
 const API_URL = "/auth/";
 
 class AuthService {
   login(username, password) {
     return axios
-      .post(defaultURL + API_URL + "signin", {
+      .post(default_host + 'api/finpol'  + API_URL + "signin", {
         username,
         password
       })
@@ -24,7 +24,7 @@ class AuthService {
   }
 
   register(username, email, FIO, password, level, user_photo) {
-    return axios.post(defaultURL +     API_URL + "signup", {
+    return axios.post(default_host + 'api/finpol' + API_URL + "signup", {
       username,       
       email,
       FIO,

@@ -16,7 +16,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import VisibilityOn from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
-import defaultURL from '../../data/baseURL';
+import default_host from '../../config/config';
 
 function ProfilePage(props) {
     const [name, setName] = useState('')
@@ -58,7 +58,7 @@ function ProfilePage(props) {
     const getUserInfo = async () => {
         console.log(userSession)
 
-        let res = await axios.get(`${defaultURL}/main/getUserInfo`,
+        let res = await axios.get(`${default_host}api/finpol/main/getUserInfo`,
     { headers: {
                 Authorization: `Bearer ${userSession.accessToken}`
             }})
@@ -78,7 +78,7 @@ function ProfilePage(props) {
             setChangePasswordError(false)
 
             
-            let res = await axios.post(`${defaultURL}/auth/changePassword?password=` + newPassword)
+            let res = await axios.post(`${default_host}api/finpol/auth/changePassword?password=` + newPassword)
             console.log(res.body)
             document.getElementById('tab1').click()
 
@@ -349,7 +349,7 @@ function OldProfilePage(props) {
             setChangePasswordError(false)
 
             
-            let res = await axios.post(`${defaultURL}/auth/changePassword?password=` + newPassword)
+            let res = await axios.post(`${default_host}api/finpol/auth/changePassword?password=` + newPassword)
             console.log(res.body)
             document.getElementById('tab1').click()
 
@@ -361,7 +361,7 @@ function OldProfilePage(props) {
     const getUserInfo = async () => {
         console.log(userSession)
 
-        let res = await axios.get(`${defaultURL}/main/getUserInfo`,
+        let res = await axios.get(`${default_host}api/finpol/main/getUserInfo`,
     { headers: {
                 Authorization: `Bearer ${userSession.accessToken}`
             }})

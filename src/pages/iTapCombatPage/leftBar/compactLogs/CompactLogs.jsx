@@ -13,12 +13,12 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-import defaultURL from '../../../../data/baseURL';
 import '../spinner.scss'
 
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
+import default_host from '../../../../config/config';
 
 function createData(date, body, depth, limit, relations, type) {
   return {
@@ -99,7 +99,7 @@ export default function CompactLogs() {
   const userSession = JSON.parse(localStorage.getItem("user"))
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-    axios.get(`${defaultURL}/main/getCurrUserDetails`).then(res=> {
+    axios.get(`${default_host}api/finpol/main/getCurrUserDetails`).then(res=> {
         console.log(res.data.logs)
         const array = res.data.logs.map(x => {
             return {

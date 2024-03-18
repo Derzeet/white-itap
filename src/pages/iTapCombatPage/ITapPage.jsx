@@ -22,7 +22,7 @@ import { toPng } from "html-to-image"
 import edgeTypeOne from './images/edge.svg'
 import edgeTypeTwo from './images/edge2.svg'
 
-import defaultURL from "../../data/baseURL"
+import default_host from "../../config/config"
 import { blobToBase64, hexStringToBlob } from "./functions/hexToBase64"
 
 const baseURL = "/main"
@@ -229,7 +229,6 @@ function ITapPage() {
             setDiragramAllowed(false)
         }
 
-        console.log(defaultURL + axiosURL + endPoint)
 
         if (options?.iin1?.length == 6 || options?.iin1?.length == 13) {
             let res = []
@@ -259,7 +258,7 @@ function ITapPage() {
                 setErrorDisplay(true)
             }
         } else {
-            axios.get(defaultURL + axiosURL + endPoint, {params: params}).then(async (res) => {
+            axios.get(default_host + 'api/finpol' + axiosURL + endPoint, {params: params}).then(async (res) => {
                 let _nodes = res.data.nodes
                 let _edges = res.data.edges;
                 console.log(res.data.edges)
@@ -314,64 +313,93 @@ function ITapPage() {
 
     const shortOpen = async (id) => {
         setLoading(true)
+        setNodes([])
+        setEdges([])
+        setLoading(true)
 
-        let _url = defaultURL + baseURL
+        let _url = default_host + 'api/finpol' + baseURL
         let showRels = allRelations.map(x => {
             return x.value;
         })
 
         if (dbVariant == 'zags') {
-            _url = defaultURL + zagsURL
+            _url = default_host + 'api/finpol' + zagsURL
             showRels = relationsZags.map(x => {
                 return x.value;
             })
         }
 
-  
-        axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels.join(','), limit: 20 }}).then( async (res) => {
-            let _nodes = nodes
-            let _edges = edges
+        if (jsonLocalSearchStatus) {
+            let tempNodes = nodes
+            let tempEdges = edges
 
-            let tempNodes = res.data.nodes
-            let tempEdges = res.data.edges
-            // console.log(tempEdges)
+            let reult = searchResultsOfLieSearch.find((x) => x.object == id)
 
-            tempNodes.map(x => {
-                let b = nodes.find(y => y.id == x.id)
+            reult.edges.map(item => {
+                let duplFlag = false
+                tempEdges.map(node => {
+                    if (node.id === item.id) duplFlag = true
+                })
+                if (!duplFlag) {
+                    tempEdges.push(item)
+                }
 
-                if (b) {
+            })
 
-                } else {
-                    _nodes.push(x)
-                    if (x.photoDbf && x.photoDbf.photo) {
-                        let image = ''
-                        const blob = hexStringToBlob(atob(x.photoDbf.photo));
-                        // console.log(blob)
-                        // downloadImage(blob);
-                        blobToBase64(blob, (base64) => {
-                            console.log(base64)
-                            image = base64.split(',')[1]
-                            x.photoDbf.photo = base64.split(',')[1];
-                        })
-                        // Assign the base64 string to the photo property
-                    }
-                    
+            reult.nodes.map(item => {
+                let duplFlag = false
+                tempNodes.map(node => {
+                    if (node.id === item.id) duplFlag = true
+                })
+                if (!duplFlag) {
+                    tempNodes.push(item)
                 }
             })
-            tempEdges.map(x => {
-                // let q = edges.find(y => y.id == x.id)
-                // if (q) {
 
-                // } else {
-                    _edges.push(x)
-                // }
+            // let newNodes = mergeWithoutDuplicates(tempNodes, _nodes)
+            // let newEdges = mergeWithoutDuplicates(tempEdges, _edges)
+
+
+
+            setNodes(tempNodes)
+            setEdges(tempEdges)
+
+            setTimeout(() => setLoading(false), 1000)
+        } else {
+            axios.get(`${_url}/shortopen`, {params: {id: id, relations: showRels.join(','), limit: 20 }}).then( async (res) => {
+                let _nodes = nodes
+                let _edges = edges
+    
+                let tempNodes = res.data.nodes
+                let tempEdges = res.data.edges
+                // console.log(tempEdges)
+    
+                tempNodes.map(x => {
+                    let b = nodes.find(y => y.id == x.id)
+    
+                    if (b) {
+    
+                    } else {
+                        _nodes.push(x)
+                    }
+                })
+                tempEdges.map(x => {
+                    // let q = edges.find(y => y.id == x.id)
+                    // if (q) {
+    
+                    // } else {
+                        _edges.push(x)
+                    // }
+                })
+                
+                setEdges(_edges)
+                setNodes(_nodes)
+                
+                setLoading(false)
             })
-            
-            setEdges(_edges)
-            setNodes(_nodes)
-            
-            setLoading(false)
-        })
+        }
+
+  
     }
 
     const handleLayout = (layout) => {

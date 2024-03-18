@@ -12,7 +12,7 @@ import {TableRow} from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import defaultURL from "../../data/baseURL";
+import default_host from "../../config/config";
 import iconImp from './../../images/icons8-alert-96.png'
 
 const baseURL = "/main"
@@ -40,7 +40,7 @@ const AdminPage = (props) => {
     useEffect(() => {
         const a = !userSession.roles.includes("ADMIN") ? navigate('/') : ""
 
-        axios.get(`${defaultURL}${baseURL}/general`)
+        axios.get(`${default_host}api/finpol${baseURL}/general`)
         .then(res => {
             setUsers(res.data.userNumber)
             setLogs(res.data.allLogsNum)
@@ -48,7 +48,7 @@ const AdminPage = (props) => {
             // console.log(this.location)
         })
 
-        axios.get(`${defaultURL}${baseURL}/getLogsImp`)
+        axios.get(`${default_host}api/finpol${baseURL}/getLogsImp`)
             .then(res => {
                 setImpLogs( res.data );
                 console.log(res.data)

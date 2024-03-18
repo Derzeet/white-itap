@@ -7,7 +7,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import defaultURL from "../../../data/baseURL";
+import default_host from "../../../config/config";
 
 const baseURL = "/main"
 
@@ -20,7 +20,7 @@ export default class UsersTable extends Component {
     componentDidMount() {
         const userSession = JSON.parse(localStorage.getItem("user"))
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-        axios.get(`${defaultURL}${baseURL}/getusers`)
+        axios.get(`${default_host}api/finpol${baseURL}/getusers`)
             .then(res => {
             const users = res.data;
             this.setState({ users });
@@ -31,7 +31,7 @@ export default class UsersTable extends Component {
     setActive(userEvent, selectEvent) {
         console.log(userEvent, selectEvent)
         // /admin/user/ban/{id}
-        axios.post(`${defaultURL}${baseURL}/admin/user/ban/`+userEvent.id)
+        axios.post(`${default_host}api/finpol${baseURL}/admin/user/ban/`+userEvent.id)
             .then(function (response) {
                 console.log(response);
             })
