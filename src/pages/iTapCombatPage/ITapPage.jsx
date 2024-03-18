@@ -278,26 +278,26 @@ function ITapPage() {
                 }
     
                 _edges = await removeDuplicatesById(_edges);
-                const processedNodes = _nodes.map(node => {
-                    // console.log(node.base64)
-                    // console.log(node.photoDbf?.photo)
-                    if (node.photoDbf && node.photoDbf.photo) {
-                        let image = ''
-                        const blob = hexStringToBlob(atob(node.photoDbf.photo));
-                        // console.log(blob)
-                        // downloadImage(blob);
-                        blobToBase64(blob, (base64) => {
-                            console.log(base64)
-                            image = base64.split(',')[1]
-                            node.photoDbf.photo = base64.split(',')[1];
-                        })
-                        // Assign the base64 string to the photo property
-                    }
-                    return node;
-                })
+                // const processedNodes = _nodes.map(node => {
+                //     // console.log(node.base64)
+                //     // console.log(node.photoDbf?.photo)
+                //     if (node.photoDbf && node.photoDbf.photo) {
+                //         let image = ''
+                //         const blob = hexStringToBlob(atob(node.photoDbf.photo));
+                //         // console.log(blob)
+                //         // downloadImage(blob);
+                //         blobToBase64(blob, (base64) => {
+                //             console.log(base64)
+                //             image = base64.split(',')[1]
+                //             node.photoDbf.photo = base64.split(',')[1];
+                //         })
+                //         // Assign the base64 string to the photo property
+                //     }
+                //     return node;
+                // })
                 
     
-                setNodes(processedNodes)
+                setNodes(_nodes)
                 setEdges(_edges)
     
             }).catch((r) => {
