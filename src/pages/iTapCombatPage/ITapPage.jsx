@@ -261,7 +261,7 @@ function ITapPage() {
             axios.get(default_host + 'api/finpol' + axiosURL + endPoint, {params: params}).then(async (res) => {
                 let _nodes = res.data.nodes
                 let _edges = res.data.edges;
-                console.log(res.data.edges)
+                console.log(res.data)
                 // console.log(res)
                 function removeDuplicatesById(arr) {
                     const uniqueIds = new Set();

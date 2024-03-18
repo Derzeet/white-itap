@@ -835,7 +835,7 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
         if (edge.properties.Vid_svyaziey == 'ЭСФ') {
           edge.label = relationsLevel1.find(x => x.value == edge.type).label || edge.properties.Vid_svyaziey
         } else {
-          edge.label = allRelations.find(x => x.value == edge.type).label
+          edge.label = allRelations.find(x => x.value == edge.type) ? allRelations.find(x => x.value == edge.type).label : edge.type
         }
 
         Object.assign(edge, {"color": "black"})

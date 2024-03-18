@@ -39,7 +39,7 @@ const transformDataForReactFlow = (nodes, edges, keys) => {
       edgeNodes.push({
         id: edgeNodeId,
         type: 'edgeNode', // This can be a custom node type designed to look like an edge
-        data: { ...edge.properties, label: allRelations.find(x => x.value == edge.type).label, type: 'edge', source: edge.from, target: edge.to},
+        data: { ...edge.properties, label: allRelations.find(x => x.value == edge.type) ? allRelations.find(x => x.value == edge.type).label : edge.type , type: 'edge', source: edge.from, target: edge.to},
         position: { x: Math.random() * 400, y: Math.random() * 400 },
       });
   
