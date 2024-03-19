@@ -1014,13 +1014,14 @@ const GraphNetnew = ({itapRef, physicsEnable, setPhysicsEnable, layoutOptions, s
                     // "ФИО": sp.FIO ? sp.FIO : sp.sp.Name + " " + sp.Familia + " " + sp.Otchestvo "Нет ФИО",
 
                     "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения",
+                    "Номер телефона": sp.phone_number
                 }, '#nodeInfoInner')
 
                 assignInfoBlock({
                     "Статус": sp.Status,
                     "Бухгалтер": sp.Buhgalter,
                     "ЧСИ": sp.CHSI,
-                    "Статус смерти": sp.Death_Status
+                    "Статус смерти": sp.Death_Status,
                 }, '#nodeAddInfoInner')
 
                 assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
