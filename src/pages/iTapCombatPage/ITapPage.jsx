@@ -16,6 +16,7 @@ import graphIcon from './images/graphIcon.svg'
 import tableIcon from './images/graphTableIcon.svg'
 import exportIcon from './images/export.svg'
 import binIcon from './images/bin.svg'
+import MxGraphGridAreaEditor from "./Graph/mxGraph"
 
 import DownloadButton from "./functions/DownloadDiragramButton"
 import { toPng } from "html-to-image"
@@ -470,24 +471,26 @@ function ITapPage() {
                 <div className="graph-container"
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}>
+                        {/* <MxGraphGridAreaEditor /> */}
                     {loading ? 
                         <span class="loader"></span>
                         : 
                         nodes.length > 0 ?
                             <>
                                 {graphType == 'graph' && <GraphNetnew itapRef={itapRef} physicsEnable={physicsEnable} setPhysicsEnable={setPhysicsEnable} layoutOptions={layoutOptions} setLayoutOptions={setLayoutOptions} keys={keyNodes} rnodes={nodes} redges={edges} setGlobalNodes={setNodes} setGlobalEdges={setEdges}/> }   
-                                {diagramAllowed && <N4JDiagram 
-                                                        deleteRef={deleteRef}
-                                                        setSelectionStarted={setSelectionStarted}
-                                                        buttonRef={buttonRef} 
-                                                        edgeStraight={edgeStraight} 
-                                                        keys={keyNodes} 
-                                                        shortOpen={shortOpen} 
-                                                        rnodes={nodes} 
-                                                        redges={edges} 
-                                                        setGlobalNodes={setNodes} 
-                                                        setGlobalEdges={setEdges}/> 
-                                                    }
+                                {diagramAllowed && 
+                                    <N4JDiagram 
+                                        deleteRef={deleteRef}
+                                        setSelectionStarted={setSelectionStarted}
+                                        buttonRef={buttonRef} 
+                                        edgeStraight={edgeStraight} 
+                                        keys={keyNodes} 
+                                        shortOpen={shortOpen} 
+                                        rnodes={nodes} 
+                                        redges={edges} 
+                                        setGlobalNodes={setNodes} 
+                                        setGlobalEdges={setEdges}/> 
+                                }
                             </>
                             
                             : <a className="no-results">Нет результатов</a>
